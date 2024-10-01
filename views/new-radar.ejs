@@ -1,0 +1,166 @@
+<%- include partials/header-account %>
+
+
+
+<section class="layout-container-medium py-medium section-bg-lighter2">
+
+    <div class="d-flex align-items-center">
+      <div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon big" src="../uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+      <div class="pl-3">
+        <h5 class="text-lighter"><%=userLogged.artist_name%></h5>
+        <h3>Create Radar</h3>
+      </div>
+    </div>
+
+</section>
+
+  
+<section class="layout-container-medium py-medium">
+
+
+<% if(userLoggedRadarCategories.length==3) { %>
+
+  <h5>You already have 3 active radars:</h5>
+  <br>
+  <div id="radars-existing"></div>
+  <hr>
+  To start a new radar, destroy one of you currently active radars.
+
+  <script>
+    var userLoggedRadarCategories = JSON.parse('<%- JSON.stringify(userLoggedRadarCategories) %>');   
+    document.addEventListener('DOMContentLoaded', function(event) {
+        
+          userLoggedRadarCategories .forEach(objectCategory => {
+         
+            var nameCategory = objectCategory.category_id;
+            document.getElementById("radars-existing").innerHTML += "<span>" + nameCategory + "</span>";
+        });
+    })
+  </script>
+  
+
+<% } %>
+
+
+<% if(userLoggedRadarCategories.length<3) { %>
+
+  <script>
+    var userLoggedRadarCategories = JSON.parse('<%- JSON.stringify(userLoggedRadarCategories) %>');   
+    document.addEventListener('DOMContentLoaded', function(event) {
+       
+          userLoggedRadarCategories .forEach(objectCategory => {
+            document.getElementById(objectCategory.category_id).classList.add("label-radar-existing");
+            document.getElementById(objectCategory.category_id).disabled = true;
+            var nameCategory = objectCategory.category_id;
+            
+        });
+    })
+  </script>
+
+          
+<form name="form-edit-profile" method="post" action="/new-radar" onsubmit="return validateForm()">
+
+  <h4>Select the category for your new radar</h4>
+
+  <hr>
+  
+  <div id="containerToAppendCategories"></div>
+
+  <br>
+    
+<div id="response-box"></div>
+
+<button type="submit" id="button-submit-form" class="btn btn-ic btn-big btn-bg-lighter btn-mobile-stretch">Start Radar<img src="../icons/f/arrow-right.svg"></button>
+
+</form>   
+
+<% } %>
+
+<span class="btn-navigation-back"> <a href="/pm"> <img src="../icons/back.svg"> Go back</a> </span>
+  
+</section>
+
+
+
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', (event) => {
+   
+  let labels = document.querySelectorAll('label');
+
+  for(var i = 0; i < labels.length; i++){
+    labels[i].addEventListener('click', function(e){
+
+      var checkeds = document.querySelectorAll('input[type="checkbox"]:checked');
+      for(var j = 0; j < checkeds.length; j++){
+          checkeds[j].checked=false;
+      }
+
+    });
+  }
+    
+
+});
+
+</script>
+
+        
+<script>
+ 
+ 
+
+  function validateForm() {
+   
+    var msg = ""; var error = false;
+    var responseBox = document.getElementById("response-box");
+    
+    var checkeds = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkeds.length > 1) {
+      error = true; msg += " <li>Choose maximum one category.</li>"; 
+    }
+
+    if (checkeds.length == 0) {
+      error = true; msg += " <li>Choose a category.</li>"; 
+    }
+
+
+    if(error){
+          responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false;
+    }
+
+
+  }
+  </script>
+ 
+  
+
+ <script>   
+  var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+  
+    const xhr = new XMLHttpRequest();  // create an XHR object
+    xhr.onload = () => { // listen for `onload` event
+        if (xhr.status == 200) { console.log('Image exists.');}
+        else {
+            console.log('Image does not exist.');
+            for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+              let element = document.getElementsByClassName("profile_default")[index];
+              console.log(element); console.log(document.getElementById("profile_picture_logged"));
+              element.removeChild(element.firstChild); //rimuove elemento img
+              let div = document.createElement('div'); div.className = "user-icon-default user-icon-default-big";
+              let h2 = document.createElement('h2'); h2.textContent = artistName[0];
+              div.append(h2);
+              element.append(div);
+            }
+        }
+    };
+    xhr.open('HEAD', document.getElementById("profile_picture_logged").src);   // create a `HEAD` request
+    xhr.send();   // send request
+  </script>
+
+ <script src="../scripts/categories.js"></script>
+<script src="../scripts/genres.js"></script>
+
+
+<%- include partials/footer-account %>

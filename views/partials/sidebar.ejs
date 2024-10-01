@@ -1,0 +1,86 @@
+
+
+<div class="sidebar layout-container-wide">
+
+    <div class="mobile-header">
+      <div>
+        <span class="site-logo-text logo-text-small">Hevoke</span> 
+        <a id="openmenu" class="hamburger-checkbox">
+          <div class="hamburger-icon">
+             <label for="openmenu" id="hamburger-label">
+              <div id="nav-icon"><span></span><span></span><span></span></div>
+             </label>
+           </div>
+         </a>
+      </div>
+      
+      <div>
+        <% if(logged == true){ %>
+          <a href="/pm"><div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon small" src="/uploads/<%= userLogged.user_id %>/profile.jpg"></div></a>
+          <a href="/pm" class="hide-on-mobile"> <%= userLogged.artist_name %> </a>
+          <script> var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');</script>
+        <% } %>
+        <% if(logged == false){ %>
+          <a href="/signup" class="btn btn-small btn-bg-lighter">Signup</a>
+          <a href="/login" class="btn btn-small btn-bg-outline">Login</a>
+        <% } %>
+
+      </div>
+    </div>
+
+    <ul>
+      <li class="<%- typeof menuActiveHome != 'undefined' ? 'active' : '' %>"><a href="/home">Discovery</a></li>
+      <li class="<%- typeof menuActiveSearch != 'undefined' ? 'active' : '' %>"><a href="/search">Search</a></li>
+      <li class="hide-on-mobile <%- typeof menuActiveArtists != 'undefined' ? 'active' : '' %>"><a href="/search-result">Artists</a></li>
+      <li class="<%- typeof menuActiveGenres != 'undefined' ? 'active' : '' %>"><a href="/genres">Genres</a></li>
+      <% if(logged == true){ %>
+      <li class="<%- typeof menuActiveConnections != 'undefined' ? 'active' : '' %> hide-on-mobile"><a href="/myconnections"> Connections</a></li>       
+      <li class="hide-on-mobile"><a class="clickable" onclick="showSelectMode()"> Radar Eye</a></li>     
+      <% } %>
+    </ul>
+
+ 
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-catch-emails">
+        <a href="/newsletter" class="">Subscribe for updates</a>
+      </div>
+      <ul class="sidebar-socials">
+        <li href="/spotifyapis"><a class="" href="#"><img src="/icons/platforms/w-facebook.png"></a></li>
+        <li href="/spotifyapis"><a class="" href="#"><img src="/icons/platforms/w-youtube.png"></a></li>
+        <li href="/spotifyapis"><a class="" href="https://instagram.com/hevoke.com_"><img src="/icons/platforms/w-instagram.png"></a></li>
+        <li href="/spotifyapis"><a class="" href="#"><img src="/icons/platforms/w-twitter.png"></a></li>
+      </ul>
+    </div>
+   
+</div>
+
+
+
+<div id="appbar">
+  <a href="/home" class="<%- typeof menuActiveHome != 'undefined' ? 'active' : '' %> icon icon-medium"><img src="/icons/navbar/home.svg">Discovery</a>
+  <a onclick="showSelectMode()" class="icon icon-medium"><img src="/icons/navbar/radar.svg">RadarEye</a>
+  <a href="/myconnections" class="icon icon-medium"><img src="/icons/navbar/connect.svg">Connections</a>
+  <a href="/myconnections/radars" class="icon icon-medium"><img src="/icons/navbar/connect.svg">Radars</a>
+  <a href="/pm" class="icon icon-medium"><img src="/icons/navbar/settings.svg">Profile</a>
+</div>
+
+
+
+
+<script>
+  const xhr = new XMLHttpRequest(); // create an XHR object
+  xhr.onload = () => { // listen for `onload` event
+      if (xhr.status == 200) { console.log('Image exists.'); }
+      else {
+          console.log('Image does not exist.');
+          for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+            let element = document.getElementsByClassName("profile_default")[index];
+            element.removeChild(element.firstElementChild);
+            element.innerHTML = "<div class='user-icon-default small'><h5>"+artistName[0]+"</h5></div>"
+          }
+      }
+  };
+  xhr.open('HEAD', document.getElementById("profile_picture_logged").src); // create a `HEAD` request
+  xhr.send(); // send request
+</script>

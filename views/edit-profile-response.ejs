@@ -1,0 +1,70 @@
+<%- include partials/header-account %>
+
+
+<section class="layout-container-narrow py-medium section-bg-lighter">
+ 
+  <div class="d-flex align-items-center py-small pb-0 justify-content-between">
+   
+    <div class="d-flex align-items-center">
+      <div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon big" src="/uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+      <div class="pl-3">
+        <h3>Edit Profile</h3>
+        <h4 class="text-lighter"><%=userLogged.artist_name%></h4>
+      </div>
+    </div>
+    
+  </div>
+
+</section>
+
+
+<div class="layout-container-narrow py-medium">
+
+<% if(status=="OK") { %>
+<div class="alert alert-success">
+  <span class="icon icon-small icon-bg-outline"><img src="/icons/f/check.svg"></span>
+  <p>Profile has been updated.</p>
+</div>
+<% } %>
+
+<% if(status!="OK" && message.length>0) { %>
+  <div class="alert alert-danger"> <span class="icon icon-small icon-bg-outline"><img src="/icons/f/x.svg"></span> <p><%= message %></p> </div>
+<% } %>
+
+<% if(status!="OK" && message.length==0) { %>
+  <div class="alert alert-danger"> <span class="icon icon-small icon-bg-outline"><img src="/icons/f/x.svg"></span> <p>Something went wrong. Profile has not been updated.</p> </div>
+<% } %>
+
+<hr>
+<a class="btn btn-medium btn-bg-lighter" href="/pm">Manage Profile</a>
+<a class="btn btn-medium btn-bg-lighter" href="/profile/<%=userLogged.user_name%>">See Profile</a>
+<a class="btn btn-medium btn-bg-outline" href="/home">Home</a>
+</div>
+
+
+<script>   
+  var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+  
+    const xhr = new XMLHttpRequest();  // create an XHR object
+    xhr.onload = () => { // listen for `onload` event
+        if (xhr.status == 200) { console.log('Image exists.');}
+        else {
+            console.log('Image does not exist.');
+            for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+              let element = document.getElementsByClassName("profile_default")[index];
+              console.log(element); console.log(document.getElementById("profile_picture_logged"));
+              element.removeChild(element.firstChild); //rimuove elemento img
+              let div = document.createElement('div'); div.className = "user-icon-default user-icon-default-big";
+              let h2 = document.createElement('h2'); h2.textContent = artistName[0];
+              div.append(h2);
+              element.append(div);
+            }
+        }
+    };
+    xhr.open('HEAD', document.getElementById("profile_picture_logged").src);   // create a `HEAD` request
+    xhr.send();   // send request
+  </script>
+
+
+
+<%- include partials/footer-account %>

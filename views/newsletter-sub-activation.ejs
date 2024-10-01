@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hevoke - Newsletter</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <link rel='stylesheet' href='../css/style.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body class="nopanel">
+
+    <% if(source == "subscription"){%>
+
+    <div class="layout-container-narrow py-large">
+        <span class="site-logo-text logo-text-small">Hevoke</span>
+        <p class="text-lighter">Newsletter Verification</p>
+        <hr>
+        <% if (status == "OK") { %>
+            <h4>Subscription completed.</h4>
+            <p class="lead py-light">It's great to have you. You can now receive special emails from us.</p>
+            <p>We encourage you to add newsletter@hevoke.com to your contacts, to make sure our messages don't go in your spam folder.</p>
+            <hr>
+            <p class="text-smaller text-lighter">To unsubscribe, just click the link you'll find at the bottom of every email.</p>
+        <% } %>
+
+        <% if (status == "KO") { %>
+            <h6><%-msg%></h6>
+            <hr>
+            <p class="text-lighter">If you think this is our mistake please get in contact with us and we'll help you as soon as possible.</p>
+        <% } %>
+
+        <div class="general-footer-bar">
+            <a href="/home">Home</a> <a href="/getstarted">Features</a>  <a href="/login">Login</a>  <div>Don't have an account?<a href="" class="btn btn-small btn-bg-outline">Signup</a></div>
+        </div>  
+
+
+      </div>
+
+      <% } %>
+      <% if(source == "unsubscription"){%>
+
+        <div class="layout-container-narrow py-large">
+            <span class="site-logo-text logo-text-small">Hevoke</span>
+            <p class="text-lighter">Newsletter Unsubscription Verification</p>
+            <hr>
+            <% if (status == "OK") { %>
+                <h4>Unsubscription completed.</h4>
+                <p class="lead py-light">We hope to have you back in the club one day.</p>
+                <p> Aggiungi alla rubrica l’indirizzo mozilla@email.mozilla.org per evitare che le nostre email finiscano nella posta indesiderata. </p>
+                <hr>
+                <p class="text-smaller text-lighter">To unsubscribe, just click the link you'll find at the bottom of every email.</p>
+            <% } %>
+    
+            <% if (status == "KO") { %>
+                <h6><%-msg%></h6>
+                <hr>
+                <p class="text-lighter">If you think this is our mistake please get in contact with us and we'll help you as soon as possible.</p>
+            <% } %>
+    
+            <div class="general-footer-bar">
+                <a href="/home">Home</a> <a href="/getstarted">Features</a>  <a href="/login">Login</a>  <div>Don't have an account?<a href="" class="btn btn-small btn-bg-outline">Signup</a></div>
+            </div>  
+    
+    
+          </div>
+    
+          <% } %>
+
+
+    </body>
+    </html>

@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hevoke - Change email address</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+   <link rel='stylesheet' href='../css/style.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="nopanel">
+
+    <div class="layout-container-narrow py-large">
+                              
+        <span class="site-logo-text logo-text-small">Hevoke</span>
+                      
+
+                    <hr>
+
+                    <% if (status==true) { %>
+                        <h5><%= message %></h5>
+                    <% } %>
+                    
+                                            
+                    <% if (status==false) { %>
+                        <h5><%= message %></h5>
+                    <% } %>
+
+
+                            <hr>
+                            <a href="/pm" class="btn btn-medium btn-bg-lighter">Back to Profile Management</a>
+                
+                           
+                            <div style="border-top: 1px solid#888; margin-top:20px; padding-top: 20px; font-size:85%" >
+                               <a href="/login">Login</a>
+                            </div>
+
+                    </div>   
+
+
+                    <script>
+                        const tokenFromUrl = new URLSearchParams(window.location.search).get('code');
+                        document.getElementById("token").value = tokenFromUrl;
+                    </script>
+
+      
+   
+</body>
+</html>

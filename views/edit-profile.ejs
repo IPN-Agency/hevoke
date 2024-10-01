@@ -1,0 +1,836 @@
+<%- include partials/header-account %>
+
+<section class="layout-container-medium py-medium section-bg-lighter">
+
+    <div class="d-flex align-items-center">
+      <div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon big" src="/uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+      <div class="pl-3">
+        <h5 class="text-lighter"><%=userLogged.artist_name%></h5>
+        <h3>Edit Profile</h3>
+      </div>
+    </div>
+ 
+</section>
+
+  
+<section class="layout-container-medium py-medium">
+          
+<form name="form-edit-profile" method="post" action="/pm/edit/<%= attribute %>" onsubmit="return validateForm()">
+
+<!-- ARTIST NAME --------------------------------------------------------------------------------------------------------------->
+
+<% if(attribute=="artist_name") { %>
+  <%
+  /**************CURRENT DATE************/
+  let date_ob = new Date();
+  let date = ("0" + date_ob.getDate()).slice(-2); // adjust 0 before single digit date
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2); // current month
+  let year = date_ob.getFullYear(); // current year
+  let currentDate = year + "-" + month + "-" + date; // date in YYYY-MM-DD format
+
+  /**************CREATED*****************/
+  let dateAccountCreated= created.toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '')     // delete the dot and everything after
+  dateAccountCreatedSplit = dateAccountCreated.split(" ")[0];
+
+  /*********LAST EDIT NAME*************/
+  let lastEdit = lastEditArtistName.toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '')     // delete the dot and everything after
+  lastEditNameSplit = lastEdit.split(" ")[0];
+
+  /***********ADD 30 DAYS***********/
+  Date.prototype.addDays = function (days) {
+    const date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  };
+  var dateAdd30 = new Date(lastEditNameSplit);
+  dateAdd30 = dateAdd30.addDays(14);
+  dateAdd30 = dateAdd30.toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '')     // delete the dot and everything after
+  dateAdd30 = dateAdd30.split(" ")[0];
+  %>
+
+  <h4>Artist Name</h4><hr>
+  <%
+  artistNameLowerCase=artistName.toLowerCase()
+  %>
+  <% if(lastEditNameSplit == dateAccountCreatedSplit && userName == artistNameLowerCase){%>
+    <ul>
+      <li>At least 2 characters and max 30.</li>
+      <li>You can use letters, numbers, an empty space, and the symbols '-' and '_'.</li>
+      <li>Your username is case sensitive.</li>
+    </ul>
+
+      <hr>
+      <span class="d-flex align-items-center span_edit">
+      <input id="artist_name" type="text" name="input" value="" class="input-lead input-bg-lighter" placeholder="<%= artistName %>"></span>
+  <%}else{%>
+    <% if(currentDate < dateAdd30 ){%>
+      <p class="lead">Artist Name can be changed once every 14 days.</p>
+      <p>Last time of updating was <%= lastEditNameSplit %>.</p>
+      <p>You can change it again after <%= dateAdd30 %>.</p>
+      <script>var hideButton = true;</script>
+    <%}else{%>
+      <ul>
+        <li>At least 2 characters and max 50.</li>
+        <li>You can use letters, numbers, an empty space, and the symbols '-' and '_'.</li>
+        <li>Your username is case sensitive.</li>
+      </ul>
+
+      <hr>
+      <span class="d-flex align-items-center span_edit">
+        <input id="username" type="text" name="input" value="" class="input-lead input-bg-lighter" placeholder="<%= artistName %>"></span>
+
+      <%} %>
+
+  <%} %>
+<% } %>
+
+<!-- USERNAME ------------------------------------------------------------------------------------------------------------------------->
+
+<% if(attribute=="user_name") { %>
+  
+  <%
+  /**************CURRENT DATE************/
+  let date_ob = new Date();
+  let date = ("0" + date_ob.getDate()).slice(-2); // adjust 0 before single digit date
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2); // current month
+  let year = date_ob.getFullYear(); // current year
+  let currentDate = year + "-" + month + "-" + date; // date in YYYY-MM-DD format
+  /*********LAST EDIT USER_NAME*************/
+  let lastEdit = lastEditUserName.toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '')     // delete the dot and everything after
+  lastEditNameSplit = lastEdit.split(" ")[0];
+  /***********ADD 30 DAYS***********/
+  Date.prototype.addDays = function (days) {
+    const date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  };
+  var dateAdd30 = new Date(lastEditNameSplit);
+  dateAdd30 = dateAdd30.addDays(30);
+  dateAdd30 = dateAdd30.toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '')     // delete the dot and everything after
+  dateAdd30 = dateAdd30.split(" ")[0];
+  %>
+
+  <h4>Username</h4><hr>
+  <% if(currentDate < dateAdd30 ){%>
+    <p class="lead">Username can be changed once every 30 days.</p>
+    <p>Last time of updating was <%= lastEditNameSplit %>.</p>
+    <p>You can change it again after <%= dateAdd30 %>.</p>
+    <script>var hideButton = true;</script>
+ <%}else{%>
+  <ul>
+    <li>At least 2 characters and max 50.</li>
+    <li>You can use letters, numbers, an empty space, and the symbols '-' and '_'.</li>
+    <li>Your username is case sensitive.</li>
+  </ul>
+ 
+  <hr>
+  <span class="d-flex align-items-center span_edit">
+    <input id="username" type="text" name="input" value="" class="input-lead input-bg-lighter" placeholder="<%= userName %>" onblur="checkInputUsername()"><i id="username-status">✓</i></span>
+  
+  <span id="signup-username-response"></span>
+
+<!--INCLUSIONE JQUERY AJAX-->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script>
+   function checkInputUsername(){
+     var username = document.getElementById("username").value;
+     if(username.length==0){
+             $('#signup-username--response').html(""); document.getElementById("username-status").classList.remove("success");
+             //document.getElementById("button-submit-form").setAttribute('disabled',"")
+             return;
+             $("#signup-email-response").html("");
+     }
+ 
+         if(username.length < 2 || username.length > 30){
+             $('#signup-username-response').html("<span class='form-response'>Username must be length 2-30.</span>");
+             document.getElementById("username-status").classList.remove("success");
+             document.getElementById("username-status").innerHTML = "x";
+             document.getElementById("username-status").classList.add("input-review");
+             document.getElementById("button-submit-form").setAttribute('disabled',"")
+         }
+         var letterNumber = /^[A-Za-z0-9 _-]*$/;
+         if(!username.match(letterNumber)) {
+             $('#signup-username-response').html("<span class='form-response'>Sono permessi: lettere, numeri, spazi, '-' and '_'.</span>");
+             document.getElementById("username-status").classList.remove("success");
+             document.getElementById("username-status").innerHTML = "x";
+             document.getElementById("username-status").classList.add("input-review");
+             document.getElementById("button-submit-form").setAttribute('disabled',"")
+         }
+         if(username.length > 2 && username.length < 30 && username.match(letterNumber)){
+             $.ajax({
+                 url: '/signupCheckUsername',
+                 type: 'post',
+                 data: {username: username},
+                 success: function(response){
+                     if(response=="false"){
+                         $('#signup-username-response').html("<span class='form-response'>This username is already used for an account.</span>");
+                         document.getElementById("username-status").classList.remove("success");
+                         document.getElementById("username-status").innerHTML = "x";
+                         document.getElementById("username-status").classList.add("input-review");
+                         document.getElementById("button-submit-form").setAttribute('disabled',"")
+                     }
+                     else{
+                         $('#signup-username-response').html("");
+                         document.getElementById("username-status").classList.add("success");
+                         document.getElementById("username-status").innerHTML = "✓";
+                         document.getElementById("button-submit-form").removeAttribute('disabled',"")
+                         //if(checkEmail && checkPassword){ document.getElementById("button-submit-form").classList.add("btn-bg-primary"); }
+                     }
+                 }
+             });
+         }  
+ }
+ </script>
+
+  <%} %>
+
+<% } %>
+
+
+
+<!-- USER CATEGORIES ------------------------------------------------------------------------------------------------------------------>
+<% if(attribute == "categories") {  %>
+
+  <h3>Profile categories</h3> 
+  <div class="py-small">
+  <h4 class="mb-small">Choose your categories</h4>
+  <p class="text-lighter">Choose up to 3 categories.</p>
+  </div>
+  <div id="containerToAppendCategories"></div>
+
+  <div class="py-small">
+  <h5 class="mb-small">Choose your main type and order</h5>
+  <p class="text-lighter">Category with number #1 will automatically be your main artist type.<br>The order below also determines in which order your categories will be listed in your profile. </p>
+  </div>
+  <ul id="edit-selected-elements"></ul>
+
+  <span class="box-information">
+    Available options for this section are subject to changes based on user's feedack and requests.
+    <br>If you would like to use a category that is not available, just write us at <a href="mailto:support@hevoke.com">support@hevoke.com</a> or send us a direct on Instagram at @hevoke.com_
+  </span>
+ 
+
+  <script>
+    var userLoggedCategories = JSON.parse('<%- JSON.stringify(userLoggedCategories) %>');
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var inputsCategory = document.getElementsByName("category");
+        
+        userLoggedCategories.forEach(objectCategory => {
+            document.getElementById(objectCategory.category_id).checked = true;
+
+            var nameCategory = objectCategory.category_id;
+            var numSelectedElements = document.getElementById("edit-selected-elements").childElementCount;
+
+            var node = document.createElement("li"); node.className = nameCategory;
+            var node_text = document.createTextNode(nameCategory);
+            var node_select = document.createElement("select"); node_select.name = "order-" + nameCategory;
+
+            var values = []; for(var i = 1; i <= numSelectedElements+1; i++) { values.push(i.toString()); }
+                      
+            for (const val of values){
+                  var option = document.createElement("option"); option.value = val; option.text = val;
+                  node_select.appendChild(option);
+            }
+
+            var selects = document.getElementById("edit-selected-elements").getElementsByTagName("select");
+                  for(var i = 0; i < selects.length; i++){  
+                        var option = document.createElement("option");
+                        option.text = numSelectedElements+1;
+                        selects[i].add(option); 
+                        var numSelectedElements = document.getElementById("edit-selected-elements").childElementCount;
+                  }
+
+            node_select.options[numSelectedElements].selected = true;
+
+            node.appendChild(node_text);
+            node.appendChild(node_select);
+            document.getElementById("edit-selected-elements").appendChild(node);
+
+        });
+    })
+  </script>
+  <% } %>
+
+
+
+<!-- USER GENRES ---------------------------------------------------------------------------------------------------------------------->
+
+<% if(attribute == "genres") { %>
+
+  <h3>Music genres</h3>
+  <div class="py-small">
+    <h5 class="mb-small">Select your genres</h5>
+    <p class="text-lighter">Choose up to 5 genres.</p>
+  </div>
+  
+
+    <div id="containerToAppendGenres"></div>
+
+    <span class="box-information">
+      Available options for this section are subject to changes based on user's feedack and requests.
+      <br>If you would like to use a category that is not available, just write us at <a href="mailto:support@hevoke.com">support@hevoke.com</a> or send us a direct on Instagram at @hevoke.com_
+    </span>
+
+  <script>
+    var userLoggedGenres = JSON.parse('<%- JSON.stringify(userLoggedGenres) %>');
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var inputsGenre = document.getElementsByName("genre");
+        userLoggedGenres.forEach(objectGenre => { document.getElementById(objectGenre.cod_subgenre).checked = true; });
+    })
+
+  </script>
+<% } %>
+    
+    
+
+<!-- BIO --------------------------------------------------------------------------------------------------------------------------->
+<% if(attribute == "bio") { %>
+  <h4>Bio</h4>
+  <p class="py-small">Tell everyone about yourself in fewer than 300 characters.</p>
+  <textarea name="input" class="input input-bg-lighter" rows="10"></textarea>
+<% } %>
+
+                 
+<!-- EMAIL ------------------------------------------------------------------------------------------------------------------------->
+<% if(attribute == "email") { %>
+  <h4>Email</h4><br>
+  <input type="email" name="input" class="input-lead input-bg-lighter" placeholder="">
+<% } %>
+
+
+<!-- LEVEL -------------------------------------------------------------------------------------------------------------------------->
+<% if(attribute == "user_level") { %>
+  <h4>Level</h4><br>
+     <select name="input" class="input-lead input-bg-lighter">
+      <option value="" selected>Select a level</option>
+       <option value="1">Less than 1 year</option>
+       <option value="2">1-3 years</option>
+       <option value="3">3-5 years</option>
+       <option value="4">5-10 years</option></select>
+<% } %>
+
+<!-- GENDER ------------------------------------------------------------------------------------------------------------------------->
+<% if(attribute == "gender") { %>
+  <h4>Gender</h4><br>
+     <select name="input" class="input-lead input-bg-lighter">
+      <option value="-" selected>Select a gender</option>
+       <option value="M">Male</option>
+       <option value="F">Female</option>
+       <option value="O">Other</option>
+       <option value="-">Not specified (will not appear on my profile)</option>
+      </select>
+<% } %>
+
+<!-- DATE BIRTH ---------------------------------------------------------------------------------------------------------------------->
+<% if(attribute == "date_b") { %>
+  <h4>Date of birth</h4>
+      <input type="date" name="input" class="input-lead input-bg-lighter" placeholder=""> 
+<% } %>
+
+    
+<!-- COUNTRY ----------------------------------------------------------------------------------------------------------------------->
+
+  <% if(attribute == "country") { %>
+    <h4>Country</h4><br>
+    <select name="input">
+      <option value="" selected>Select a country</option>
+      <option value="AF">Afghanistan</option>
+      <option value="AX">Åland Islands</option>
+      <option value="AL">Albania</option>
+      <option value="DZ">Algeria</option>
+      <option value="AS">American Samoa</option>
+      <option value="AD">Andorra</option>
+      <option value="AO">Angola</option>
+      <option value="AI">Anguilla</option>
+      <option value="AQ">Antarctica</option>
+      <option value="AG">Antigua and Barbuda</option>
+      <option value="AR">Argentina</option>
+      <option value="AM">Armenia</option>
+      <option value="AW">Aruba</option>
+      <option value="AU">Australia</option>
+      <option value="AT">Austria</option>
+      <option value="AZ">Azerbaijan</option>
+      <option value="BS">Bahamas (the)</option>
+      <option value="BH">Bahrain</option>
+      <option value="BD">Bangladesh</option>
+      <option value="BB">Barbados</option>
+      <option value="BY">Belarus</option>
+      <option value="BE">Belgium</option>
+      <option value="BZ">Belize</option>
+      <option value="BJ">Benin</option>
+      <option value="BM">Bermuda</option>
+      <option value="BT">Bhutan</option>
+      <option value="BO">Bolivia (Plurinational State of)</option>
+      <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+      <option value="BA">Bosnia and Herzegovina</option>
+      <option value="BW">Botswana</option>
+      <option value="BV">Bouvet Island</option>
+      <option value="BR">Brazil</option>
+      <option value="IO">British Indian Ocean Territory (the)</option>
+      <option value="BN">Brunei Darussalam</option>
+      <option value="BG">Bulgaria</option>
+      <option value="BF">Burkina Faso</option>
+      <option value="BI">Burundi</option>
+      <option value="CV">Cabo Verde</option>
+      <option value="KH">Cambodia</option>
+      <option value="CM">Cameroon</option>
+      <option value="CA">Canada</option>
+      <option value="KY">Cayman Islands (the)</option>
+      <option value="CF">Central African Republic (the)</option>
+      <option value="TD">Chad</option>
+      <option value="CL">Chile</option>
+      <option value="CN">China</option>
+      <option value="CX">Christmas Island</option>
+      <option value="CC">Cocos (Keeling) Islands (the)</option>
+      <option value="CO">Colombia</option>
+      <option value="KM">Comoros (the)</option>
+      <option value="CD">Congo (the Democratic Republic of the)</option>
+      <option value="CG">Congo (the)</option>
+      <option value="CK">Cook Islands (the)</option>
+      <option value="CR">Costa Rica</option>
+      <option value="HR">Croatia</option>
+      <option value="CU">Cuba</option>
+      <option value="CW">Curaçao</option>
+      <option value="CY">Cyprus</option>
+      <option value="CZ">Czechia</option>
+      <option value="CI">Côte d'Ivoire</option>
+      <option value="DK">Denmark</option>
+      <option value="DJ">Djibouti</option>
+      <option value="DM">Dominica</option>
+      <option value="DO">Dominican Republic (the)</option>
+      <option value="EC">Ecuador</option>
+      <option value="EG">Egypt</option>
+      <option value="SV">El Salvador</option>
+      <option value="GQ">Equatorial Guinea</option>
+      <option value="ER">Eritrea</option>
+      <option value="EE">Estonia</option>
+      <option value="SZ">Eswatini</option>
+      <option value="ET">Ethiopia</option>
+      <option value="FK">Falkland Islands (the) [Malvinas]</option>
+      <option value="FO">Faroe Islands (the)</option>
+      <option value="FJ">Fiji</option>
+      <option value="FI">Finland</option>
+      <option value="FR">France</option>
+      <option value="GF">French Guiana</option>
+      <option value="PF">French Polynesia</option>
+      <option value="TF">French Southern Territories (the)</option>
+      <option value="GA">Gabon</option>
+      <option value="GM">Gambia (the)</option>
+      <option value="GE">Georgia</option>
+      <option value="DE">Germany</option>
+      <option value="GH">Ghana</option>
+      <option value="GI">Gibraltar</option>
+      <option value="GR">Greece</option>
+      <option value="GL">Greenland</option>
+      <option value="GD">Grenada</option>
+      <option value="GP">Guadeloupe</option>
+      <option value="GU">Guam</option>
+      <option value="GT">Guatemala</option>
+      <option value="GG">Guernsey</option>
+      <option value="GN">Guinea</option>
+      <option value="GW">Guinea-Bissau</option>
+      <option value="GY">Guyana</option>
+      <option value="HT">Haiti</option>
+      <option value="HM">Heard Island and McDonald Islands</option>
+      <option value="VA">Holy See (the)</option>
+      <option value="HN">Honduras</option>
+      <option value="HK">Hong Kong</option>
+      <option value="HU">Hungary</option>
+      <option value="IS">Iceland</option>
+      <option value="IN">India</option>
+      <option value="ID">Indonesia</option>
+      <option value="IR">Iran (Islamic Republic of)</option>
+      <option value="IQ">Iraq</option>
+      <option value="IE">Ireland</option>
+      <option value="IM">Isle of Man</option>
+      <option value="IL">Israel</option>
+      <option value="IT">Italy</option>
+      <option value="JM">Jamaica</option>
+      <option value="JP">Japan</option>
+      <option value="JE">Jersey</option>
+      <option value="JO">Jordan</option>
+      <option value="KZ">Kazakhstan</option>
+      <option value="KE">Kenya</option>
+      <option value="KI">Kiribati</option>
+      <option value="KP">Korea (the Democratic People's Republic of)</option>
+      <option value="KR">Korea (the Republic of)</option>
+      <option value="KW">Kuwait</option>
+      <option value="KG">Kyrgyzstan</option>
+      <option value="LA">Lao People's Democratic Republic (the)</option>
+      <option value="LV">Latvia</option>
+      <option value="LB">Lebanon</option>
+      <option value="LS">Lesotho</option>
+      <option value="LR">Liberia</option>
+      <option value="LY">Libya</option>
+      <option value="LI">Liechtenstein</option>
+      <option value="LT">Lithuania</option>
+      <option value="LU">Luxembourg</option>
+      <option value="MO">Macao</option>
+      <option value="MG">Madagascar</option>
+      <option value="MW">Malawi</option>
+      <option value="MY">Malaysia</option>
+      <option value="MV">Maldives</option>
+      <option value="ML">Mali</option>
+      <option value="MT">Malta</option>
+      <option value="MH">Marshall Islands (the)</option>
+      <option value="MQ">Martinique</option>
+      <option value="MR">Mauritania</option>
+      <option value="MU">Mauritius</option>
+      <option value="YT">Mayotte</option>
+      <option value="MX">Mexico</option>
+      <option value="FM">Micronesia (Federated States of)</option>
+      <option value="MD">Moldova (the Republic of)</option>
+      <option value="MC">Monaco</option>
+      <option value="MN">Mongolia</option>
+      <option value="ME">Montenegro</option>
+      <option value="MS">Montserrat</option>
+      <option value="MA">Morocco</option>
+      <option value="MZ">Mozambique</option>
+      <option value="MM">Myanmar</option>
+      <option value="NA">Namibia</option>
+      <option value="NR">Nauru</option>
+      <option value="NP">Nepal</option>
+      <option value="NL">Netherlands (the)</option>
+      <option value="NC">New Caledonia</option>
+      <option value="NZ">New Zealand</option>
+      <option value="NI">Nicaragua</option>
+      <option value="NE">Niger (the)</option>
+      <option value="NG">Nigeria</option>
+      <option value="NU">Niue</option>
+      <option value="NF">Norfolk Island</option>
+      <option value="MP">Northern Mariana Islands (the)</option>
+      <option value="NO">Norway</option>
+      <option value="OM">Oman</option>
+      <option value="PK">Pakistan</option>
+      <option value="PW">Palau</option>
+      <option value="PS">Palestine, State of</option>
+      <option value="PA">Panama</option>
+      <option value="PG">Papua New Guinea</option>
+      <option value="PY">Paraguay</option>
+      <option value="PE">Peru</option>
+      <option value="PH">Philippines (the)</option>
+      <option value="PN">Pitcairn</option>
+      <option value="PL">Poland</option>
+      <option value="PT">Portugal</option>
+      <option value="PR">Puerto Rico</option>
+      <option value="QA">Qatar</option>
+      <option value="MK">Republic of North Macedonia</option>
+      <option value="RO">Romania</option>
+      <option value="RU">Russian Federation (the)</option>
+      <option value="RW">Rwanda</option>
+      <option value="RE">Réunion</option>
+      <option value="BL">Saint Barthélemy</option>
+      <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+      <option value="KN">Saint Kitts and Nevis</option>
+      <option value="LC">Saint Lucia</option>
+      <option value="MF">Saint Martin (French part)</option>
+      <option value="PM">Saint Pierre and Miquelon</option>
+      <option value="VC">Saint Vincent and the Grenadines</option>
+      <option value="WS">Samoa</option>
+      <option value="SM">San Marino</option>
+      <option value="ST">Sao Tome and Principe</option>
+      <option value="SA">Saudi Arabia</option>
+      <option value="SN">Senegal</option>
+      <option value="RS">Serbia</option>
+      <option value="SC">Seychelles</option>
+      <option value="SL">Sierra Leone</option>
+      <option value="SG">Singapore</option>
+      <option value="SX">Sint Maarten (Dutch part)</option>
+      <option value="SK">Slovakia</option>
+      <option value="SI">Slovenia</option>
+      <option value="SB">Solomon Islands</option>
+      <option value="SO">Somalia</option>
+      <option value="ZA">South Africa</option>
+      <option value="GS">South Georgia and the South Sandwich Islands</option>
+      <option value="SS">South Sudan</option>
+      <option value="ES">Spain</option>
+      <option value="LK">Sri Lanka</option>
+      <option value="SD">Sudan (the)</option>
+      <option value="SR">Suriname</option>
+      <option value="SJ">Svalbard and Jan Mayen</option>
+      <option value="SE">Sweden</option>
+      <option value="CH">Switzerland</option>
+      <option value="SY">Syrian Arab Republic</option>
+      <option value="TW">Taiwan (Province of China)</option>
+      <option value="TJ">Tajikistan</option>
+      <option value="TZ">Tanzania, United Republic of</option>
+      <option value="TH">Thailand</option>
+      <option value="TL">Timor-Leste</option>
+      <option value="TG">Togo</option>
+      <option value="TK">Tokelau</option>
+      <option value="TO">Tonga</option>
+      <option value="TT">Trinidad and Tobago</option>
+      <option value="TN">Tunisia</option>
+      <option value="TR">Turkey</option>
+      <option value="TM">Turkmenistan</option>
+      <option value="TC">Turks and Caicos Islands (the)</option>
+      <option value="TV">Tuvalu</option>
+      <option value="UG">Uganda</option>
+      <option value="UA">Ukraine</option>
+      <option value="AE">United Arab Emirates (the)</option>
+      <option value="GB">United Kingdom of Great Britain and Northern Ireland (the)</option>
+      <option value="UM">United States Minor Outlying Islands (the)</option>
+      <option value="US">United States of America (the)</option>
+      <option value="UY">Uruguay</option>
+      <option value="UZ">Uzbekistan</option>
+      <option value="VU">Vanuatu</option>
+      <option value="VE">Venezuela (Bolivarian Republic of)</option>
+      <option value="VN">Viet Nam</option>
+      <option value="VG">Virgin Islands (British)</option>
+      <option value="VI">Virgin Islands (U.S.)</option>
+      <option value="WF">Wallis and Futuna</option>
+      <option value="EH">Western Sahara</option>
+      <option value="YE">Yemen</option>
+      <option value="ZM">Zambia</option>
+      <option value="ZW">Zimbabwe</option>
+    </select>
+  
+  <% } %>
+  
+
+<div id="response-box"></div>
+
+<button type="submit" id="button-submit-form" class="btn btn-ic btn-big btn-bg-lighter btn-mobile-stretch">Confirm <img src="/icons/f/arrow-right.svg"></button>
+
+</form>   
+
+<span class="btn-navigation-back"> <a href="/pm"> <img src="/icons/back.svg"> Go back</a> </span>
+
+  
+</section>
+
+
+<script>
+
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+   
+  let labels = document.querySelectorAll('label');
+
+  for(var i = 0; i < labels.length; i++){
+    labels[i].addEventListener('click', function(e){
+
+      var numSelectedElements = document.getElementById("edit-selected-elements").childElementCount;
+
+        var nameLabelClicked = e.target.htmlFor;
+        var labelAlreadyActive = false;
+
+        var selectedElements = document.getElementById("edit-selected-elements").getElementsByTagName("li");
+        for(var i = 0; i < selectedElements.length; i++){
+          if(selectedElements[i].className == nameLabelClicked){
+            labelAlreadyActive = true;
+            selectedElements[i].parentNode.removeChild(selectedElements[i]);
+          }
+        }
+
+        if(!labelAlreadyActive){
+              var node = document.createElement("li"); node.className = nameLabelClicked;
+              var node_text = document.createTextNode(nameLabelClicked);
+              var node_select = document.createElement("select"); node_select.name = "order-" + nameLabelClicked;
+
+              var values = []; for(var i = 1; i <= numSelectedElements+1; i++) { values.push(i.toString()); }
+              
+              for (const val of values){
+                  var option = document.createElement("option"); option.value = val; option.text = val;
+                  node_select.appendChild(option);
+              }
+        }
+
+        var selects = document.getElementById("edit-selected-elements").getElementsByTagName("select");
+        for(var i = 0; i < selects.length; i++){  
+          if(!labelAlreadyActive){
+            var option = document.createElement("option");
+            option.text = numSelectedElements+1;
+            selects[i].add(option); 
+          }
+          else{
+            selects[i].remove(numSelectedElements-1); 
+          }
+        }
+
+        if(!labelAlreadyActive){
+              node_select.options[numSelectedElements].selected = true;
+              node.appendChild(node_text);
+              node.appendChild(node_select);
+              document.getElementById("edit-selected-elements").appendChild(node);
+        }
+
+      });
+  }
+    
+  if(hideButton==true){document.getElementById("button-submit-form").outerHTML="";}
+
+});
+
+
+
+</script>
+
+        
+<script>
+ 
+ 
+
+  function validateForm() {
+   
+    var msg = "";
+    var responseBox = document.getElementById("response-box");
+    var firstInputValue = document.forms["form-edit-profile"][0].value;
+    var firstInputId = document.forms["form-edit-profile"][0].id; var error = false;
+
+    var firstInputName = document.forms["form-edit-profile"][0].getAttribute("name");
+
+    if(firstInputName == "genre"){
+        var checked = document.querySelectorAll('input[type="checkbox"]:checked');
+        if (checked.length > 5) {
+          error = true; msg += " <li>Choose up to 5 genres.</li>"; 
+        }
+        if(error){
+              responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false;
+        }
+    }
+
+    if(firstInputName == "category"){
+        var checked = document.querySelectorAll('input[type="checkbox"]:checked');
+          
+        if (checked.length > 3) {
+          error = true; msg += " <li>Choose up to 3 categories.</li>"; 
+        }else{
+          var order = document.querySelectorAll('select');
+          var arrayOrder=[];
+          for (let index = 0; index < order.length; index++) {
+            const element = order[index];
+            //console.log(element.value);
+            arrayOrder.push(element.value);
+          }
+          console.log(arrayOrder);
+          for (let index = 0; index < arrayOrder.length; index++) {
+            const element = arrayOrder[index];
+            for (let j = 0; j < arrayOrder.length; j++) {
+              const ele = arrayOrder[j];
+              if(j != index){
+                if(element == ele){
+                  error = true; msg += " <li>Please ajust order of your categories.</li>";
+                  break
+                }
+              }
+            }
+            if(error){
+              break
+            }
+            
+          }
+        }
+        
+        if(error){
+            responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false;
+        }
+    }
+   
+
+    switch(firstInputId){
+      case "city":
+            var excluded = /[0-9`!@#$%^&*()_+\-=\[\]{};'':"\\|,.<>\/?~]/; 
+            if (firstInputValue == "" || firstInputValue == null) {
+              error = true; msg += " <li>Field is empty.</li>"; 
+            }
+            if(excluded.test(firstInputValue)){
+              error = true; msg += "<li>Symbols or numbers are not allowed in this field</li>";
+            }
+            if(firstInputValue.length<3){
+              error = true; msg += " <li>At least 3 characters.</li>"; 
+            }
+            if(error){
+              responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false; 
+            }
+            break;
+
+      case "username":
+            var excluded = /[`!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/; 
+            if (firstInputValue == "" || firstInputValue == null) {
+              error = true; msg += " <li>Field is empty.</li>"; 
+            }
+            
+            if(excluded.test(firstInputValue)){
+              error = true; msg += " <li>You can use letters, numbers, spaces and the symbols '_' and '-'.</li>";  
+            }
+            if(firstInputValue.length<3){
+              error = true; msg += " <li>At least 2 characters.</li>"; 
+            }
+            if(firstInputValue.length>50){
+              error = true; msg += " <li>Max 30 characters.</li>"; 
+            }
+
+            if(error){
+              responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false;
+            }
+            break;
+
+        case "artist_name":
+        var excluded = /[`%^&*()+\=\[\]{};'"\\|<>\/?~]/; 
+            if (firstInputValue == "" || firstInputValue == null || firstInputValue == undefined) {
+              error = true; msg += " <li>Field is empty.</li>"; 
+            }
+            if (firstInputValue.includes(".com") || firstInputValue.includes("https://") || firstInputValue.includes("www.")) {
+              error = true; msg += " <li>Cannot use sites.</li>"; 
+            }
+            if(excluded.test(firstInputValue)){
+              error = true; msg += " <li>There is an invalid symbol.</li>";  
+            }
+            if(firstInputValue.length<2){
+              error = true; msg += " <li>At least 2 characters.</li>"; 
+            }
+            if(firstInputValue.length>30){
+              error = true; msg += " <li>Max 30 characters.</li>"; 
+            }
+
+            if(error){
+              responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false;
+            }
+            break;
+    }
+  
+  }
+  </script>
+ 
+  
+
+ <script>   
+  var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+  
+    const xhr = new XMLHttpRequest();  // create an XHR object
+    xhr.onload = () => { // listen for `onload` event
+        if (xhr.status == 200) { console.log('Image exists.');}
+        else {
+            console.log('Image does not exist.');
+            for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+              let element = document.getElementsByClassName("profile_default")[index];
+              console.log(element); console.log(document.getElementById("profile_picture_logged"));
+              element.removeChild(element.firstChild); //rimuove elemento img
+              let div = document.createElement('div'); div.className = "user-icon-default user-icon-default-big";
+              let h2 = document.createElement('h2'); h2.textContent = artistName[0];
+              div.append(h2);
+              element.append(div);
+            }
+        }
+    };
+    xhr.open('HEAD', document.getElementById("profile_picture_logged").src);   // create a `HEAD` request
+    xhr.send();   // send request
+  </script>
+
+ <script src="/scripts/categories.js"></script>
+<script src="/scripts/genres.js"></script>
+
+
+<%- include partials/footer-account %>

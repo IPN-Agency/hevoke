@@ -1,0 +1,244 @@
+<%- include partials/header %>
+
+<div class="container-layout-sidebar">
+
+<%- include partials/sidebar %>
+
+<div class="content">
+
+  <%- include partials/connections-nav %>
+
+  <section class="layout-container-wide py-medium">
+  <h4>Radar Overview</h4>
+ 
+  <br>
+ 
+  <div class="radar-row">
+<% if (users_result.length >= 0) { %>
+
+      <% res_radars.forEach(function(radar){ %>
+
+      <% 
+      var usersForThisRadar =  users_result.filter(function(user_signal) {
+        return user_signal.radar_id == radar.radar_id;
+      });
+      var numUsersForThisRadar = usersForThisRadar.length;
+      %>
+
+     
+
+  
+       
+  <section class="col-12 col-lg-4">
+
+          <div class="radar-header">
+             <div>
+              <span class="profile-radar-tag">
+                <span class="profile-radar-image"><img src="../icons/profile/radar.svg" alt=""></span>
+                <span class="profile-radar-value"><%= radar.category_id %></span>
+              </span>
+              
+            
+            </div>
+
+            <div>
+              <a href="/myconnections/radar-signals/<%= radar.radar_id %>" class="btn btn-small btn-bg-lighter">Open Radar</a>
+            
+            </div>
+            
+           
+          </div>
+
+
+          <div class="radar-subheader">
+            <div class="radar-counter counter-medium">
+              <span class="radar-counter-value"><%= numUsersForThisRadar %></span>
+              <span class="radar-counter-title">Total Signals Received</span>
+            </div>
+          </div>
+         
+
+          <div class="radar-content">
+
+
+            <p class="text-smaller">Last responses</p>
+
+            <% if (numUsersForThisRadar == 0) {  %>
+               <p class="text-smaller text-lighter-more">Still no respones for this radar.</p> 
+            <% }  %>
+              
+
+              <div class="row-cards-round">
+               
+                <% users_result.forEach(function(res){ %>
+                  
+                  <% if (res.radar_id == radar.radar_id) {  %>
+                    
+                  <div class="card-round filterDiv <%= res.artist_type %> ">
+                      <div class="card-container style-round <%= res.artist_macro %> mb-0" data-src-type="<%= res.artist_type %>">
+
+                        <figure>
+                          <a href="/profile/<%= res.user_name%>"><img class="img_profile" src="/uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                        </figure>
+
+                        <div class="artist_info">     
+                          <a><h5 class="name"><%= res.artist_name %></h5></a>
+                        </div>
+                      
+                    </div> <!--end div card user= -->
+                  </div> <!--end div col = -->
+
+                  <% } %>  <!--end if radar id = -->
+                <% }) %> <!--end foreach users = -->
+
+              </div>
+      
+         </div>
+    
+      
+    </section>
+ 
+
+     
+  
+
+    <% }) %> <!--end foreach radars = -->
+
+
+ <% } %> <!--end if = -->
+
+</div> <!--end row = -->
+
+
+
+
+<section class="layout-container-wide py-medium">
+<% if (res_radars.length > 0 && users_result.length == 0) {  %>
+  <p>There are no signals for your radars yet.</p>
+<% } %>
+
+<% if (res_radars.length == 0) {  %>
+  <p class="lead">You don't have active radars.</p> <br>
+  <a href="/new-radar" class="btn btn-medium btn-bg-lighter">Create a Radar</a>
+<% } %>
+</section>
+
+
+
+</section>
+
+<!--
+<div class="panel-quick-note">
+  <span class="icon icon-small icon-bg-lighter"> <img src="/icons/f/info.svg" alt=""> </span>
+  <p>You can use a radar to find other users etc</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum illo repudiandae ea iusto expedita sapiente aut unde quibusdam libero tempora.</p>
+  <p class="text-lighter">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit impedit rerum laborum, fugit vitae est.</p>
+</div>
+-->
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+var url = window.location.href;
+
+var tempArray = url.split("?");
+
+var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+
+if (additionalURL) {
+  tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+  console.log(tempArray[tempArray.length-1]);
+
+  //controllo se nell'url alla fine c'è già un parametro sortby
+  if(tempArray[tempArray.length-1].startsWith("sortby")){
+    var valueSortby=tempArray[tempArray.length-1].split("=")[1];
+    document.getElementById(valueSortby).checked = true;
+  }
+}
+
+</script>
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM completamente caricato e analizzato');
+    document.forms.searchsortform.searchsort.forEach(radio => {
+      radio.addEventListener('change', () => {
+        var attributeClickedSort=document.forms.searchsortform.searchsort.value;
+      
+            var newUrl = "";
+            
+            //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+              var url = window.location.href;
+            
+            var tempArray = url.split("?");
+            
+            var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+
+            if (additionalURL) {
+                tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                console.log(tempArray[tempArray.length-1]);
+
+                //controllo se nell'url alla fine c'è già un parametro sortby
+                if(tempArray[tempArray.length-1].startsWith("sortby")){
+                  console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                  var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                  console.log(urlBeforeSortby);
+                  newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort; 
+                }
+                else{
+                  console.log("last parameter is not sort by");
+                  newUrl = url + "&sortby="+attributeClickedSort;
+                }
+                console.log(newUrl);
+                window.location = newUrl;
+            }
+      })
+    });
+});
+
+</script>
+
+
+<script>
+
+if (filter === '*') {
+  users.forEach(animal => user.classList.remove('hidden'));
+}
+
+function filterUsers(e) {
+  const users = document.querySelectorAll(".filterDiv");
+  let filter = e.target.dataset.filter;
+ 
+  if (filter === '*') {
+    users.forEach(user => user.classList.remove('hidden'));
+  }
+  else {
+    users.forEach(user => {
+      user.classList.contains(filter) ? user.classList.remove('hidden') : user.classList.add('hidden');
+    });
+  };
+};
+</script>
+
+
+
+ <%- include partials/footer-account %>

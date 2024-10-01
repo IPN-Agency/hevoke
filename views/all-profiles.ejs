@@ -1,0 +1,743 @@
+
+<%- include partials/header %>
+
+
+
+<div id="panel-message-floating" class="panel-message-floating">
+
+<span class="scroll-icon"><span class="scroll-icon__dot"></span></span>
+<p>Muovi il puntatore in una sezione ed esplorala usando la rotellina</p>
+</div>
+
+
+  
+<div class="container-layout-sidebar">
+
+<%- include partials/sidebar %>
+
+
+<div class="content">
+
+
+    <div class="layout-container-wide py-medium">
+              
+
+            <div class="row align-items-center justify-between">
+              <div class="col-auto" style="max-width: 60%;">
+                <!-------------------IF USER RADAR---------------->
+                <% if(section_url == "usersforradars"){%><h4>Users found by your Radars</h4> <% }%>
+
+                <!-------------------IF MOSTLIKED---------------->
+                <% if(section_url == "mostliked"){%><h4>Most liked artists</h4> <% }%>
+
+                <!-------------------IF musicartists---------------->
+                <% if(section_url == "musicartists"){%><h4>Music Artists</h4> <% }%>
+
+                <!-------------------IF danceartists---------------->
+                <% if(section_url == "danceartists"){%><h4>Dance Artists</h4> <% }%>
+
+                 <!-------------------IF videoartists---------------->
+                 <% if(section_url == "videoartists"){%><h4>Video Artists</h4> <% }%>
+
+                <!-------------------IF COMMON GENRE---------------->
+                <% if(section_url == "withcommongenre"){%><h4>Artist doing a genre you also do</h4>  <% }%>
+
+                <!-------------------IF COMMON CATEGORY---------------->
+                <% if(section_url == "withcommoncategory"){%><h4>Artist doing a category you also do</h4>  <% }%>
+
+                <!-------------------IF COMMON COUNTRY---------------->
+                <% if(section_url == "inmycountry"){%>  <h4>Artists based in your country</h4> <% }%>
+
+                <!-------------------IF COMMON LEVEL---------------->
+                <% if(section_url == "samelevel"){%>
+                  <%
+                var level; 
+                
+                if(res_users_samelevel[0].user_level == '1'){
+                  level= "Less than 1 years";
+                }else if(res_users_samelevel[0].user_level == '2'){
+                  level= "1-3 years";
+                }else if(res_users_samelevel[0].user_level == '3'){
+                  level= "3-5 years";
+                }else if(res_users_samelevel[0].user_level == '4'){
+                  level= "5-10 years";
+                }
+                %>
+                   <h4>Artists with your level ( <%= level %> )</h4>
+                <% }%>
+
+                <!-------------------IF ACTIVE TODAY---------------->
+                <% if(section_url == "activetoday"){%> <h4>Artists active today on this site</h4><% }%>
+
+                <!-------------------IF NEW USERS TODAY---------------->
+                <% if(section_url == "newusertoday"){%> <h4>New artists today on this site</h4><% }%>
+
+              </div>
+              <!-------------------IF MOSTLIKED---------------->
+            <% if(section_url == "mostliked"){%>
+                <div class="col-auto ml-auto">
+                    <div class="search-result-filters">
+                        Sort by
+                              <form name="searchsortform">
+                                <div class="select" tabindex="1">
+                                  <input id="likes" class="selectopt" name="searchsort" type="radio" value="likes" checked>
+                                  <label for="likes" class="option">Likes</label>
+                                  <input id="newusers" class="selectopt" name="searchsort" type="radio" value="newusers">
+                                  <label for="newusers" class="option">Newest Users</label>
+                                  <input id="artist_name" class="selectopt" name="searchsort" type="radio" value="artist_name">
+                                  <label for="artist_name" class="option">Artist Name</label>
+                                </div>
+                              </form>
+                      </div>
+                  
+                </div>
+            <% } else{ %>
+                <div class="col-auto ml-auto">
+                    <div class="search-result-filters">
+                        Sort by
+                              <form name="searchsortform">
+                                <div class="select" tabindex="1">
+                                  <input id="auto" class="selectopt" name="searchsort" type="radio" value="auto" checked>
+                                  <label for="auto" class="option">Recommended</label>
+                                  <input id="likes" class="selectopt" name="searchsort" type="radio" value="likes">
+                                  <label for="likes" class="option">Likes</label>
+                                  <input id="newusers" class="selectopt" name="searchsort" type="radio" value="newusers">
+                                  <label for="newusers" class="option">Newest Users</label>
+                                  <input id="artist_name" class="selectopt" name="searchsort" type="radio" value="artist_name">
+                                  <label for="artist_name" class="option">Artist Name</label>
+                                </div>
+                              </form>
+                      </div>
+                  
+                </div>
+
+            <% } %>
+            </div>
+                        
+     <hr>
+
+        <!-------------------IF USER RADAR---------------->
+        <% if(section_url == "usersforradars"){%>
+          <div class="row">
+            <% res_usersradar.forEach(function(res){%>
+              
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+
+                  <div class="front">
+                    <figure>
+                        <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                      <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                      </figure>
+                  
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                    
+                      <div class="icons">
+                        <% res_links.forEach(function(result){%>
+                          <%if(result.user_id == res.user_id){%>   
+                          <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                          <%}%>
+                        <%})%>   
+
+                  </div>
+
+                
+                </div>
+              </div>
+                
+              <%})%>
+            </div>
+        <% }%>
+            
+            <!-------------------IF MOSTLIKED---------------->
+            <% if(section_url == "mostliked"){%>
+              <div class="row">
+                <% res_users_morelikes.forEach(function(res){%>
+                
+                    <%if(logged && userLogged.user_id != res.user_id || !logged){%>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style1">
+                    <div class="front">
+                    <figure>
+                        <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                    </figure>
+                    </div>
+                    
+                    <div class="content-text">
+                        
+                        <div class="followers">
+                            <h5 class="name"><%= res.artist_name %></h5>
+                            <span>
+                            <svg enable-background="new 0 0 24 24" height="100%" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="m11.466 22.776c.141.144.333.224.534.224s.393-.08.534-.224l9.594-9.721c4.001-4.053 1.158-11.055-4.532-11.055-3.417 0-4.985 2.511-5.596 2.98-.614-.471-2.172-2.98-5.596-2.98-5.672 0-8.55 6.984-4.531 11.055z" fill="#f44336"/></svg>
+                            <p><%= res.countlike %></p>
+                            </span>
+                        </div>
+                    
+                        <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                        <div class="icons">
+                          <% res_links.forEach(function(result){%>
+                            <%if(result.user_id == res.user_id){%>   
+                            <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                            <%}%>
+                          <%})%>   
+                        </div>
+                        
+                    
+                    </div>
+            
+                
+                </div>
+                </div>
+                
+                <%}%>
+                    
+                <%})%>
+              </div>
+            <% }%>
+
+            <!-------------------IF MACRO D---------------->
+            
+            <% if(section_url == "musicartists" && userLoggedArtistMacro == 'D'){%>
+              <div class="row">
+                <% res_users_macro_sec_1.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <% if(section_url == "videoartists" && userLoggedArtistMacro == 'D'){%>
+              <div class="row">
+                <% res_users_macro_sec_2.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF MACRO V---------------->
+            <% if(section_url == "musicartists" && userLoggedArtistMacro == 'V'){%>
+              <div class="row">
+                <% res_users_macro_sec_1.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <% if(section_url == "danceartists" && userLoggedArtistMacro == 'V'){%>
+              <div class="row">
+                <% res_users_macro_sec_2.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF MACRO M---------------->
+            <% if(section_url == "videoartists" && userLoggedArtistMacro == 'M'){%>
+              <div class="row">
+                <% res_users_macro_sec_1.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <% if(section_url == "danceartists" && userLoggedArtistMacro == 'M'){%>
+              <div class="row">
+                <% res_users_macro_sec_2.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF COMMON GENRE---------------->
+            <% if(section_url == "withcommongenre"){%>
+              <div class="row">
+                <% res_users_samegenre.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF COMMON CATEGORY---------------->
+            <% if(section_url == "withcommoncategory"){%>
+              <div class="row">
+                <% res_users_samecategory.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF COMMON LEVEL---------------->
+            <% if(section_url == "samelevel"){%>
+              <div class="row">
+                <% res_users_samelevel.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF IN MY COUNTRY---------------->
+            <% if(section_url == "inmycountry"){%>
+              <div class="row-cards-round">
+               
+                <% res_users_samecountry.forEach(function(res){%>
+                    <%if(userLogged.user_id != res.user_id){%>
+                    <div class="card-round">
+                      <div class="card-container style-round">
+                     
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                        </figure>
+ 
+                        <div class="">     
+                          <a><h5 class="name"><%= res.artist_name %></h5></a>
+                          <p class="text-smaller"></p>
+
+                      </div>
+                      
+            
+                        <div class="icons">
+                          <% res_links.forEach(function(result){%>
+                            <%if(result.user_id == res.user_id){%>   
+                            <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                            <%}%>
+                          <%})%>   
+                          </div> 
+              
+                  </div>
+                </div>
+                    <%}%>
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF ACTIVE TODAY---------------->
+            <% if(section_url == "activetoday"){%>
+              <div class="row">
+
+             
+                <% res_users_active.forEach(function(res){%>
+                
+                    <%if(logged && userLogged.user_id != res.user_id || !logged){%>
+                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                  <div class="card-container style3">
+                    <div class="front">
+                      <figure>
+                        <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                  
+                      </figure>
+                    </div>
+                    
+
+                    <div class="content-text">
+                        <h5 class="name"><%= res.artist_name %></h5>
+    
+                        <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                        <div class="icons">
+                          <% res_links.forEach(function(result){%>
+                            <%if(result.user_id == res.user_id){%>   
+                            <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                            <%}%>
+                          <%})%>   
+                            
+                          </div>
+                        
+                      
+                    </div>
+            
+                  
+                </div>
+              </div>
+                  
+                  <%}%>
+                    
+                <%})%>
+              </div>
+            <% }%>
+
+
+            <!-------------------IF NEW USERS TODAY---------------->
+            <% if(section_url == "newusertoday"){%>
+              <div class="row">
+
+             
+                <% res_users_newuser.forEach(function(res){%>
+                
+                    <%if(logged && userLogged.user_id != res.user_id || !logged){%>
+                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                  <div class="card-container style3">
+                    <div class="front">
+                      <figure>
+                        <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                  
+                      </figure>
+                    </div>
+                    
+
+                    <div class="content-text">
+                        <h5 class="name"><%= res.artist_name %></h5>
+    
+                        <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                        <div class="icons">
+                          <% res_links.forEach(function(result){%>
+                            <%if(result.user_id == res.user_id){%>   
+                            <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                            <%}%>
+                          <%})%>   
+                            
+                          </div>
+                        
+                      
+                    </div>
+            
+                  
+                </div>
+              </div>
+                  
+                  <%}%>
+                    
+                <%})%>
+              </div>
+            <% }%>
+                
+                
+
+            </div>
+          
+
+    </div>
+
+
+</div>
+</div>
+
+
+  <script> /*PRENDO PARAMETRO SORTYBY DA URL E IN BASE A QUELLO IMPOSTO COME CHECKED L'ELEMENTO RADIO DENTRO LA SELECT PER ORDINARE, se non c'è il default checked è reccomended*/
+    var url = window.location.href;
+
+    var tempArray = url.split("?");
+    
+    var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+  
+    if (additionalURL) {
+      tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+      console.log(tempArray[tempArray.length-1]);
+  
+      //controllo se nell'url alla fine c'è già un parametro sortby
+      if(tempArray[tempArray.length-1].startsWith("sortby")){
+        var valueSortby = tempArray[tempArray.length-1].split("=")[1];
+        document.getElementById(valueSortby).checked = true;
+      }
+    }
+  
+</script>
+
+
+<script> /*AGGIUNGO EVENT LISTENER AD OGNI ELEMENTO NEL DROPDOWN ORDINAMENTO PER FARE IL REFRESH DELLA PAGINA CON L'OPZIONE SCELTA*/
+    document.addEventListener('DOMContentLoaded', (event) => {
+          document.forms.searchsortform.searchsort.forEach(radio => {
+              radio.addEventListener('change', () => {
+                    var attributeClickedSort = document.forms.searchsortform.searchsort.value;
+
+                    var newUrl = "";
+                    
+                    //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+                    var url = window.location.href;
+                    if(url.includes("?")){ // se ci sono parametri
+                              var tempArray = url.split("?");
+                              var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+            
+                              tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                              console.log(tempArray[tempArray.length-1]);
+                
+                              //controllo se nell'url alla fine c'è già un parametro sortby
+                              if(tempArray[tempArray.length-1].startsWith("sortby")){
+                                  console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                                  var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                                  console.log(urlBeforeSortby);
+                                  newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort;
+                              }
+                              else{
+                                  console.log("last parameter is not sort by");
+                                  newUrl = url + "&sortby="+attributeClickedSort;
+                              }
+
+                    }
+                    else{
+                      newUrl = url + "?sortby="+attributeClickedSort;
+                    }
+                    
+                    console.log(newUrl);
+                    window.location = newUrl;
+        
+              })
+        });
+  });
+  
+  
+  
+</script>
+
+
+  <%- include partials/footer %>
+  <script>
+    
+    (function() {
+        
+        Array.prototype.forEach.call(document.getElementsByClassName("horizontal-scroll"), function(element) {
+    
+            function scrollHorizontally0(e) {
+            e = window.event || e;
+            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+            element.scrollLeft -= (delta*100); // Multiplied by 40
+            
+            e.preventDefault();
+            }
+    
+            if (element.addEventListener) {
+                element.addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+                element.addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+            
+            } else {
+                element.attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+                
+            }
+    });
+    
+    })();
+    
+    </script>
+</body>
+</html>

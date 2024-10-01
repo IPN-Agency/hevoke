@@ -1,0 +1,612 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Radar View | Hevoke</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+   <link rel='stylesheet' href='../css/style.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+#appbar{
+  display: none!important;
+}
+ 
+html {
+  background: var(--site-bg-color);
+
+}
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  
+}
+
+.contain .row__inner {
+  transition: 450ms transform;
+  font-size: 0;
+  white-space: nowrap;
+  margin: 70.3125px 0;
+  padding-bottom: 10px;
+}
+
+.contain .tile {
+  position: relative;
+  display: inline-block;
+  width: 250px;
+  height: 140.625px;
+  margin-right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 450ms all;
+  transform-origin: center left;
+}
+.contain .tile__img {
+  width: 250px;
+  height: 140.625px;
+  object-fit: cover;
+}
+.contain .tile__details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  font-size: 10px;
+  opacity: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+  transition: 450ms opacity;
+}
+.contain .tile__details:after,
+.contain .tile__details:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: #000;
+}
+.contain .tile__details:after {
+  margin-top: -25px;
+  margin-left: -25px;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #ecf0f1;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+.contain .tile__details:before {
+  content: '▶';
+  left: 0;
+  width: 100%;
+  font-size: 30px;
+  margin-left: 7px;
+  margin-top: -18px;
+  text-align: center;
+  z-index: 2;
+}
+.contain .tile:hover .tile__details {
+  opacity: 1;
+}
+.contain .tile__title {
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+}
+.contain .row__inner:hover {
+  transform: translate3d(-62.5px, 0, 0);
+}
+.contain .row__inner:hover .tile {
+  opacity: 0.3;
+}
+.contain .row__inner:hover .tile:hover {
+  transform: scale(1.5);
+  opacity: 1;
+}
+.contain .tile:hover ~ .tile {
+  transform: translate3d(125px, 0, 0);
+}
+
+/*---------------------------------------------------------- NAVBAR --------------------------------------------------------------------*/
+
+body.fyp .sidebar{
+  position: fixed;
+  top: 0!important;
+  left: 0;
+  width: 100vw;
+  z-index: 1001;
+  flex-direction: row;
+  align-items: center;
+  background: none;
+  height: auto!important;
+  bottom: auto!important;
+  background: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0));
+  padding: 1.5em!important;
+}
+
+@media (min-width: 1000px){
+  body.fyp .sidebar{
+  padding: 2em!important;
+}
+}
+
+body.fyp .sidebar .mobile-header{
+  width: 100%;
+  flex-direction: row!important;
+  align-items: center;
+  margin: 0;
+  justify-content: space-between!important;
+}
+
+body.fyp .sidebar .mobile-header > div:last-child {
+ display: flex;
+ flex-direction: row-reverse;
+}
+
+
+
+
+.container-fluid-centered{
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.card-ad-fyp-box{
+  background: rgba(255, 255, 255, 0.0);
+  text-align: center;
+  padding: 1em 2em;
+}
+
+.card-ad-fyp-box > p{
+  margin-bottom: .5em;
+}
+.card-ad-sponsor{
+  font-family: Heading;
+  margin-top: 0em!important;
+}
+
+.card-ad-text{
+  font-size: 1em;
+}
+
+.card-ad-videotitle{
+  font-size: .85em;
+  opacity: .6;
+}
+
+.card-ad-label-sponsored{
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  font-size: .6em;
+  text-transform: uppercase;
+  padding: .4em .6em;
+  font-family: Labels;
+  border-radius: .3em;
+  opacity: .55;
+  display: inline-block;
+  margin-top: .5em;
+}
+
+iframe, video{
+  max-width: 100vh!important;
+  width: 100%!important;
+  height: 215px;
+  max-height: 215px;
+}
+
+@media (min-width: 900px){
+  iframe, video{
+  max-width: 100vh!important;
+  width: 100%!important;
+  height: 415px;
+  max-height: 415px;
+  }
+}
+
+</style>
+    
+</head>
+
+
+<body class="fyp">
+
+<div class="container-layout-sidebar">
+
+  <div class="sidebar layout-container-wide">
+
+    <div class="mobile-header">
+        <div>
+          <span class="site-logo-text logo-text-small"><a href="/home">Hevoke</a></span> 
+         <a id="openmenu" class="hamburger-checkbox"><div class="hamburger-icon"> <label for="openmenu" id="hamburger-label">  <span></span> <span></span><span></span></label>  </div></a>
+        </div>
+
+        <div>
+          <% if(logged == true){ %>
+            <a href="/pm"><div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon small" src="../uploads/<%= userLogged.user_id %>/profile.jpg"></div></a>
+            <a href="/pm" class="hide-on-mobile"> <%= userLogged.artist_name %> </a>
+            <script> var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');</script>
+          <% } %>
+        </div>
+     
+    </div>
+
+</div>
+
+
+<div class="content">
+
+<% if(users_result.length==0) { %>
+
+<div class="container-fluid-centered">
+  <div>
+    <h4>Nothing... for now.</h4>
+    
+    <p class="lead">Hevoke is still new around here. We're sure a lot of great artists will join Hevoke. </p>
+    <p>Please, consider trying again later.</p>
+    <br>
+    <p>For now, be sure to:</p>
+    <p>- have your categories, genres and country in your profile</p>
+    <p>- have at least one active radar</p>
+    <br>
+    <p class="text-lighter">You can <a class="link-text" href="newsletter">subscribe to our mailing list</a> to receive a short update message every 1-2 week(s),<br>
+      including updates about community growth.</p>
+  </div>
+</div>
+         
+<% } %>
+
+
+
+<% var u = 0; var a = 0; var i = 0; var offsetAds = 3; var indexUserBeforeAd = 0;%>
+
+  <% users_result.forEach(function(res){ %>
+
+    <%  indexUserBeforeAd = ((a+1)*offsetAds)-1; %> 
+
+            <% if(a < adsFullObjects.length && u != 0 && u%offsetAds == 0){ %>
+              <div id="element<%=i%>" class="ad<%=a%> section layout-container-wide">
+                  <div class="fyp-nav">     
+                    <button class="prev" id="<%=i%>" onclick="stopVideos()">&#60;</button><button class="next" id="<%=i%>" onclick="stopVideos()">&#62;</button>
+                  </div>
+
+                  <div class="card-ad-fyp">
+                    <iframe id="video<%=a%>" class="yvideo" src="https://www.youtube.com/embed/<%=adsFullObjects[a].videoid%>?version=3&enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="card-ad-fyp-box">
+                      <p class="card-ad-sponsor"><%=adsFullObjects[a].channel%></p>
+                      <p class="card-ad-text"><%=adsFullObjects[a].text%></p>
+                      <p class="card-ad-videotitle"><%=adsFullObjects[a].title%></p>
+                      <span class="card-ad-label-sponsored">Sponsored</span>  
+                    </div>
+                  </div>
+              </div>
+            
+            <%  a++; %> <%  i++; %>   
+            <% } %>
+
+
+
+            <div id="element<%=i%>" class="user<%=u%> section slide <%=u==indexUserBeforeAd %>">
+
+              <div class="fyp-nav">
+                <button class="prev" id="<%=i%>">&#60; Previous Profile</button>
+                <% if(u==indexUserBeforeAd){ %>
+                <button onclick="playNextVideo(<%=a%>)" class="next" id="<%=i%>">Next Profile &#62;</button>
+                <% } %>
+                <% if(u!=indexUserBeforeAd){ %>
+                  <button class="next" id="<%=i%>">Next Profile &#62;</button>
+                <% } %>
+              </div>
+          
+            <div class="card-user-fyp card">
+
+                <div class="content-image">
+                  <figure> <a href="profile/<%= res.user_name %>"><img src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default_fyp.jpg') this.src = 'uploads/default/default_fyp.jpg';"></a></figure>
+                
+                 
+                  <%
+                  if(logged && res.user_level!=null){   
+                    if(res.user_level == '1'){ var level= "Less than 1 years";}
+                    if(res.user_level == '2'){ var level= "1-3 years";}
+                    if(res.user_level == '3'){ var level= "3-5 years";}
+                    if(res.user_level == '4'){ var level= "5-10 years";}
+                  }
+                  %>
+
+                  <div class="content-image-absolute section layout-container-wide">
+                      <div>
+                        <h1 class="profile-name"><a href="profile/<%= res.user_name %>"><%= res.artist_name %></a></h1>
+                        <div>
+                          <span class="profile-label profile-label-<%= res.artist_macro %>"><%= res.artist_macro %></span>   
+                          <span class="lead"><%= res.artist_type %></span>, <span class=""><%= res.country %></span> <span class="text-lighter text-smaller">(Level <%= level %>)</span>
+                        </div>
+       
+                        <ul class="profile-genres">
+                            <% res.genres.forEach(function(genre){  %>
+                            <li><a href="/subgenre/<%= genre.cod_subgenre %>"><%= genre.cod_subgenre %></a></li>
+                            <% }) %>
+                        </ul>
+      
+                      </div>
+                      <div class="affinity-report">
+                        <ul class="text-smaller">
+                          <li> <span class="score"><%= res.points %> </span> </li>
+                          <% if(res.isRadarCategory==true) {%><li> <span class="check">✓</span> <%= res.isRadarCategory==true ? "Radar category match" : "" %></li> <% } %>  
+                          <% if(res.numCommonGenres>0) {%><li> <span class="check">✓</span> <%= res.numCommonGenres > 0 ? res.numCommonGenres + " genre(s) in common" : "" %> </li> <% } %>  
+                          <% if(res.isSameCountry==true) {%><li> <span class="check">✓</span> <%= res.isSameCountry==true ? "Country match" : "" %></li>  <% } %>    
+                          <% if(res.isSameLevel==true) {%><li> <span class="check">✓</span> <%= res.isSameLevel==true ? "Level match" : "" %></li> <% } %>      
+                        </ul> 
+                       </div>
+                     
+                  </div>
+                </div>
+
+                <div class="content-text layout-container-wide">
+                 
+                  <!--------------------- ifs per bottone like ----------------------->
+                  <% if (res.liked){var buttonLikeClass = "on"; var buttonLikeStatus = 1; var buttonLikeText = "Liked";} %>
+                  <% if (!res.liked){var buttonLikeClass = "off"; var buttonLikeStatus = 0; var buttonLikeText = "Like";} %>
+
+                  <!---------------------  ifs per bottone follow --------------------->
+                  <% if (res.followed){ console.log("followers"); var buttonFollowClass = "on"; var buttonFollowStatus = 1; var buttonFollowText = "Following";} %>
+                  <% if (!res.followed){console.log("!followers"); var buttonFollowClass = "off"; var buttonFollowStatus = 0; var buttonFollowText = "Follow";} %>
+                  <div>            
+                    <a id="btn-dm" target="_blank" href="profile/<%= res.user_name %>" class="btn-icon btn-bg-white"><span class="icon"><img class="icon" src="../icons/f/arrow-right.svg" alt=""></span> Open Profile</a>      
+                    <a id="btn-like-<%= res.user_id %>" class="btn-icon <%= buttonLikeClass %>" onclick="clickButtonLike(<%= buttonLikeStatus %>,'<%= res.user_id %>')"> <span class="icon"><img class="icon" src="../icons/f/heart.svg" alt=""></span> <span id="btn-like-text-<%= res.user_id %>"><%= buttonLikeText %></span> </a>
+                    <a id="btn-follow-<%= res.user_id %>" class="btn-icon <%= buttonFollowClass %>" onclick="clickButtonFollow(<%= buttonFollowStatus %>,'<%= res.user_id %>')"><span class="icon"><img src="../icons/f/bookmark.svg" alt=""></span> <span id="btn-follow-text-<%= res.user_id %>"><%= buttonFollowText %></span></a>
+                  </div>
+
+                 
+                  <div>
+                   
+                    <% res.links.forEach(function(link){  %>
+                      <span class="icon icon-large icon-bg-lighter"><a href="<%= link.url %>"> <img class="" src="../icons/platforms/<%= link.link_name %>.svg"></a></span>
+                    <% }) %>
+                  </div>
+
+                 
+
+                </div>
+            
+            </div>
+          </div>
+      <% i++; %> <% u++; %>
+<% }) %>
+
+</div>
+
+
+
+
+<script>
+
+  function stopVideos(){
+      var video = document.getElementsByClassName("yvideo");
+      for (var i=0; i<video.length; i++) {
+        video.item(i).contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+      }
+  }
+
+  function playNextVideo(a){
+    var symbol = $("#video"+ a)[0].src.indexOf("?") > -1 ? "&" : "?";
+    //modify source to autoplay and start video
+    $("#video"+ a)[0].src += symbol + "autoplay=1";
+  }
+  
+</script>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', (event) => {
+
+/*
+
+if (document.addEventListener) {
+document.addEventListener("mousewheel", MouseWheelHandler, false); //IE9, Chrome, Safari, Oper
+document.addEventListener("DOMMouseScroll", MouseWheelHandler, false); //Firefox
+} else {
+document.attachEvent("onmousewheel", MouseWheelHandler); //IE 6/7/8
+}
+
+var i = 1;
+var mouseWheel = true;
+function MouseWheelHandler(e) {
+if (!mouseWheel) {
+return false;
+}
+
+mouseWheel = false;
+setTimeout(function() {
+mouseWheel = true;
+}, 500); // Stop mouse wheel event for 3 seconds
+e = window.event || e;
+var delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
+var h = window.innerHeight;
+var section = document.getElementsByClassName("section");
+
+
+console.log(i);
+if (i <= section.length && i >= 0) {
+//scrolling down?
+if (delta < 0) {
+  window.scrollTo({
+    top: h * i,
+    behavior: "smooth"
+  });
+  i++;
+} else {
+  //scrolling up?
+  window.scrollTo({
+    top: h * i,
+    behavior: "smooth"
+  });
+  i--;
+}
+} else {
+i = 1;
+window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
+}
+}
+*/
+
+$('.next').click(function(){
+  var id = $(this).attr('id');
+ 
+  var next = (Number(id) + 1);
+window.scrollTo(0, $('#'+next).closest('.section').offset().top);
+ 
+})
+$('.prev').click(function(){
+  var id = $(this).attr('id');
+ 
+  var prev = (Number(id) - 1);
+window.scrollTo(0, $('#'+prev).closest('.section').offset().top);
+ 
+})
+
+});
+
+</script>
+
+
+
+<script>
+(function() {
+    
+   
+
+    Array.prototype.forEach.call(document.getElementsByClassName("horizontal-scroll"), function(element) {
+
+        function scrollHorizontally0(e) {
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        element.scrollLeft -= (delta*100); // Multiplied by 40
+        
+        e.preventDefault();
+        }
+
+        if (element.addEventListener) {
+            element.addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+            element.addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+        
+        } else {
+            element.attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+            
+        }
+});
+
+
+
+})();
+
+</script>
+
+
+
+
+
+<script>
+  // create an XHR object
+  const xhr = new XMLHttpRequest();
+  // listen for `onload` event
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          console.log('Image exists.');
+      } else {
+          console.log('Image does not exist.');
+          for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+            let element = document.getElementsByClassName("profile_default")[index];
+            element.removeChild(element.firstElementChild);
+            element.innerHTML = "<div class='user-icon-default small'><h5>"+artistName[0]+"</h5></div>";
+          }
+      }
+  };
+
+  // create a `HEAD` request
+  xhr.open('HEAD', document.getElementById("profile_picture_logged").src);
+  // send request
+  xhr.send();
+</script>
+
+
+
+
+<script>
+  function clickButtonLike(current_status, id_receiver){
+        $.ajax({
+            url: '/action-button-like',
+            type: 'post',
+            data: {
+                current_status: current_status, id_receiver: id_receiver
+            },
+            success: function(response){
+                response = JSON.parse(response);
+                if(response.new_status == 1){
+                  document.getElementById("btn-like-"+id_receiver+"").classList.remove("off");
+                    document.getElementById("btn-like-"+id_receiver+"").classList.add("on");
+                    document.getElementById("btn-like-text-"+id_receiver+"").innerText = "Liked";
+                    document.getElementById("btn-like-"+id_receiver+"").setAttribute("onclick","clickButtonLike(1,'"+id_receiver+"')");  
+                }
+                if(response.new_status == 0){
+                    document.getElementById("btn-like-"+id_receiver+"").classList.remove("on");
+                    document.getElementById("btn-like-"+id_receiver+"").classList.add("off");
+                    document.getElementById("btn-like-text-"+id_receiver+"").innerText = "Like";
+                    document.getElementById("btn-like-"+id_receiver+"").setAttribute("onclick","clickButtonLike(0,'"+id_receiver+"')");  
+                }
+            }
+        });
+
+}
+</script>
+
+
+<script>
+  function clickButtonFollow(current_status, id_receiver){
+        $.ajax({
+            url: '/action-button-follow',
+            type: 'post',
+            data: {
+               current_status: current_status,
+               id_receiver: id_receiver
+            },
+            success: function(response){
+                response = JSON.parse(response);
+                //alert(response.content);
+                
+                if(response.new_status== 1){
+                   document.getElementById("btn-follow-"+id_receiver+"").classList.remove("off");
+                   document.getElementById("btn-follow-"+id_receiver+"").classList.add("on");
+                   document.getElementById("btn-follow-text-"+id_receiver+"").innerText = "Following";
+                   document.getElementById("btn-follow-"+id_receiver+"").setAttribute("onclick","clickButtonFollow(1,'"+id_receiver+"')");  
+                }
+                if(response.new_status== 0){
+                   document.getElementById("btn-follow-"+id_receiver+"").classList.remove("on");
+                   document.getElementById("btn-follow-"+id_receiver+"").classList.add("off");
+                   document.getElementById("btn-follow-text-"+id_receiver+"").innerText = "Follow";
+                   document.getElementById("btn-follow-"+id_receiver+"").setAttribute("onclick","clickButtonFollow(0,'"+id_receiver+"')");  
+                }
+
+            }
+        });
+  
+}
+</script>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+</body>
+</html>
+

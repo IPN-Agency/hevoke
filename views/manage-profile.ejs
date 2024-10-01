@@ -1,0 +1,205 @@
+
+
+<%- include partials/header-account %>
+
+<script>
+  var artistName; artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+</script>
+
+
+
+<%
+if(userLogged.user_level == '1'){ var level = "Less than 1 year";
+}else if(userLogged.user_level == '2'){ var level = "1-3 years";
+}else if(userLogged.user_level == '3'){ var level = "3-5 years";
+}else if(userLogged.user_level == '4'){ var level = "5-10 years";
+}else{ var level = "";}
+%>
+
+<%
+if (userLogged.gender == "M") { var gender = "Male"; }
+if (userLogged.gender == "F") { var gender = "Female"; }
+if (userLogged.gender == "O") { var gender = "Other"; }
+if (userLogged.gender == null || userLogged.gender == "-") { var gender = ""; }
+%>
+
+<%
+if (userLogged.artist_type == "-") { var artist_type = ""}
+else { var artist_type = userLogged.artist_type ; }
+%>
+
+<%
+if (userLogged.date_b == null || userLogged.date_b == "0000-00-00") {
+  var date_b = "";
+}
+if (userLogged.date_b != null && userLogged.date_b != "0000-00-00") {
+  var date_b = userLogged.date_b.getDate() +"/"+ (userLogged.date_b.getMonth()+1) +"/"+ userLogged.date_b.getFullYear();
+}
+%>
+
+<%
+if(userLogged.artist_macro == 'M'){ var artist_macro = "Music Artist";
+}else if(userLogged.artist_macro == 'V'){ var artist_macro = "Video Artist";
+}else if(userLogged.artist_macro == 'D'){ var artist_macro = "Dance Artist";
+}else{ var artist_macro = "";}
+
+if(userLogged.radar_category == 'M'){ var radar_category = "Music Artist";
+}else if(userLogged.radar_category == 'V'){ var radar_category = "Video Artist";
+}else if(userLogged.radar_category == 'D'){ var radar_category = "Dance Artist";
+}else{ var radar_category = "";}
+%>
+
+
+<section class="layout-container-medium py-light section-bg-lighter3 text-center">
+  <a href="/home" class="btn btn-small"><span class="icon-small"> <img class="icon-image" src="../icons/back.svg"> </span>Back to home</a>
+</section>
+
+
+<section class="layout-container-medium py-medium section-bg-lighter-fade">
+
+          <div class="manage-profile-header">
+
+              <div class="manage-profile-header-main"> 
+                  <div class="profile_default">
+                    <img id="profile_picture_logged" class="user-profileimage-icon big" src="../uploads/<%= userLogged.user_id %>/profile.jpg">
+                  </div>
+                  <div>
+                    <h5><%=userLogged.artist_name%></h5>
+                    <span class="py-light d-block text-lighter text-smaller"></span>
+                    <a href="../profile/<%=userLogged.user_name%>" class="btn btn-mini btn-bg-outline">View Profile</a>
+                  </div>
+              </div>
+
+              <div>
+                  <ul class="complete-profile-progress">
+                    <div class="profile-progress-line"></div>
+                    <li class="<%= isEmptyCategories==true ? 'remaining' : 'done' %>"><div><span><img src='/icons/f/<%= isEmptyCategories==true ? "x" : "check" %>.svg'></span></div><div><h6>Categories</h6><p><% if(isEmptyCategories) { %> You dont'have a category.</p> <a class="btn btn-mini btn-bg-lighter" href="/pm/edit/categories">Edit Categories</a> <% } %> <% if (!isEmptyCategories) { %> At least one selected <% } %></div></li>
+                    <li class="<%= isEmptyGenres==true ? 'remaining' : 'done' %>"><div><span><img src='/icons/f/<%= isEmptyGenres==true ? "x" : "check" %>.svg'></span></div><div><h6>Music Genres</h6><p><% if(isEmptyGenres) { %> You don't have a genre.</p> <a class="btn btn-mini btn-bg-lighter" href="/pm/edit/genres">Edit Genres</a> <% } %> <% if (!isEmptyGenres) { %> At least one selected <% } %></div></li>
+                    <li class="<%= isEmptyLinks==true ? 'remaining' : 'done' %>"><div><span><img src='/icons/f/<%= isEmptyLinks==true ? "x" : "check" %>.svg'></span></div><div><h6>Art/Social Links</h6><p><% if(isEmptyLinks) { %> You dont'have a link.</p> <a class="btn btn-mini btn-bg-lighter" href="/pm/edit-s/links">Edit Links</a> <% } %> <% if (!isEmptyLinks) { %> At least one selected <% } %></div></li>
+                  </ul>
+              </div>
+
+          </div>
+
+          
+</section>
+
+<!--
+<section class="layout-container-medium py-small bg-section-borderbottom section-bg-darker">
+
+  <h6 class="manage-profile-section-title mt-0">Complete your profile's main sections</h6>
+
+  <ul class="complete-profile-progress">
+    <div class="profile-progress-line"></div>
+    <li class="<%= isEmptyCategories==true ? 'remaining' : 'done' %>"><div><span><img src='/icons/status/<%= isEmptyCategories==true ? "xmark" : "checkmark" %>.svg'></span></div><div><h6>Artist category</h6><p><% if(isEmptyCategories) { %> You dont'have a category. <br><a class="btn btn-small btn-bg-primary" href="/pm/edit/categories">Edit Categories</a> <% } %> <% if (!isEmptyCategories) { %> At least one selected <% } %></p></div></li>
+    <li class="<%= isEmptyGenres==true ? 'remaining' : 'done' %>"><div><span><img src='/icons/status/<%= isEmptyGenres==true ? "xmark" : "checkmark" %>.svg'></span></div><div><h6>Music genres</h6><p><% if(isEmptyGenres) { %> You don't have a genre. <br><a class="btn btn-small btn-bg-primary" href="/pm/edit/genres">Edit Genres</a> <% } %> <% if (!isEmptyGenres) { %> At least one selected <% } %></p></div></li>
+    <li class="<%= isEmptyLinks==true ? 'remaining' : 'done' %>"><div><span><img src='/icons/status/<%= isEmptyLinks==true ? "xmark" : "checkmark" %>.svg'></span></div><div><h6>Links to music/socials</h6><p><% if(isEmptyLinks) { %> You dont'have a link. <br><a class="btn btn-small btn-bg-primary" href="/profile-add-links">Edit Links</a> <% } %> <% if (!isEmptyLinks) { %> At least one selected <% } %></p></div></li>
+  </ul>
+
+  </section>
+-->
+
+  <section class="layout-container-medium py-small pt-0">
+  <div class="row">
+
+            <div class="col-md-3">
+              <h6 class="manage-profile-section-title">Main sections</h6>
+              <div class="">
+                <a href="/myconnections" class="btn-manage-profile"> <span><img src="../icons/f/globe.svg"></span> Connections</a> 
+                <a href="/myconnections/radars" class="btn-manage-profile"> <span><img src="../icons/f/rss.svg"></span> Radars</a>
+                <a href="/pm/edit-s/image" class="btn-manage-profile"> <span><img src="../icons/f/image.svg"></span> Image</a> 
+                <a href="/pm/edit-s/links" class="btn-manage-profile"> <span><img src="../icons/f/link.svg"></span> Content/Social Links</a> 
+                <a href="/pm/edit/categories" class="btn-manage-profile"> <span><img src="../icons/f/tag.svg"></span> Categories</a>
+                <a href="/pm/edit/genres" class="btn-manage-profile"> <span><img src="../icons/f/music.svg"> </span> Genres (Music/Dance)</a>
+              </div>
+            </div>
+
+            <div class="col-md-9">
+
+              <h6 class="manage-profile-section-title">Name and username</h6>
+
+              <ul class="list-account-info">
+                <li><span>Artist Name</span> <span><%= userLogged.artist_name %></span> <a href="/pm/edit/artist_name">Edit</a></li>
+                <li><span>Username</span> <span><p class="text-smaller"><u class="text-lighter-more">hevoke.com/profile/</u><%=userLogged.user_name%></p></span> <a href="/pm/edit/user_name">Edit</a></li>   
+              </ul>
+
+ 
+
+              <h6 class="manage-profile-section-title">Categories</h6>
+
+              <ul class="list-account-info">
+                <li><span>Macro Category</span> <span><%= artist_macro %></span> <a href="/pm/edit/categories">Edit Categories</a></li>
+                <li><span>First/Main Category</span> <span><%= artist_type %></span> <a href="/pm/edit/categories">Edit Categories</a></li>
+              </ul>
+
+
+              <h6 class="manage-profile-section-title">Additional Optional Details</h6>
+
+              <ul class="list-account-info">
+                <li><span>Bio</span> <span></span> <a href="/pm/edit/bio">Edit</a></li>
+                <li><span>Current country</span> <span><%= userLogged.country %></span> <a href="/pm/edit/country">Edit</a></li>
+                <li><span>Level</span> <span><%= level %></span> <a href="/pm/edit/user_level">Edit</a></li>
+                <li><span>Gender (not visible)</span> <span><%= gender %></span> <a href="/pm/edit/gender">Edit</a></li>
+                <li><span>Date of birth (not visible)</span> <span> <%= date_b %></span> <a href="/pm/edit/date_b">Edit</a></li>
+              </ul>
+
+              <h6 class="manage-profile-section-title">Access Credentials</h6>
+
+              <ul class="list-account-info">
+                <li><span>Email</span> <span><%= userLogged.email %></span> <a href="account/set-new-email">Edit</a></li>
+                <li><span>Password</span> <span><i><small>********</small></i></span> <a href="account/request-reset-password">Reset Password</a></li>
+              </ul>
+
+              <h6 class="manage-profile-section-title">Account Status</h6>
+
+                <ul class="list-account-info">
+                  <li><span>Account status</span> <span><%= userLogged.active %></span> </li>
+                  <li><span>Registration date</span> <span><%= userLogged.created.getDate() %>/<%= userLogged.created.getMonth()+1 %>/<%= userLogged.created.getFullYear() %> </span></li>
+                  <li><span>Date of last update</span> <span><%= userLogged.modified.getDate() %>/<%= userLogged.modified.getMonth()+1 %>/<%= userLogged.modified.getFullYear() %></span></li>
+                 
+                </ul>
+
+                <span class="box-information">
+                  To request cancellation of your account contact support@hevoke.com with your email address. 
+                </span>
+
+         
+            </div>
+
+
+            
+      </div>
+           
+  </section>
+
+
+  <script>   
+    // create an XHR object
+    const xhr = new XMLHttpRequest();
+    // listen for `onload` event
+    xhr.onload = () => {
+        if (xhr.status == 200) {
+            console.log('Image exists.');
+        } else {
+            console.log('Image does not exist.');
+            for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+              let element = document.getElementsByClassName("profile_default")[index];
+              console.log(element)
+              element.removeChild(document.getElementById("profile_picture_logged"));
+              let div = document.createElement('div');div.className = "user-icon-default user-icon-default-big";
+              let h2 = document.createElement('h2'); h2.textContent = artistName[0];
+              div.append(h2);
+              element.insertBefore(div, element.firstElementChild)
+             
+            }
+        }
+    };
+    // create a `HEAD` request
+    xhr.open('HEAD', document.getElementById("profile_picture_logged").src);
+    // send request
+    xhr.send();
+  
+</script>
+    
+
+  <%- include partials/footer-account %>

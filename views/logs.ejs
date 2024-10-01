@@ -1,0 +1,78 @@
+<%- include partials/header %>
+
+<section class="layout-container-wide py-medium pb-0">
+  <h3>Logs</h3>
+</section>
+
+<section class="layout-container-wide py-medium">
+<h5>Login / Logout</h5>
+<ul class="py-small pb-0">
+  <% logsSession.forEach(function(log){ %>
+    <% time_login = (log.time_login).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>
+    <% time_logout = log.time_logout == null ? "" : (log.time_logout).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>
+    <li class="d-flex  align-items-center">
+      <span class="mr-5"> <img class="user-profileimage-icon small" src="uploads/<%= log.user_id %>/profile.jpg" alt=""></span>
+      <span class="mr-5"> <span class="text-lighter text-smaller">Login</span> <%= time_login %></span>
+      <span class="mr-5"> <span class="text-lighter text-smaller">Logout</span> <%= time_logout %></span>
+    </li>
+  <% }) %>
+</ul>
+
+</section>
+
+
+<section class="layout-container-wide py-medium">
+  <h5>Profile Views</h5>
+  <ul class="py-small pb-0">
+    <% logsProfileView.forEach(function(log){ %>
+      <% time = (log.time).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>
+      <li class="d-flex align-items-center">
+        <span class="mr-3"><img class="user-profileimage-icon small" src="uploads/<%= log.user_id_viewer %>/profile.jpg" alt=""></span>
+        <span class="mr-3 text-smaller text-lighter"> viewed </span>
+        <span class="mr-5"><img class="user-profileimage-icon small" src="uploads/<%= log.user_id_profile %>/profile.jpg" alt=""></span>
+        <span class="mr-5 col-3"><%= time %></span>
+      </li>
+    <% }) %>
+  </ul>
+  
+  </section>
+
+
+
+  <section class="layout-container-wide py-medium">
+    <h5>Links Clicks - by logged users</h5>
+    <ul class="py-small pb-0">
+      <% logsUserClickLink.forEach(function(log){ %>
+        <% time = (log.time).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>
+        <li class="d-flex  align-items-center">
+          <span class="mr-5"> <img class="user-profileimage-icon small" src="uploads/<%= log.id_user_clicking %>/profile.jpg" alt=""></span>
+          <span class="mr-5"> <img class="user-profileimage-icon small" src="uploads/<%= log.id_user_profile %>/profile.jpg" alt=""></span>
+          <span class="mr-5"> <span class="text-lighter text-smaller">name</span> <%= log.link_name %></span>
+          <span class="mr-5"> <span class="text-lighter text-smaller">url</span> <%= log.link_url %></span>
+          <span class="mr-5"> <%= time %></span>
+        </li>
+      <% }) %>
+    </ul>
+    
+    </section>
+
+
+    <section class="layout-container-wide py-medium">
+      <h5>Links Clicks - by visitors</h5>
+      <ul class="py-small pb-0">
+        <% logsVisitorClickLink.forEach(function(log){ %>
+          <% time = (log.time).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>
+          <li class="d-flex  align-items-center">
+            <span class="mr-5"> <img class="user-profileimage-icon small" src="uploads/<%= log.id_user_profile %>/profile.jpg" alt=""></span>
+            <span class="mr-5"> <span class="text-lighter text-smaller">name</span> <%= log.link_name %></span>
+            <span class="mr-5"> <span class="text-lighter text-smaller">url</span> <%= log.link_url %></span>
+            <span class="mr-5"> <%= time %></span>
+          </li>
+        <% }) %>
+      </ul>
+      
+      </section>
+
+    
+
+ <%- include partials/footer-account %>

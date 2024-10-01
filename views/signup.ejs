@@ -1,0 +1,356 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hevoke - Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <link rel='stylesheet' href='../css/style.css' />
+    <link rel='stylesheet' href='../css/access.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="access signup">
+
+<section>
+
+ <div class="central-form-container h-100">
+
+    <div class="container-signupform">
+
+    <% if (!locals.status || locals.status!="OK") { %>
+    <form id="form-signup" class="access-form form-signup" action="/signup" method="post" onsubmit="return validateForm()">
+
+        <div>
+        <span class="site-logo-text logo-text-small">Hevoke</span>
+        <br>
+        <h5>Create your free Hevoke account</h5>
+
+        <% if (locals.status && status=="KO" && typeError=="insert") { %>
+            <div class="alert alert-danger"> A problem occurred. Seems that this email address is already been added. </div>
+        <% } %>
+        <% if (locals.status && status=="KO" && typeError=="mailer") { %>
+            <div class="alert alert-danger">  A problem occurred. There was an error while we tried to send the activation email. </div>
+        <% } %>
+
+        </div>
+
+        <div>   
+        
+        <div class="label-flex">
+            <label>Username</label> 
+            <span id="wrapper-requirements-username"><div id="requirements-username"><p class="text-smaller">Username can include: letters, numbers, '_' and '.'</p> </div></span>
+        </div>
+        
+        <span><input type="text" class="input-lead" id="username" name="username" style="text-transform: lowercase" required><i id="username-status">✓</i></span>
+        <span id="signup-username-response"></span>
+
+        <label>Email</label>
+        <span><input type="text" class="input-lead" id="email" name="email" required><i id="email-status">✓</i></span>
+        <span id="response"></span>
+        <span id="signup-email-response"></span>
+
+        <label>Password</label>
+        <div id="requirements-password">
+            <p class="text-smaller">Password must contain the following:</p>
+            <ul class="requirements-list">
+            <li id="letter" class="invalid">A <b>lowercase</b> letter</li>
+            <li id="capital" class="invalid">A <b>capital (uppercase)</b> letter</li>
+            <li id="number" class="invalid">A <b>number</b></li>
+            <li id="length" class="invalid">Minimum <b>8 characters</b></li>
+            </ul>
+        </div>
+        <span><input type="password" class="input-lead" id="password" name="password"  required><i id="password-status">✓</i></span>
+        <span id="signup-password-response"></span>
+
+
+        <div class="checkbox"><input type="checkbox" id="checkbox-agree" class="d-inline mr-2" required> <p>I accept your <a href="terms">Terms of Use</a> and have read your <a href="privacy">Privacy Policy</a> </p></div>
+        <div class="checkbox"><input type="checkbox" name="opt_newsletter" class="d-inline mr-2"> <p>I want to receive relevant updates and exclusive sponsor offers (no spam, every 1-2 weeks, opt-out anytime).</p></div>
+
+        </div>
+
+        <div>
+            <button type="submit" id="btn-signup-submit" class="btn btn-big btn-bg-outline btn-mobile-stretch">Create account</button>
+        </div>
+
+    </form>
+
+
+    <% } %>
+
+
+
+    <% if (locals.status && status=="OK") { %>
+        <div class="layout-container-medium py-large">
+            <span class="site-logo-text logo-text-small">Hevoke</span>
+            <hr>
+            <h4>Check your email.</h4>
+            
+            <p class="lead py-small">We’ve sent a message to <%=email%> with a link to activate your account.</p>
+            <div class="text-lighter">
+                If you don’t see an email from us within a few minutes:
+                <br>• Check also your spam folder.
+                <br>• Verify if you typed your email correctly: <%=email%> (if not just go back and start a new signup).
+                <br>• Make sure you don't have special filtering (or firewalls) activated in your email provider settings.
+                <br><p class="text-smaller text-lighter">If you can't resolve the issue, please contact support@hevoke.com.</p>
+            </div>
+        </div>
+    <% } %>
+
+    </div>
+        
+</div>
+             
+</section>
+           
+            
+
+<!--INCLUSIONE JQUERY AJAX-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+<script>
+ /*-------------------------------------------------------- SIGNUP INSTRUCTIONS ---------------------------------------------------*/
+    var inputUsername = document.getElementById("username");
+
+    inputUsername.onfocus = function() {
+      document.getElementById("requirements-username").style.display = "block";
+    }
+    
+    inputUsername.onblur = function() {
+      document.getElementById("requirements-username").style.display = "none";
+    }
+
+    var inputPassword = document.getElementById("password");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+    
+    inputPassword.onfocus = function() {
+      document.getElementById("requirements-password").style.display = "block";
+    }
+    
+    inputPassword.onblur = function() {
+      document.getElementById("requirements-password").style.display = "none";
+    }
+    
+    inputPassword.onkeyup = function() {
+      var lowerCaseLetters = /[a-z]/g;  // Validate lowercase letters
+      if(inputPassword.value.match(lowerCaseLetters)) { letter.classList.remove("invalid"); letter.classList.add("valid");}
+      else { letter.classList.remove("valid"); letter.classList.add("invalid");}
+      
+      var upperCaseLetters = /[A-Z]/g;  // Validate capital letters
+      if(inputPassword.value.match(upperCaseLetters)) { capital.classList.remove("invalid"); capital.classList.add("valid");}
+      else { capital.classList.remove("valid"); capital.classList.add("invalid");}
+
+      var numbers = /[0-9]/g;  // Validate numbers
+      if(inputPassword.value.match(numbers)) { number.classList.remove("invalid"); number.classList.add("valid"); }
+      else {number.classList.remove("valid"); number.classList.add("invalid");}
+      
+      if(inputPassword.value.length >= 8) { length.classList.remove("invalid"); length.classList.add("valid");}  // Validate length
+      else {length.classList.remove("valid"); length.classList.add("invalid");}
+    }
+    
+</script>
+
+
+<script>
+/*-------------------------------------------------------- SIGNUP VALIDATION ---------------------------------------------------*/
+
+var formValid = false;
+var checkUsername = false;
+var checkEmail = false;
+var checkPassword = false;
+
+function checkInputUsername(){
+    var username = document.getElementById("username").value;
+        if(username.length == 0){
+                $('#signup-username--response').html(""); document.getElementById("username-status").classList.remove("success");
+                document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready");
+                return;
+                $("#signup-email-response").html("");
+        }
+
+        if(username.length < 2 || username.length > 30){
+            checkUsername = false;
+            $('#signup-username-response').html("<span class='form-response'>Username must be length 2-30.</span>");
+            document.getElementById("username-status").classList.remove("success");
+            document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready");
+        }
+        var letterNumber = /^[A-Za-z0-9_.]*$/;
+        if(!username.match(letterNumber)) {
+            checkUsername = false;
+            $('#signup-username-response').html("<span class='form-response'>Username can include: letters, numbers, '_' and '.'</span>");
+            document.getElementById("username-status").classList.remove("success");
+            document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready");
+        }
+        if(username.length >= 2 && username.length < 30 && username.match(letterNumber)){
+
+            $.ajax({
+                url: '/signupCheckUsername',
+                type: 'post',
+                data: {username: username},
+                success: function(response){
+                    if(response == "false"){
+                        checkUsername = false;
+                        $('#signup-username-response').html("<span class='form-response'>This username is already used for an account.</span>");
+                        document.getElementById("username-status").classList.remove("success");
+                        document.getElementById("username-status").innerHTML = "x";
+                        document.getElementById("username-status").classList.add("input-review");
+                        document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready");
+                    }
+                    else{
+                        checkUsername = true;
+                        $('#signup-username-response').html("");
+                        document.getElementById("username-status").classList.add("success");
+                        document.getElementById("username-status").innerHTML = "✓";
+                        if(checkEmail && checkPassword){ document.getElementById("btn-signup-submit").classList.add("btn-bg-signup-ready"); }
+                    
+                    }
+                    
+                }
+            });
+        }
+           
+       
+}
+
+
+function checkInputEmail(){
+    
+        var email =  document.getElementById("email").value.trim();
+        if(email.length == 0){
+            $('#signup-email-response').html(""); document.getElementById("email-status").className = '';
+            return;
+        }
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        if (email.match(mailformat)){
+                if(email != ''){
+                    $.ajax({
+                        url: '/signupCheckEmail',
+                        type: 'post',
+                        data: {email: email},
+                        success: function(response){
+                            if(response == "false"){
+                                checkEmail = false;
+                                $('#signup-email-response').html("<span class='form-response'>This email is already used for an account.</span>");
+                                document.getElementById("email-status").innerHTML = "x";
+                                document.getElementById("email-status").className = '';
+                                document.getElementById("email-status").classList.add("input-review");
+                                document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready");
+                            }
+                            else{
+                                checkEmail = true;
+                                $('#signup-email-response').html("");
+                                document.getElementById("email-status").innerHTML = "✓";
+                                document.getElementById("email-status").classList.add("success");
+                                if(checkUsername && checkPassword){ document.getElementById("btn-signup-submit").classList.add("btn-bg-signup-ready"); }
+                            }
+                        }
+                    });
+                }
+                else{
+                    $("#signup-email-response").html("");
+                }
+        }
+        else{
+            checkEmail = false;
+            $('#signup-email-response').html("<span class='form-response'>Not a valid format for emails.</span>");
+            document.getElementById("email-status").classList.remove("success");
+            document.getElementById("email-status").innerHTML = "x";
+            document.getElementById("email-status").classList.add("input-review");
+            document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready");
+        }
+}
+
+
+function checkInputPassword(){
+    var password = document.getElementById("password").value;
+   
+    if(password.length > 0){
+      var lowerCaseLetters = /[a-z]/g;  // Validate lowercase letters
+      var upperCaseLetters = /[A-Z]/g;  // Validate capital letters
+      var numbers = /[0-9]/g;  // Validate numbers
+
+      if(inputPassword.value.length >= 8 &&  inputPassword.value.match(numbers) &&  inputPassword.value.match(upperCaseLetters) &&  inputPassword.value.match(lowerCaseLetters)){
+           checkPassword = true;
+           
+           document.getElementById("password-status").innerHTML = "✓";
+           document.getElementById("password-status").classList.add("success");
+           if(checkEmail && checkUsername){ document.getElementById("btn-signup-submit").classList.add("btn-bg-signup-ready"); }
+           
+        }
+        else{
+            checkPassword = false;   
+            document.getElementById("password-status").className = '';
+            document.getElementById("password-status").innerHTML = "x";
+            document.getElementById("password-status").classList.add("input-review");
+            document.getElementById("btn-signup-submit").classList.remove("btn-bg-signup-ready"); 
+        }
+    }
+}
+
+
+
+$('#username').on('change', function(){  checkInputUsername(); });
+
+$("#email").on('change', function(){ checkInputEmail(); });
+
+$('#password').on('change', function(){ checkInputPassword(); });
+
+
+
+function validateForm() {
+    checkInputUsername();
+    checkInputEmail();
+    checkInputPassword();
+
+    if(!checkUsername){ document.getElementById("username").classList.add("input-review"); }
+    if(!checkEmail){ document.getElementById("email").classList.add("input-review"); }
+    if(!checkPassword){ document.getElementById("password").classList.add("input-review"); }
+
+    if(checkUsername){ document.getElementById("username").classList.remove("input-review"); }
+    if(checkEmail){ document.getElementById("email").classList.remove("input-review"); }
+    if(checkPassword){ document.getElementById("password").classList.remove("input-review"); }
+
+    if(!checkUsername || !checkEmail || !checkPassword){
+        return false;
+    }
+    if(checkUsername && checkEmail && checkPassword){
+       return true;
+    }
+}
+
+
+
+/* PREVENT SPACES IN INPUTS */
+
+var inputUsername = document.querySelector('[name="username"]');
+inputUsername.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode; if (key === 32) { event.preventDefault(); }
+});
+
+var inputEmail = document.querySelector('[name="email"]');
+inputEmail.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode; if (key === 32) { event.preventDefault(); }
+});
+
+var inputPassword = document.querySelector('[name="password"]');
+inputPassword.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode; if (key === 32) { event.preventDefault(); }
+});
+
+</script>
+             
+
+<script>
+    /*
+    function init() { document.getElementById("form-signup").reset(); }
+    window.onload = init;
+    */
+</script>
+   
+</body>
+</html>

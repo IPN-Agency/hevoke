@@ -1,0 +1,121 @@
+
+
+<%- include partials/header %>
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+
+  <div class="content">
+
+        <%- include partials/connections-nav %>
+
+        <section class="layout-container-wide py-medium pb-0">
+
+          <h4>Following</h4>
+         
+        </section>
+       
+
+          <section class="layout-container-wide py-small">
+
+              <% if (users_result.length>0) { %>
+              
+                <div class="row">
+   
+                <% users_result.forEach(function(res){ %>
+
+                    <div class="col-md-4 col-lg-3">
+                      <div class="card-user card-user-style0bg1 <%= res.artist_macro %>">
+
+                        <div class="content-image">
+                          <a href="/profile/<%= res.user_name %>"><img src="../uploads/<%= res.user_id %>/profile.jpg" alt="" ></a>
+                        </div>
+
+                          <div class="content-text">
+                            <div class="content-text-header">
+                            <span class="artist-name"><a href="/profile/<%= res.user_name %>"><%= res.artist_name %></a></span>
+                            
+                          </div>
+                          <div class="content-text-bottom">
+                              <span class="card-user-label"><%= res.artist_macro %></span> 
+                              <span class="artist-type"><%= res.artist_type %></span>
+                              <span><i class="icon-location"></i><%= res.country %></span>
+                          </div>
+                      
+                          </div>
+                    </div>
+                      
+                  </div>
+                <% }) %>
+              </div>
+
+              <% } %>
+
+
+              <% if (users_result.length==0) {  %> <%- include partials/connections-blank %> <% } %>
+
+
+
+            </section>
+  </div>
+</div>
+
+
+
+
+
+
+              <script>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                  console.log('DOM completamente caricato e analizzato');
+                  document.forms.searchsortform.searchsort.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                      var attributeClickedSort=document.forms.searchsortform.searchsort.value;
+                     
+              
+                           var newUrl = "";
+                          
+                          //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+                           var url = window.location.href;
+                          
+                          var tempArray = url.split("?");
+                          
+                          var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+              
+                          if (additionalURL) {
+                             tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                             console.log(tempArray[tempArray.length-1]);
+              
+                             //controllo se nell'url alla fine c'è già un parametro sortby
+                             if(tempArray[tempArray.length-1].startsWith("sortby")){
+                                console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                                var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                                console.log(urlBeforeSortby);
+                                newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort;
+                                
+              
+                             }
+                             else{
+                                console.log("last parameter is not sort by");
+                                newUrl = url + "&sortby="+attributeClickedSort;
+              
+                             }
+              
+                             console.log(newUrl);
+                             window.location = newUrl;
+              
+                          }
+              
+              
+                    })
+                  });
+              });
+              
+              
+              
+              </script>
+
+
+ <%- include partials/footer-account %>

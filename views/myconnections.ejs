@@ -1,0 +1,142 @@
+
+
+<%- include partials/header %>
+
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+
+  <div class="content">
+
+    <%- include partials/connections-nav %>
+
+    <section class="layout-container-wide py-medium">
+
+      <h4>Overview</h4>
+
+      <ul class="dashboard-stats py-medium">
+
+        <li> <span>Likes</span> <span><%= num_likes %></span> <span> </span></li>
+
+        <li> <span>Followers</span> <span><%= num_followers %></span> <span> </span>  </li>
+
+        <li> <span>Signals Collaboration</span> <span><%= num_signalscollab %></span>  <span> </span> </li>
+
+      </ul>
+
+    </section>
+
+    <section class="layout-container-wide py-small">
+
+    </section>
+
+        
+  </div>
+</div>
+
+              <script>
+                var url = window.location.href;
+                
+                var tempArray = url.split("?");
+                
+                var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+              
+                if (additionalURL) {
+                  tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                  console.log(tempArray[tempArray.length-1]);
+              
+                  //controllo se nell'url alla fine c'è già un parametro sortby
+                  if(tempArray[tempArray.length-1].startsWith("sortby")){
+                    var valueSortby=tempArray[tempArray.length-1].split("=")[1];
+                  
+                    document.getElementById(valueSortby).checked = true;
+               
+                  }
+                }
+              
+              </script>
+              
+                      
+              
+              <script>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                  console.log('DOM completamente caricato e analizzato');
+                  document.forms.searchsortform.searchsort.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                      var attributeClickedSort=document.forms.searchsortform.searchsort.value;
+                     
+              
+                           var newUrl = "";
+                          
+                          //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+                           var url = window.location.href;
+                          
+                          var tempArray = url.split("?");
+                          
+                          var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+              
+                          if (additionalURL) {
+                             tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                             console.log(tempArray[tempArray.length-1]);
+              
+                             //controllo se nell'url alla fine c'è già un parametro sortby
+                             if(tempArray[tempArray.length-1].startsWith("sortby")){
+                                console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                                var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                                console.log(urlBeforeSortby);
+                                newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort;
+                  
+                             }
+                             else{
+                                console.log("last parameter is not sort by");
+                                newUrl = url + "&sortby="+attributeClickedSort;
+              
+                             }
+              
+                             console.log(newUrl);
+                             window.location = newUrl;
+              
+                          }
+              
+              
+                    })
+                  });
+              });
+              
+ 
+              </script>
+
+
+<script>
+
+
+// code to add:
+if (filter === '*') {
+  users.forEach(animal => user.classList.remove('hidden'));
+}
+
+// full JS code:
+function filterUsers(e) {
+  const users = document.querySelectorAll(".filterDiv");
+  let filter = e.target.dataset.filter;
+ 
+  if (filter === '*') {
+    users.forEach(user => user.classList.remove('hidden'));
+  }  else {
+    users.forEach(user => {
+      user.classList.contains(filter) ? 
+      user.classList.remove('hidden') : 
+      user.classList.add('hidden');
+    });
+  };
+};
+</script>
+
+
+
+
+
+
+ <%- include partials/footer-account %>

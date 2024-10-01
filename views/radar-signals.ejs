@@ -1,0 +1,160 @@
+
+<%- include partials/header %>
+    
+ 
+<% var date = (res_radar.created).toISOString().replace(/T/, ' ').replace(/\..+/, ''); date = date.split(" ")[0]; %>
+
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+  <div class="content radar-report-bg">
+
+
+    <section class="layout-container-wide py-medium section-bg-lighter-fade">
+
+          <div class="radar-report-header">
+
+            <div>                  
+                <div><h3>Your Radar</h3></div>     
+                <div class="py-small">
+                  <span class="profile-radar-tag">
+                    <span class="profile-radar-image"><img src="/icons/profile/radar.svg" alt=""></span>
+                    <span class="profile-radar-value"><%= res_radar.category_id %></span>
+                  </span>
+                </div>
+                <button class="collapsible">Details / Manage</button>
+                <div class="collapsible-content">
+                    <ul class="radar-details">
+                        <li><span class="detail-title">Started</span><p class="text-smaller"><%=date %></p></li>              
+                        <li><span class="detail-title">Radar ID</span><p class="text-smaller"><%=res_radar.radar_id %></p> </li>
+                        <li><a onclick="clickDeleteRadar('<%=res_radar.radar_id %>', '<%= res_radar.category_id %>')" class="btn btn-mini btn-bg-outline">Destroy Radar</a> </li>
+                    </ul>
+                </div>
+              
+            </div>
+
+            <div>
+              <div class="radar-counter counter-big">
+                <span class="radar-counter-title">Signals Received</span><span class="radar-counter-value"><%= users_result.length %></span>
+               </div>
+            </div>
+
+
+          </div>
+
+
+    </section>
+
+
+<% if(logged && users_result.length == 0){ %>
+  <section class="layout-container-wide py-large">
+    <p>Still no signals. Let's check later.</p>
+  </section>
+
+<% } %>
+
+
+<% if(logged && users_result.length > 0){ %>
+
+  <section class="layout-container-wide py-medium">
+
+      <div><h6>All users who responded to this radar</h6></div>
+      <span class="text-lighter-more text-smaller">(Results are ordered from last to first)</span>
+     
+
+      <div class="row-cards-round py-small">
+                
+        <% users_result.forEach(function(res){%>
+              <%if(userLogged.user_id != res.user_id){%>
+              <div class="card-round">
+                <div class="card-container style-round">
+                    <figure>
+                        <a href="/profile/<%= res.user_name%>"><img class="img_profile" src="/uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                    </figure>
+                    <div class="artist_info">     
+                      <a><h5 class="name"><%= res.artist_name %></h5></a>
+                    </div>
+                </div>
+              </div>
+              <%}%>
+        <%})%>
+        
+      </div>
+      
+  </section>
+  
+<% } %>
+
+
+
+
+</div>
+</div>
+
+
+
+
+<script>
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
+  
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.maxHeight){
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      } 
+    });
+  }
+  </script>
+
+
+
+<div id="modal" class="modal">
+  <div class="modal-content animated bounce">
+      <div class="modal-text">
+          <h5>Confirm to destroy this radar</h5>
+          <div class="d-flex justify-content-center">
+          <span class="profile-radar-tag">
+            <span class="profile-radar-image"><img src="/icons/profile/radar.svg" alt=""></span>
+            <span class="profile-radar-value" id="modal-delete-radar-radar-name"></span>
+          </span>
+        </div>
+          <p class="text-smaller"><b>Warning: </b><br>This action is <b>not reversible</b>.<br>All signals sent to this radar will no longer be associated to this.</p>
+          <form action="/deleteRadar" method="POST">
+            <input type="text" class="" name="radar_id" id="input-form-delete-radar-radar-id" hidden>
+            <a class="btn btn-medium btn-bg-lighter" id="btn-close-modal">Go back</a>
+            <input type="submit" class="btn btn-medium btn-bg-delete" value="Confirm and destroy">
+            </form>
+      </div>
+  </div>
+</div>
+
+
+<script>
+
+var modal = document.getElementById("modal");
+var btn_open_modal = document.getElementById("btn-open-modal");
+var btn_close_modal = document.getElementById("btn-close-modal");
+
+function clickDeleteRadar(radar_id, radar_name) {
+  modal.style.display = "grid";
+  document.getElementById("input-form-delete-radar-radar-id").value = radar_id;
+  document.getElementById("modal-delete-radar-radar-name").innerText = radar_name;
+}
+
+btn_close_modal.onclick = function() { modal.style.display = "none"; }
+
+window.onclick = function(event) {  if (event.target == modal) { modal.style.display = "none"; }}
+
+</script>
+
+
+<%- include partials/footer-account %>
+
+

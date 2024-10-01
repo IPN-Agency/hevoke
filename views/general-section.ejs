@@ -1,0 +1,281 @@
+
+<%- include partials/header %>
+
+
+
+<div id="panel-message-floating" class="panel-message-floating">
+
+<span class="scroll-icon"><span class="scroll-icon__dot"></span></span>
+<p>Muovi il puntatore in una sezione ed esplorala usando la rotellina</p>
+</div>
+
+
+  
+<div class="container-layout-sidebar">
+
+<%- include partials/sidebar %>
+
+
+<div class="content">
+
+
+    <div class="layout-container-wide py-medium">
+              
+
+            <div class="row align-items-center justify-between">
+              <div class="col-auto" style="max-width: 60%;">
+
+                <!-------------------IF musicartists---------------->
+                <% if(macro_section == "musicartists"){%><p class="fb1">All <span class="color-primary">Music</span> Artists</p> <p class="fb2">All Music Artists</p><% }%>
+
+                <!-------------------IF danceartists---------------->
+                <% if(macro_section == "danceartists"){%><p class="fb1">All <span class="color-primary">Dance</span> Artists</p> <p class="fb2">All Dance Artists</p><% }%>
+
+                 <!-------------------IF videoartists---------------->
+                 <% if(macro_section == "videoartists"){%><p class="fb1">All <span class="color-primary">Video</span> Artists</p>  <p class="fb2">All Video Artists</p><% }%>
+
+
+              </div>
+
+            
+                <div class="col-auto ml-auto">
+                    <div class="search-result-filters">
+                        Sort by
+                              <form name="searchsortform">
+                                <div class="select" tabindex="1">
+                                  <input id="auto" class="selectopt" name="searchsort" type="radio" value="auto" checked>
+                                  <label for="auto" class="option">Recommended</label>
+                                  <input id="likes" class="selectopt" name="searchsort" type="radio" value="likes">
+                                  <label for="likes" class="option">Likes</label>
+                                  <input id="newusers" class="selectopt" name="searchsort" type="radio" value="newusers">
+                                  <label for="newusers" class="option">Newest Users</label>
+                                  <input id="artist_name" class="selectopt" name="searchsort" type="radio" value="artist_name">
+                                  <label for="artist_name" class="option">Artist Name</label>
+                                </div>
+                              </form>
+                      </div>
+                  
+                </div>
+
+            </div>
+                        
+     <hr>
+
+
+            <!-------------------IF MACRO M---------------->
+            
+            <% if(macro_section == "musicartists"){%>
+              <div class="row">
+                <% res_users_macro_music.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            
+
+            <!-------------------IF MACRO D---------------->
+
+            <% if(macro_section == "danceartists" ){%>
+              <div class="row">
+                <% res_users_macro_dance.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+            <!-------------------IF MACRO V---------------->
+            <% if(macro_section == "videoartists"){%>
+              <div class="row">
+                <% res_users_macro_video.forEach(function(res){%>
+                  
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                    <div class="card-container style3">
+
+                      <div class="front">
+                        <figure>
+                            <a href="../profile/<%= res.user_name%>"><img class="img_profile" src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                          </figure>
+                      
+                      </div>
+
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>   
+                              <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                              <%}%>
+                            <%})%>   
+                      </div>
+
+                    
+                    </div>
+                  </div>
+                    
+                  <%})%>
+                </div>
+            <% }%>
+
+                
+                
+
+            </div>
+          
+
+    </div>
+
+
+</div>
+</div>
+
+
+  <script> /*PRENDO PARAMETRO SORTYBY DA URL E IN BASE A QUELLO IMPOSTO COME CHECKED L'ELEMENTO RADIO DENTRO LA SELECT PER ORDINARE, se non c'è il default checked è reccomended*/
+    var url = window.location.href;
+
+    var tempArray = url.split("?");
+    
+    var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+  
+    if (additionalURL) {
+      tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+      console.log(tempArray[tempArray.length-1]);
+  
+      //controllo se nell'url alla fine c'è già un parametro sortby
+      if(tempArray[tempArray.length-1].startsWith("sortby")){
+        var valueSortby = tempArray[tempArray.length-1].split("=")[1];
+        document.getElementById(valueSortby).checked = true;
+      }
+    }
+  
+</script>
+
+
+<script> /*AGGIUNGO EVENT LISTENER AD OGNI ELEMENTO NEL DROPDOWN ORDINAMENTO PER FARE IL REFRESH DELLA PAGINA CON L'OPZIONE SCELTA*/
+    document.addEventListener('DOMContentLoaded', (event) => {
+          document.forms.searchsortform.searchsort.forEach(radio => {
+              radio.addEventListener('change', () => {
+                    var attributeClickedSort = document.forms.searchsortform.searchsort.value;
+
+                    var newUrl = "";
+                    
+                    //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+                    var url = window.location.href;
+                    if(url.includes("?")){ // se ci sono parametri
+                              var tempArray = url.split("?");
+                              var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+            
+                              tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                              console.log(tempArray[tempArray.length-1]);
+                
+                              //controllo se nell'url alla fine c'è già un parametro sortby
+                              if(tempArray[tempArray.length-1].startsWith("sortby")){
+                                  console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                                  var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                                  console.log(urlBeforeSortby);
+                                  newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort;
+                              }
+                              else{
+                                  console.log("last parameter is not sort by");
+                                  newUrl = url + "&sortby="+attributeClickedSort;
+                              }
+
+                    }
+                    else{
+                      newUrl = url + "?sortby="+attributeClickedSort;
+                    }
+                    
+                    console.log(newUrl);
+                    window.location = newUrl;
+        
+              })
+        });
+  });
+  
+  
+  
+</script>
+
+
+  <%- include partials/footer %>
+  <script>
+    
+    (function() {
+        
+        Array.prototype.forEach.call(document.getElementsByClassName("horizontal-scroll"), function(element) {
+    
+            function scrollHorizontally0(e) {
+            e = window.event || e;
+            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+            element.scrollLeft -= (delta*100); // Multiplied by 40
+            
+            e.preventDefault();
+            }
+    
+            if (element.addEventListener) {
+                element.addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+                element.addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+            
+            } else {
+                element.attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+                
+            }
+    });
+    
+    })();
+    
+    </script>
+</body>
+</html>

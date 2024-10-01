@@ -1,0 +1,277 @@
+<%- include partials/header %>
+
+<div class="container-layout-sidebar">
+
+<%- include partials/sidebar %>
+
+<div class="content">
+
+  <%- include partials/connections-nav %>
+
+  <section class="layout-container-wide py-medium d-none">
+  <h3>Radar Control Panel</h3>
+  </section>
+
+  <% if (res_radars.length > 0) { %>
+  <section class="layout-container-wide py-small">
+  <div class="d-flex align-items-center justify-content-between">
+    <div> <h5>Your Active Radars</h5> </div>
+    <div> <a href="/new-radar" class="btn btn-medium btn-bg-primary">+ New radar</a> </div>
+  </div>
+   <br>
+
+  <ul class="wrapper-radars-manage">
+  <% res_radars.forEach(function(radar){ %>
+
+      <% 
+      var usersForThisRadar =  users_result.filter(function(user_signal) {
+        return user_signal.radar_id == radar.radar_id;
+      });
+      var numUsersForThisRadar = usersForThisRadar.length;
+      %>
+ 
+      <% var date = (radar.created).toISOString().replace(/T/, ' ').replace(/\..+/, ''); date = date.split(" ")[0]; %>
+      <li>
+        <div class="radar-header">
+          <span class="radar-category"><span class="icon icon-np icon-medium"><img src="/icons/f/rss.svg" alt=""></span><%= radar.category_id %></span>
+          
+          <div class="wrapper-radar"><div class="radar"><div class="sonar"></div><div class="sonar delayed"></div></div></div>
+          <div class="radar-stats">
+            <div><span>Risposte</span> <span class="radar-count-users"><%= numUsersForThisRadar %></span></div>
+          </div>
+        </div>
+        
+        
+
+        <div class="radar-details">
+         
+            <div><span>Started</span> <span><%= date %></span></div>
+            <div><span>Radar ID</span> <span class="radar-id text-smaller-more"><%= radar.radar_id %></span></div>
+            <div> <a onclick="clickDeleteRadar('<%= radar.radar_id %>', '<%= radar.category_id %>')" class="btn btn-mini btn-bg-outline">Destroy</a> </div>
+
+        </div>
+        
+
+      </li>
+  <% }) %>
+  </ul>
+  </section>
+  <% } %>
+
+
+<section class="layout-container-wide py-small">
+
+<% if (users_result.length > 0) { %>
+
+      <% res_radars.forEach(function(radar){ %>
+
+        
+          <div class="py-small">
+              <div class="section-scroll-header">
+                  <div>
+                  <h6>Radar <span class="color-primary"><%= radar.category_id %> </span> radar responses </h6>
+                  </div>
+                  <p class="text-smaller text-lighter"><%= radar.radar_id %></p>
+               </div>
+          </div>
+          
+          <div class="row">
+           
+            <% users_result.forEach(function(res){ %>
+              <% if (res.radar_id == radar.radar_id) {  %>
+                
+              <div class="col-md-4 col-lg-3 filterDiv <%= res.artist_type %>">
+                  <div class="card-user card-user-stylePro <%= res.artist_macro %>" data-src-type="<%= res.artist_type %>">
+
+                      <div class="content-image">
+                        <a href="/profile/<%= res.user_name %>"><img src="../uploads/<%= res.user_id %>/profile.jpg" alt="" ></a>
+                      </div>
+
+                      <div class="content-text wp">
+                          <div class="content-text-header">
+                          <span class="artist-name"><a href="/profile/<%= res.user_name %>"><%= res.artist_name %></a></span>
+                          
+                          </div>
+                          <div class="content-text-bottom">
+                            <span class="card-user-label"><%= res.artist_macro %></span>
+                            <span class="artist-type"><%= res.artist_type %></span>
+                            <span class=""><i class="icon-location"></i><%= res.country %></span>
+                          <span></span>
+                          </div>
+                      </div>
+                  
+                </div>
+              </div>
+
+              <% } %>  <!--end if = -->
+            <% }) %> <!--end foreach = -->
+            
+          </div>
+
+      <% }) %> <!--end foreach radars = -->
+   
+ <% } %> <!--end if = -->
+
+
+ <% if (res_radars.length > 0 && users_result.length == 0) {  %>
+
+  <p>There are no signals for your radars yet.</p>
+
+<% } %>
+
+<% if (res_radars.length == 0) {  %>
+
+  <p class="lead">You don't have active radars.</p> <br>
+  <a href="/new-radar" class="btn btn-medium btn-bg-lighter">Create a Radar</a>
+
+<% } %>
+
+
+<div class="panel-quick-note">
+  <span class="icon icon-small icon-bg-lighter"> <img src="/icons/f/info.svg" alt=""> </span>
+  <p>You can use a radar to find other users etc</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum illo repudiandae ea iusto expedita sapiente aut unde quibusdam libero tempora.</p>
+  <p class="text-lighter">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit impedit rerum laborum, fugit vitae est.</p>
+</div>
+
+
+</section>
+
+                    
+</section>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+<div id="modal" class="modal">
+  <div class="modal-content animated bounce">
+      <div class="modal-text">
+          <h4>Destroy Radar</h4>
+          <span id="modal-delete-radar-radar-name"></span>
+          <p>Warning: This action is not reversible.<br>All signals sent to this radar will no longer be associated to this.</p>
+          <form action="/deleteRadar" method="POST">
+            <input type="text" class="" name="radar_id" id="input-form-delete-radar-radar-id" hidden>
+            <a class="btn btn-medium btn-bg-lighter" id="btn-close-modal">Annulla</a>
+            <input type="submit" class="btn btn-medium btn-bg-delete" value="Delete">
+            </form>
+      </div>
+  </div>
+</div>
+
+
+<script>
+
+var modal = document.getElementById("modal");
+var btn_open_modal = document.getElementById("btn-open-modal");
+var btn_close_modal = document.getElementById("btn-close-modal");
+
+function clickDeleteRadar(radar_id, radar_name) {
+  modal.style.display = "grid";
+  document.getElementById("input-form-delete-radar-radar-id").value = radar_id;
+  document.getElementById("modal-delete-radar-radar-name").innerText = radar_name;
+}
+
+btn_close_modal.onclick = function() { modal.style.display = "none"; }
+
+window.onclick = function(event) {  if (event.target == modal) { modal.style.display = "none"; }}
+
+</script>
+
+
+
+
+<script>
+var url = window.location.href;
+
+var tempArray = url.split("?");
+
+var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+
+if (additionalURL) {
+  tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+  console.log(tempArray[tempArray.length-1]);
+
+  //controllo se nell'url alla fine c'è già un parametro sortby
+  if(tempArray[tempArray.length-1].startsWith("sortby")){
+    var valueSortby=tempArray[tempArray.length-1].split("=")[1];
+    document.getElementById(valueSortby).checked = true;
+  }
+}
+
+</script>
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM completamente caricato e analizzato');
+    document.forms.searchsortform.searchsort.forEach(radio => {
+      radio.addEventListener('change', () => {
+        var attributeClickedSort=document.forms.searchsortform.searchsort.value;
+      
+            var newUrl = "";
+            
+            //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+              var url = window.location.href;
+            
+            var tempArray = url.split("?");
+            
+            var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+
+            if (additionalURL) {
+                tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                console.log(tempArray[tempArray.length-1]);
+
+                //controllo se nell'url alla fine c'è già un parametro sortby
+                if(tempArray[tempArray.length-1].startsWith("sortby")){
+                  console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                  var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                  console.log(urlBeforeSortby);
+                  newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort; 
+                }
+                else{
+                  console.log("last parameter is not sort by");
+                  newUrl = url + "&sortby="+attributeClickedSort;
+                }
+                console.log(newUrl);
+                window.location = newUrl;
+            }
+      })
+    });
+});
+
+</script>
+
+
+<script>
+
+if (filter === '*') {
+  users.forEach(animal => user.classList.remove('hidden'));
+}
+
+function filterUsers(e) {
+  const users = document.querySelectorAll(".filterDiv");
+  let filter = e.target.dataset.filter;
+ 
+  if (filter === '*') {
+    users.forEach(user => user.classList.remove('hidden'));
+  }
+  else {
+    users.forEach(user => {
+      user.classList.contains(filter) ? user.classList.remove('hidden') : user.classList.add('hidden');
+    });
+  };
+};
+</script>
+
+
+
+ <%- include partials/footer-account %>

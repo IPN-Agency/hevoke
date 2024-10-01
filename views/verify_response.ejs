@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hevoke - Account Activation</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <link rel='stylesheet' href='../css/style.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="access nopanel">
+
+    <section class="layout-container-narrow py-medium section-bg-lighter">
+        <span class="site-logo-text logo-text-small">Hevoke</span><br><h4>Account Activation</h4>
+    </section>
+
+    <div class="layout-container-narrow py-medium">
+        <% if (status == "OK") { %>
+            <h3>You're ready.</h3>
+            <hr>
+            <p class="lead">Let's start.</p>
+            <hr>
+            <a href="../login" class="btn btn-medium btn-bg-outline">Login</a>
+        <% } %>
+
+        <% if (status == "KO") { %>
+            <h4>This was unexpected...</h4>
+            <hr>
+            A few things could have happened:
+            <p>- The link is expired.</p>
+            <p>- Your account has been already activated. Try signin in.</p>
+            <hr>
+            <p class="text-smaller text-lighter">If you think this is a problem get in contact with support@hevoke.com and we'll help you as soon as possible.</p>
+            <hr>
+            <a href="/signup" class="btn btn-small btn-bg-outline">Sign Up</a>
+        <% } %>
+      </div>
+
+    </body>
+    </html>

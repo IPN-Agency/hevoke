@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L26 - Chat</title>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style>
+    
+@font-face {
+    font-family: Main;
+    src: url("../fonts/DMSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Heading;
+    src: url("../fonts/DMSans-Medium.ttf") format("truetype");
+}
+
+body{
+    background: rgb(13, 13, 13); color: #fff;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 500;
+    font-family: Heading!important; font-weight: 500!important;
+    line-height: 0.95;
+}
+
+h5, h6{
+    font-family: Heading!important;
+    font-weight: 500!important;
+}
+
+.text-lighter{ opacity: 0.5; }
+
+.text-smaller{font-size: .8em; }
+
+.container-page{
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;   
+}
+
+@media (min-width: 1000px){
+    .container-page{
+        width: 90%;
+    }
+}
+@media (min-width: 1200px){
+    .container-page{
+        width: 75%;
+    }
+}
+
+.content-wrapper{
+    border-radius: 2rem;
+    border: 0;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+}
+@media (min-width: 1000px){
+    .content-wrapper{
+    margin-bottom: 2rem;
+    }
+}
+/************************************************Users Container************************************************/
+
+.users-container {
+    position: relative;
+    padding: 0.5rem;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+
+.users {
+    padding: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.users .person {
+    background: rgba(0, 0, 0, 0.07);
+    padding: .5rem .8rem;
+    cursor: pointer;
+    margin: .5rem;
+    border-radius: 10px;
+    position: relative;
+}
+
+.users .person .status span.newmessage{
+    background: linear-gradient(45deg, rgb(61, 109, 214), rgb(62, 123, 255));
+}
+
+.users .person:hover {
+    background-color: #ffffff09;
+}
+
+.users .person:last-child {
+      border-bottom: 0;
+}
+
+.users .person .user {
+    display: inline-block;
+    position: relative;   
+    display: flex;
+    align-items: center;   
+}
+
+.users .person .user img {
+    width: 50px;
+    height: 50px;
+   border-radius: 50%;
+   object-fit: cover;
+object-position: center;
+ margin-right: 10px;
+}
+
+
+.users .person .name {
+    font-weight: 600;
+    display: inline-block;
+}
+
+.users .person .time {
+     font-weight: 400;
+     font-size: .7rem;
+ text-align: right;
+  opacity: 0.5;
+     margin-left: auto;
+}
+
+ .users .person .status{       
+    padding: .3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+@media (min-width: 1000px){
+    .users .person{
+        padding: 1rem 1rem;
+        font-size: 1.5rem;
+    }
+    .users .person .name {
+    font-size: 1.1rem;
+    }
+}
+
+
+.users .person .status span{
+    display: block;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: none;
+}
+
+ @media (max-width: 767px) {
+    .users .person .user img {
+          width: 38px;
+          height: 38px;
+    }
+    .users .person p.name-time {
+          display: none;
+    }
+    .users .person p.name-time .time {
+        display: none;
+     }
+ }
+
+
+.selected-user, .chat-container{
+    padding: 2em 4.5%;
+}
+.selected-user {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.selected-user img{
+    object-position: center;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: .5em;
+}
+
+.selected-user span {
+    line-height: 100%;
+}
+
+.selected-user span.name {
+    font-family: Heading!important;
+    font-weight: 500!important;
+}
+
+@media (max-width: 800px){
+    .selected-user img{
+        width: 55px;
+        height: 55px;
+    }
+    .selected-user span.name {
+        font-size: 1.6rem;
+    }
+}
+@media (min-width: 800px){
+    .selected-user img{
+        width: 80px;
+        height: 80px;
+    }
+    .selected-user span.name {
+        font-size: 2.6rem;
+    }
+}
+
+/************************************************Chat LEFT SIDE : container************************************************/
+
+.chat-container.show-chat {
+    display: block;
+}
+
+.chat-container {
+    display: none;
+    overflow-y: scroll;
+    position: relative;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(99, 97, 97) rgb(39, 39, 39);
+}
+
+.content-wrapper .row > div:last-child{
+    min-height: 80vh;
+    max-height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.content-wrapper textarea{
+    margin-top: auto;
+}
+
+@media (min-width: 1000px){
+    .content-wrapper .row > div{
+        min-height: 90vh;
+    }
+    .content-wrapper .row > div:last-child{
+        min-height: 80vh;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
+.chat-container li.chat-left, .chat-container li.chat-right {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-bottom: .5em;
+}
+
+.chat-container li .chat-avatar {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.chat-container li .chat-avatar img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-position: center;
+    object-fit: cover;
+}
+
+@media (min-width: 800px){
+    .chat-container li .chat-avatar img {
+    width: 25px;
+    height: 25px;
+    }
+}
+
+.chat-container li.chat-right {
+    justify-content: flex-end;
+}
+
+.chat-container li.chat-right > .chat-avatar {
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+.chat-container li .chat-name {
+    font-size: .75rem;
+    font-weight: bold;   
+}
+
+.chat-container li .chat-text {
+    padding: .8rem 1rem;
+    font-weight: 300;
+    color: white;
+    line-height: 150%;
+    position: relative;
+}
+
+@media (min-width: 800px){
+    .chat-container li .chat-text {
+    padding: 1rem 1.3rem;
+    }
+}
+
+.chat-left .chat-text{
+    border-radius: 0 10px 10px 10px;
+    background: linear-gradient(-45deg,  #9F27B0, #CC2C85 ,  #F8305B);
+}
+
+.chat-right .chat-text{
+    border-radius: 10px 0 10px 10px;
+    background: linear-gradient(-45deg,  #2795b0 , #50afe6, #3e9bd1);
+}
+
+.chat-container li.chat-right > .chat-text {
+    text-align: right;
+}
+
+.chat-container li.chat-right > .chat-text:before {
+    right: -20px;
+    border-color: transparent transparent transparent #ffffff;
+    left: inherit;
+}
+
+.chat-container li .chat-hour {
+    padding: 0;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: .75rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 15px;
+}
+
+
+.chat-container li .chat-hour > span {
+    font-size: 12px;
+    color: #7ae7c6;
+    margin-left: 10px;
+}
+
+.chat-container li.chat-right > .chat-hour {
+    margin: 0 15px 0 0;
+}
+
+.chat_box_wrapper{
+    transition: all 2s ease 0s;
+    top: 0; 
+}
+
+@media (max-width: 767px) {
+        .chat-container li.chat-left,
+        .chat-container li.chat-right {
+            margin-bottom: .5em;
+        }
+        .chat-container li img {
+            width: 32px;
+            height: 32px;
+        }
+        .chat-container li.chat-left .chat-avatar {
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        .chat-container li.chat-left .chat-hour {
+            justify-content: flex-end;
+        }
+        .chat-container li.chat-left .chat-name {
+            margin-left: 5px;
+        }
+        .chat-container li.chat-right .chat-avatar {
+            order: -1;
+            margin: 0 0 5px 0;
+            align-items: center;
+            display: flex;
+            justify-content: right;
+            flex-direction: row-reverse;
+        }
+        .chat-container li.chat-right .chat-hour {
+            justify-content: flex-start;
+            order: 2;
+        }
+        .chat-container li.chat-right .chat-name {
+            margin-right: 5px;
+        }
+        .chat-container li .chat-text {
+            font-size: .9em;
+        }
+}
+
+
+.chat-exit-navigation{
+    display: flex;
+    gap: .5em;
+    padding: 1em 3%;
+}
+
+.btn-navigation-back a{
+    text-decoration: none!important;
+    color: white;
+}
+
+.btn-navigation-back{
+ display: block;
+ font-family: Heading;
+ font-size: .9em;
+ opacity: .7;
+}
+
+.btn-navigation-back img{
+ filter: invert(1);
+ width: 30px;
+ height: 30px;
+ opacity: 0.3;
+ transform: scale(.6);
+ }
+
+.reply{
+    position: relative;
+    display: block;
+    padding: .3rem;
+}
+       
+
+.reply textarea{
+background-color: #ffffff10; 
+  border: none;
+  border-radius: 20px;          
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  color: white!important;
+  resize: none;
+  font-size: 1.2rem;
+}
+
+.reply i {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  right: 50px;
+  top: 42%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-box{
+    animation: slidein 0.5s forwards;
+}
+    
+@keyframes slidein {
+    from {
+        transform: translate3d(0,-40px,0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}
+       
+    </style>
+</head>
+<body>
+
+
+
+<script>
+/*--------------------------------------------------- STYLES CONSOLE LOG ---------------------------------------------------*/        
+function log(msg, type) {
+    // Define different types of styles
+    let style_main = [ "font-size: 14px", "font-family: Arial", "line-height: 2"].join(';');
+    let style_1 = [ "font-size: 16px"].join(';');
+    let style_2 = [ "color: blue"].join(';');
+    let style_3 = [ "color: orange"].join(';');
+    // Set style based on input type
+    let style = style_main + ';';
+    switch(type) {
+        case "style1": style += style_1; break;
+        case "style2": style += style_2; break;
+        case "style3": style += style_3; break;
+        default: break;
+    }
+    console.log(`%c${msg}`, style);
+}
+
+</script>
+
+
+
+<% 
+let artistIdChats = [];  let artistNameChats = []; let artistUsernameChats = [];
+results.forEach(function(res){ 
+    console.log(res);
+    let senderAlreadyPushed = false;
+    var sendByLoggedReceiverAlreadyPushed = false;
+    for(let i = 0; i < artistIdChats.length; i++){
+
+        if(res.sender_id == userLogged.user_id ){ // userlogged is sender
+            if(artistIdChats[i] == res.receiver_id){
+                sendByLoggedReceiverAlreadyPushed = true; //if receiver is already in chats break, no need to push him/her
+                break;
+            }
+        }
+
+        if(res.receiver_id == userLogged.user_id){ // userlogged is receiver
+            if(artistIdChats[i] == res.sender_id){  //if sender is already in chats break, no need to push him/her
+                senderAlreadyPushed = true;
+                break;
+            }
+
+        }
+
+    }
+
+
+    if(res.sender_id == userLogged.user_id && sendByLoggedReceiverAlreadyPushed==false){
+            artistIdChats.push(res.receiver_id);
+            artistNameChats.push(res.receiver_artist_name);
+            artistUsernameChats.push(res.receiver_user_name);
+    }
+
+    if(res.receiver_id == userLogged.user_id && senderAlreadyPushed==false){
+            artistIdChats.push(res.sender_id);
+            artistNameChats.push(res.sender_artist_name);
+            artistUsernameChats.push(res.sender_user_name);
+    }
+})
+%>
+
+<script>
+                                  
+/* -------------------------------------------------------USER LOGGED ------------------------------------------------------------*/
+    let sessionUserJs = JSON.parse('<%- JSON.stringify(userLogged.user_id) %>');
+    let artistNameJs = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+    //sessionUserJs=userLogged.user_id;
+    log("USER LOGGED", "style1");
+    console.log("USER LOGGED ID: " + sessionUserJs);
+    console.log("USER LOGGED ARTIST_NAME: " + artistNameJs);
+
+    let artistIdChats = ('<%- JSON.stringify(artistIdChats) %>');
+    let artistUsernameChats = ('<%- JSON.stringify(artistUsernameChats) %>');
+
+  /*
+    let messages = (`<%- JSON.stringify(messages).replace(/'/g, "\'") %>`);
+   */
+    
+    let messages = ('<%- messages %>');
+    messages = messages.replaceAll("\n","<br>");
+    /*
+    messages = messages.replace(/'/g, "\\'");
+    messages = messages.replaceAll("\n","");
+*/
+
+    console.log("MESSAGES AFTER REPLACE");
+    console.log(messages);
+    
+    log("ALL RELATED MESSAGES IN DB:", "style1");
+
+    console.log("ARRAY MESSAGES AFTER REPLACE");
+    let arrayMessagesJs = JSON.parse(messages);
+    console.log(arrayMessagesJs);
+    console.log("NUM TOTAL MESSAGES (SENT OR RECEIVED): " + arrayMessagesJs.length);
+
+    var userLoggedHasChats = false;
+    if(arrayMessagesJs.length>0){userLoggedHasChats=true;}
+
+    let chats = JSON.parse('<%- JSON.stringify(artistIdChats) %>');
+    console.log("NUM CHATS: " + chats.length);
+
+    console.log("MESSAGES OBJECT:");
+    console.log(arrayMessagesJs);
+
+    var pageOpenedFromProfile = <%- Array.isArray(opened_with_user) ? true : false %>;
+    if(pageOpenedFromProfile){
+
+        var usernameOpenedFrom = "<%-opened_with_user['user_name']%>";
+    }
+
+        
+      
+ </script>
+
+
+
+
+<div class="chat-exit-navigation">
+
+    <span class="btn-navigation-back">
+        <a href="/home"> <img src="../icons/back.svg">Home</a>
+    </span>
+
+    <% if(Array.isArray(opened_with_user)) { %>
+        <span class="btn-navigation-back">
+            <a href="/profile/<%-opened_with_user['user_name']%>"><img src="../icons/back.svg"> Back to <%-opened_with_user['user_name']%>'s profile </a>
+        </span>
+    <% } %> 
+    
+</div>
+
+
+
+<div class="container-page">
+
+
+
+
+
+       
+    <div class="content-wrapper">
+
+        <div class="row no-gutters">
+
+            <div class="col-12 col-lg-4">
+
+                <div class="users-container">
+                    
+                    <ul class="users">
+                        <!--CHAT NUOVA DA 'INVIA DM' DI PROFILO DI UTENTE-->
+                        <%  if(Array.isArray(opened_with_user) && !artistIdChats.includes(opened_with_user['user_id'])){   %>
+                        <li class="person chats" id="tab_<%= opened_with_user['user_name'] %>" data-username="<%= opened_with_user['user_name'] %>" data-iduser="<%=opened_with_user['user_id']%>" data-artistname="<%=opened_with_user['user_name']%>">
+                            <div class="user">
+                                <img src="/uploads/<%=opened_with_user['user_id']%>/profile.jpg" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"> 
+                                <span class="name"><%=opened_with_user['artist_name']%><p class="text-smaller text-lighter">@<%= opened_with_user['user_name'] %></p></span>           
+                                <div class="status"><span id="box_chat_status_<%= opened_with_user['user_name'] %>"></span></div>
+                            </div>
+                                
+                        </li>
+                            
+                        <%  } %>
+                        <!--TUTTE LE CHAT PER MESSAGGI GIA PRESENTI-->
+                        <%  for(let j = artistNameChats.length-1; j>=0; j--){  %>
+                        <li class="person chats" id="tab_<%= artistUsernameChats[j] %>" data-username="<%= artistUsernameChats[j] %>" data-iduser="<%=artistIdChats[j]%>" data-artistname="<%=artistNameChats[j]%>">
+                            <div class="user">
+                                <img src="/uploads/<%=artistIdChats[j]%>/profile.jpg" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';">
+                                <span class="name"><%= artistNameChats[j] %> <p class="text-smaller text-lighter">@<%= artistUsernameChats[j] %></p></span>
+                                <div class="status"><span id="box_chat_status_<%= artistUsernameChats[j] %>"></span></div>
+                            </div>
+                                
+                        </li>
+                        <% } %>           
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-8">
+
+                <div class="selected-user"><span class="name" id="chat_header"></span></div>
+                <!--CHAT CONTAINER NUOVA DA 'INVIA DM' DI PROFILO DI UTENTE-->
+                <% if(Array.isArray(opened_with_user) && !artistIdChats.includes(opened_with_user['user_id'])) { %>
+                    <div class="chat-container" id="chat_container_<%=opened_with_user['user_name']%>">
+                        <div id="chat_container_beforepageload_<%=opened_with_user['user_name']%>"></div>
+                        <div id="chat_container_afterpageload_<%=opened_with_user['user_name']%>"></div>
+                    </div>
+
+                <% } %> 
+
+                <!--TUTTE LE CHAT CONTAINER PER MESSAGGI GIA PRESENTI-->
+                <%  for(let j= artistNameChats.length-1; j>=0; j--){  %>
+                    <div class="chat-container" id="chat_container_<%= artistUsernameChats[j] %>">
+                        <div id="chat_container_beforepageload_<%= artistUsernameChats[j] %>"></div>
+                        <div id="chat_container_afterpageload_<%= artistUsernameChats[j] %>"></div>
+                    </div>
+                <% } %> 
+                
+
+                <div id="reply-box" class="reply"></div>
+                
+            </div>
+        </div>
+        <!-- Row end -->
+    </div>
+
+        <!-- Content wrapper end -->
+    </div>
+
+<script>
+
+       
+function formatDate(date) {
+    var d = new Date(date), month = '' + (d.getMonth() + 1),  day = '' + d.getDate(), year = d.getFullYear();
+    if (month.length < 2) { month = '0' + month; } 
+    if (day.length < 2) { day = '0' + day; }
+    return [year, month, day].join('-');
+}
+
+
+/*--------------------------------------------------- ADD EVENTS FOR A CLICK IN A CHAT (load messages in container, check new ..) ---------------------------------------------------*/        
+function addEventsForClicksOnChats(){
+    var divsChats = document.getElementsByClassName('chats');
+   
+       for(var i = 0; i < divsChats.length; i++){
+             divsChats[i].onclick = function(){
+               
+              var id_receiver = this.dataset.iduser;
+              var name_receiver = this.dataset.artistname;
+              var username_chat = this.dataset.username;
+
+              var containerClickedChat = document.getElementById("chat_container_"+username_chat);
+              var containerClickedChat_beforePageLoad = document.getElementById("chat_container_beforepageload_"+username_chat);
+              var containerClickedChat_afterPageLoad = document.getElementById("chat_container_afterpageload_"+username_chat);
+
+              containerClickedChat_beforePageLoad.innerHTML = "";
+
+              log("CLICKED ON CHAT OF: " + id_receiver + " " + name_receiver, "style2");
+
+              chat_header = document.getElementById("chat_header");
+              chat_header.innerHTML = "<img src='/uploads/"+id_receiver+"/profile.jpg'  onerror=\"if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';\"><a>"+name_receiver;
+              
+              for(let i =0; i< document.getElementsByClassName("chat-container").length;i++){
+                document.getElementsByClassName("chat-container")[i].classList.remove("show-chat");
+              }
+              containerClickedChat.classList.add("show-chat");
+              
+              let j = 0;
+
+              log("MESSAGES IN CLICKED CHAT: ", "success");
+
+              arrayMessagesJs.forEach(function(res){
+                    
+                    j+=1;
+                    let chat_box = document.createElement("ul"); chat_box.className="chat-box chatContainerScroll";
+
+                    if(sessionUserJs == res.sender_id && id_receiver== res.receiver_id){
+                            console.log("%c MSG (USER LOGGED ID = MSG SENDER ID, metto a dx) => " + res.sender_artist_name + ": " + res.content, "color: grey");
+
+                            let chat_right = document.createElement("li"); chat_right.className = "chat-right";
+                            let chat_box_wrapper = document.createElement("div"); chat_box_wrapper.className = "chat-wrapper";
+                            let chat_avatar_right = document.createElement("div"); chat_avatar_right.className = "chat-avatar";
+                            let img_right = document.createElement("img"); img_right.src="/uploads/"+res.sender_id+"/profile.jpg"; img_right.setAttribute('onerror', "if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';");
+                            //let chat_name_right = document.createElement("div"); chat_name_right.className = "chat-name"; chat_name_right.innerHTML = artistNameJs;
+                            let chat_hour_right = document.createElement("div"); chat_hour_right.className = "chat-hour";
+                            var formatedDate = new Date (res.datetime_sent); chat_hour_right.innerHTML= formatedDate.toUTCString().split(" ")[4]+" ";
+                            let span_hour_right = document.createElement("span"); span_hour_right.className = "fa fa-check-circle";
+                            chat_hour_right.append(span_hour_right);
+                            chat_avatar_right.append(img_right); /*chat_avatar_right.append(chat_name_right);*/ chat_avatar_right.append(chat_hour_right);
+                            let chat_text_right = document.createElement("div"); chat_text_right.className="chat-text"; chat_text_right.innerHTML=res.content;
+                            chat_box_wrapper.append(chat_avatar_right);
+                            chat_box_wrapper.append(chat_text_right);
+                            chat_right.append(chat_box_wrapper);
+                            chat_box.append(chat_right);
+                            containerClickedChat_beforePageLoad.append(chat_box);
+                    }
+                    if(sessionUserJs== res.receiver_id && id_receiver == res.sender_id ){
+                            console.log("%c MSG (USER LOGGED ID = MSG RECEIVER ID, metto a sx) => " + res.sender_artist_name + ": " + res.content, "color: black");
+
+                            let chat_left = document.createElement("li"); chat_left.className = "chat-left";
+                            let chat_box_wrapper = document.createElement("div"); chat_box_wrapper.className = "chat-wrapper";
+                            let chat_avatar_left = document.createElement("div"); chat_avatar_left.className = "chat-avatar";
+                            let img_left = document.createElement("img"); img_left.src = "/uploads/"+res.sender_id+"/profile.jpg";img_left.setAttribute('onerror', "if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"); 
+                            //let chat_name_left = document.createElement("div"); chat_name_left.className = "chat-name"; chat_name_left.innerHTML=chat_header.textContent;
+                            let chat_hour_left = document.createElement("div"); chat_hour_left.className="chat-hour";
+                            var formatedDate = new Date (res.datetime_sent); chat_hour_left.innerHTML= formatedDate.toUTCString().split(" ")[4]+" ";
+                            let span_hour_left = document.createElement("span"); span_hour_left.className = "fa fa-check-circle";
+                            chat_hour_left.append(span_hour_left);
+                            chat_avatar_left.append(img_left);/* chat_avatar_left.append(chat_name_left); */chat_avatar_left.append(chat_hour_left); 
+                            let chat_text_left = document.createElement("div"); chat_text_left.className = "chat-text"; chat_text_left.innerHTML = res.content;
+                            chat_box_wrapper.append(chat_avatar_left);
+                            chat_box_wrapper.append(chat_text_left);
+                            chat_left.append(chat_box_wrapper);
+                            chat_box.append(chat_left);
+                            containerClickedChat_beforePageLoad.append(chat_box);
+                    }
+                    
+                    if(j==arrayMessagesJs.length){
+                            let div_container_message, container_message_send;
+                            div_container_message = document.createElement("div")
+                            div_container_message.innerHTML = "<input type=\"text\" id=\"id_sender\" value='"+sessionUserJs+"' hidden> <input type=\"text\" id=\"id_receiver\" value='"+id_receiver+"' hidden><input type=\"text\" id=\"username_chat\" value='"+username_chat+"' hidden><textarea rows=\"2\" id=\"content\" style=\"display: inline;\" placeholder=\"Scrivi un messaggio...\"></textarea><i class=\"fa fa-send fa-2x\" aria-hidden=\"true\" onclick=\"sendMessage();\"style=\"cursor:pointer\"></i>";
+                            document.getElementById("reply-box").innerHTML = div_container_message.innerHTML;
+                    }
+  
+              });//end foreach of messagesArrayJs
+
+              if(j==arrayMessagesJs.length){
+                            let div_container_message, container_message_send;
+                            div_container_message = document.createElement("div")
+                            div_container_message.innerHTML = "<input type=\"text\" id=\"id_sender\" value='"+sessionUserJs+"' hidden> <input type=\"text\" id=\"id_receiver\" value='"+id_receiver+"' hidden><input type=\"text\" id=\"username_chat\" value='"+username_chat+"' hidden><textarea rows=\"2\" id=\"content\" style=\"display: inline;\" placeholder=\"Scrivi un messaggio...\"></textarea><i class=\"fa fa-send fa-2x\" aria-hidden=\"true\" onclick=\"sendMessage();\"style=\"cursor:pointer\"></i>";
+                            document.getElementById("reply-box").innerHTML = div_container_message.innerHTML;
+              }
+
+              
+        containerChatScrollBottom();
+
+    };//end function on click for current div chat in foreach
+
+  }//end for looping all divs chats
+
+} //end function set
+
+
+    
+addEventsForClicksOnChats();
+/*
+    var input = document.getElementById("content");
+        input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {  // Number 13 is the "Enter" key on the keyboard
+            event.preventDefault();sendMessage();
+        }
+    }); 
+*/
+
+
+
+/*---------------------------------------------------------- BUSY WAITING NEW MESSAGES -------------------------------------------------------*/
+  function checkNewMessages(){
+     arrayArtistIdChats = JSON.parse("[" + artistIdChats + "]");
+     arrayArtistUsernameChats = JSON.parse("[" + artistUsernameChats + "]");
+
+    $.ajax({
+        url: '/checkNewMessages',
+        type: 'post',
+        data: { artistIdChats, user_logged: sessionUserJs
+        },
+        success: function(response){
+                response = JSON.parse(response);
+                if(response.foundMessages == false){
+                    console.log("NESSUN MSG NUOVO NEGLI ULTIMI 10s (" + response.now_minus_ten + " - " + response.now + ")");
+                }
+                if(response.foundMessages == true){
+                    
+                    console.log("TROVATO UNO O PIù MESSAGGI NEGLI ULTIMI 10s (" + response.arrayNewMessages.length + " MESSAGGI)");
+                    var numberMessage = 1;
+                    response.arrayNewMessages.forEach(function(messageObject) {
+                        
+                            console.log("MESSAGGIO #" + numberMessage +":"); numberMessage++;
+                            console.log(messageObject);
+
+                            let chat_box = document.createElement("ul"); chat_box.className="chat-box chatContainerScroll";
+            
+                            let chat_left = document.createElement("li"); chat_left.className="chat-left";
+                            let chat_box_wrapper = document.createElement("div"); chat_box_wrapper.className="chat-wrapper";
+                            let chat_avatar_left = document.createElement("div"); chat_avatar_left.className="chat-avatar";
+                            let img_left = document.createElement("img"); img_left.src="/uploads/"+messageObject.sender_id+"/profile.jpg";img_left.setAttribute('onerror', "if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';");
+                            //let chat_name_left = document.createElement("div");chat_name_left.className="chat-name";chat_name_left.innerHTML="Da fixare";
+                            let chat_hour_left = document.createElement("div"); chat_hour_left.className="chat-hour";
+                            var formatedDate = new Date (messageObject.datetime_sent);
+                            chat_hour_left.innerHTML = formatedDate.toUTCString().split(" ")[4]+" ";
+
+                            let span_hour_left = document.createElement("span"); span_hour_left.className="fa fa-check-circle";
+
+                            chat_avatar_left.append(img_left); chat_avatar_left.append(chat_hour_left); chat_hour_left.append(span_hour_left);
+
+                            let chat_text_left = document.createElement("div");chat_text_left.className="chat-text"; chat_text_left.innerHTML=messageObject.content;
+
+                            chat_box_wrapper.append(chat_avatar_left);
+                            chat_box_wrapper.append(chat_text_left);
+                            chat_left.append(chat_box_wrapper);
+                            chat_box.append(chat_left);
+
+                            var sender_id_index = arrayArtistIdChats[0].indexOf(messageObject.sender_id);
+                            
+                            var sender_username = arrayArtistUsernameChats[0][sender_id_index];
+                            
+                            console.log("SENDER ID: " + messageObject.sender_id);
+                            console.log("SENDER USERNAME: " +sender_username);
+
+                            document.getElementById("chat_container_afterpageload_"+sender_username).append(chat_box);
+                            document.getElementById("box_chat_status_"+sender_username).classList.add("newmessage");
+
+                    });//end foreach response array new messages
+                    containerChatScrollBottom();
+                } //end if found new messages = true
+
+            } //end ajax success function
+    }); //end ajax function
+
+    setTimeout(checkNewMessages, 10000);
+          
+ }// end function checkNewMessages()
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    if(userLoggedHasChats){
+        log("START CHECKING FOR NEW MESSAGES:", "style3");
+        checkNewMessages();  
+    }
+
+    if(pageOpenedFromProfile){
+        document.getElementById("tab_"+usernameOpenedFrom).click();
+    }
+    
+});
+
+
+
+
+/*---------------------------------------------------------- SEND MESSAGE --------------------------------------------------------------*/
+function sendMessage(){
+    let content = document.getElementById("content").value;
+    let sender = document.getElementById("id_sender").value;
+    let receiver = document.getElementById("id_receiver").value;
+    let username_chat = document.getElementById("username_chat").value;
+    var containerClickedChat_afterPageLoad = document.getElementById("chat_container_afterpageload_"+username_chat);
+
+    console.log("SEND MESSAGE - sender: " + sender);
+    console.log("SEND MESSAGE - receiver: " + receiver);
+    console.log("SEND MESSAGE - content: " +  content);
+    console.log("SEND MESSAGE - username: " +  username_chat);
+    
+    if(content != ''){
+       $.ajax({
+          url: '/sendMessage',
+          type: 'post',
+          data: {
+              content_message: content, sender_message: sender, receiver_message: receiver
+          },
+          
+          success: function(response){          
+              response = JSON.parse(response);
+              console.log(response.datetime_sent[0]);
+              var max_datetime = response.datetime_sent[0].max_datetime_sent;
+              
+              if(response.message_inserted == true){
+                  console.log("MESSAGE INSERTED IN DB")
+                  let container_message_send = document.getElementById("container_message_send");
+                       
+                  let chat_box = document.createElement("ul"); chat_box.className="chat-box chatContainerScroll";
+                  let chat_right = document.createElement("li"); chat_right.className="chat-right";
+                  let chat_box_wrapper = document.createElement("div"); chat_box_wrapper.className="chat-wrapper";
+                  let chat_avatar_right = document.createElement("div");chat_avatar_right.className="chat-avatar";
+                  let img_right = document.createElement("img"); img_right.src="/uploads/"+response.sender+"/profile.jpg";  img_right.setAttribute('onerror', "if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';");
+                  //let chat_name_right = document.createElement("div"); chat_name_right.className="chat-name"; chat_name_right.innerHTML=artistNameJs;
+                  let chat_text_right = document.createElement("div");chat_text_right.className="chat-text"; chat_text_right.innerHTML=response.content;
+                  let chat_hour_right = document.createElement("div"); chat_hour_right.className="chat-hour";
+                  var formatedDate = new Date (max_datetime);
+                  chat_hour_right.innerHTML = formatedDate.toUTCString().split(" ")[4]+" ";
+                  let span_hour_right = document.createElement("span"); span_hour_right.className="fa fa-check-circle";
+              
+                  chat_hour_right.append(span_hour_right);
+
+                  chat_avatar_right.append(img_right); /*chat_avatar_right.append(chat_name_right);*/ chat_avatar_right.append(chat_hour_right);
+
+                  chat_box_wrapper.append(chat_avatar_right);
+                  chat_box_wrapper.append(chat_text_right);
+
+                  chat_right.append(chat_box_wrapper);
+                  chat_box.append(chat_right);
+
+                  //var container = document.getElementById("chat_container_"+username_chat);
+                  containerClickedChat_afterPageLoad.append(chat_box);
+
+                  containerChatScrollBottom();
+                }
+              
+              
+            }
+      });
+  }
+  document.getElementById('content').value = ''; //empty textarea after send message
+}
+    
+</script>
+
+<script>
+    function containerChatScrollBottom(){
+        var objDiv = document.getElementsByClassName("chat-container");
+        for (let index = 0; index < objDiv.length; index++) {
+            const element = objDiv[index];
+            element.scrollTop = element.scrollHeight;
+        }
+        
+    }
+</script>
+
+<!--INCLUSIONE JQUERY AJAX-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    
+</body>
+
+
+</html>

@@ -1,0 +1,126 @@
+<%- include partials/header %>
+        
+  
+    
+
+
+ <div class="container-layout-sidebar">
+
+    <%- include partials/sidebar %>
+
+    <div class="content">
+
+
+                <div class="layout-container-wide py-medium">
+
+                    <h3>All Music Genres</h3>
+                    <hr>
+                
+                    <div class="row">
+                            
+                    <% genres_result.forEach(function(res){ %>
+                
+                        <div class="col-12 col-md-12 col-lg-12">
+         
+                            <a href="genre/<%=res.genre%>" class="card-genre-main bg-genre-<%= res.genre %>">
+                                
+                                <div class="content-text">
+                                    <div>	&#129070; <%= res.genre.charAt(0) %></div>
+                                    <div>	<%= res.genre %></div>
+                                    <div>  <img src="../icons/arrow-right.svg" alt=""> </div>
+                                </div>
+                                
+                            </a>
+                            
+                       
+                        </div>
+                    
+                    <% }) %>
+                
+                    </div>
+                    
+                
+                </div>
+
+
+
+    </div>
+
+
+
+
+
+
+         
+
+
+
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    
+   
+
+    Array.prototype.forEach.call(document.getElementsByClassName("horizontal-scroll"), function(element) {
+
+        function scrollHorizontally0(e) {
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        element.scrollLeft -= (delta*80); // Multiplied by 40
+        
+        e.preventDefault();
+        }
+
+        if (element.addEventListener) {
+            element.addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+            element.addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+        
+        } else {
+            element.attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+            
+        }
+});
+
+
+ /*
+    function scrollHorizontally0(e) {
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        document.getElementsByClassName('horizontal-scroll')[0].scrollLeft -= (delta*100); // Multiplied by 40
+        
+        e.preventDefault();
+    }
+    */
+
+/*
+
+    if (document.getElementsByClassName('horizontal-scroll')[0].addEventListener) {
+        
+        document.getElementsByClassName('horizontal-scroll')[0].addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+
+        
+        document.getElementsByClassName('horizontal-scroll')[0].addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+        
+    } else {
+       
+        document.getElementsByClassName('horizontal-scroll')[0].attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+        
+    }
+
+    */
+})();
+
+</script>
+
+
+
+</body>
+</html>
+

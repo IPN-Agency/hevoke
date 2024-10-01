@@ -1,0 +1,477 @@
+<%- include partials/header %>
+
+<!-----------------------------------------   OVERLAY EDIT SEARCH (fixed) ------------------------------------------>
+<div id="overlay-background" class="overlay-background"></div>
+<div id="overlay-search" class="overlay-search">
+  
+  <div class="content">
+    <form role="form" method="GET" action="/search-result" onsubmit="return validateForm()">
+          <div class="overlay-search-header py-medium">
+              <h3>Adjust your search</h3>
+              <div>
+                <button class="btn btn-medium btn-bg-primary" type="submit">Search</button>
+                <a class="btn btn-medium btn-bg-outline" onclick="overlayEditSearchHide()">Close</a>
+              </div> 
+          </div>
+
+          <div class="row">
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="search-section-header">
+                  <span class="icon icon-medium icon-bg-outline"> <img src="/icons/profile/categories.svg" alt=""> </span>
+                  <h6 class="search-options-title">Category</h6>
+                  <p class="ml-auto text-lighter text-smaller">Select none, one or more.</p>
+                </div>
+                <div id="containerToAppendCategories"></div>
+                <input id="checkboxCategoryAll" type="checkbox" name="category" value="all" hidden>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="search-section-header">
+                  <span class="icon icon-medium icon-bg-outline"> <img src="/icons/profile/genres.svg" alt=""> </span>
+                  <h6 class="search-options-title">Genres</h6>
+                  <p class="ml-auto text-lighter text-smaller">Select none, one or more.</p>
+                </div>
+                <div id="containerToAppendGenres"></div>
+                <input id="checkboxGenreAll" type="checkbox" name="genre" value="all" hidden>
+            </div>
+
+         
+
+          <div class="col-12 col-md-6 col-lg-4">
+              <div class="search-section-header">
+                <span class="icon icon-medium icon-bg-outline"> <img src="/icons/profile/location.svg" alt=""> </span>
+                <h6 class="search-options-title">Country</h6>
+                <p class="ml-auto text-lighter text-smaller">Select an option</p>
+              </div>
+
+              <br>
+              <select name="country">
+                <option id="all" value="">All Countries</option>
+              
+              </select>
+
+            <hr>
+                            
+            <div class="search-section-header">
+                <span class="icon icon-medium icon-bg-outline"> <img src="/icons/connections.svg" alt=""> </span>
+                <h6 class="search-options-title">Level</h6>
+                <p class="ml-auto text-lighter text-smaller">Select an option</p>
+            </div>
+              <br>
+              <select name="level">
+                <option id="all" value="">All levels</option>
+                <option id="m" value="beginner"> Less than 1 year</option>
+                <option id="f" value="intermediate"> 1-3 years </option>
+                <option id="f" value="intermediate"> 3-5 years </option>
+                <option id="f" value="intermediate"> 5-10 years </option>
+              </select>
+              
+              
+          <hr>
+        
+          <div class="search-section-header">
+              <span class="icon icon-medium icon-bg-outline"> <img src="/icons/profile/gender.svg" alt=""> </span>
+              <h6 class="search-options-title">Gender</h6>
+              <p class="ml-auto text-lighter text-smaller">Select an option</p>
+          </div>
+            <br>
+            <select id="select-gender" name="gender">
+              <option id="all" value="all">All Genders</option>
+              <option id="m" value="m">Male</option>
+              <option id="f" value="f">Female</option>
+            </select>
+        </div>
+
+    </form>
+    <hr>
+  </div>
+</div>
+</div>
+
+
+<script>
+  
+
+  <% if(form.category!=undefined){ %> var selectedCategories = <%-JSON.stringify(form.category)%>; <% } %>
+
+  <% if(form.genre!=undefined){ %> var selectedGenres = <%-JSON.stringify(form.genre)%>; <% } %>
+
+  <% if(form.gender!=undefined){ %> var selectedGender = "<%-form.gender%>" <% } %>
+
+  
+  
+  console.log("selected Categories: " + selectedCategories);
+  console.log("selected Genres: " + selectedGenres);
+  console.log("selected Gender: " + selectedGender);
+  
+
+  document.addEventListener('DOMContentLoaded', function(event) {
+     
+    /*----------------------------------------------------------------CATEGORIES--------------------------------------------------------*/
+    if(selectedCategories!=undefined && selectedCategories!=""){
+        if(selectedCategories instanceof Array && selectedCategories.length>0){
+              console.log("more categories selected");
+              selectedCategories.forEach(selectedCategory => {
+                  if(selectedCategory!="all" && selectedCategory!=""){
+                      document.getElementById(selectedCategory).checked = true;
+                      console.log("checking true: id#"+selectedCategory);
+                  }
+              });
+        }
+        if(!(selectedCategories instanceof Array) && selectedCategories.length>0 && selectedCategories!="all"){
+                    console.log("one category only");
+                    document.getElementById(selectedCategories).checked = true;
+                    console.log("checking true: id#"+selectedCategories);
+        }
+    }
+      
+
+    /*------------------------------------------------------------------GENRES--------------------------------------------------------*/
+    if(selectedGenres!=undefined && selectedGenres!=""){
+        if(selectedGenres.length>0 && selectedGenres instanceof Array){
+              selectedGenres.forEach(selectedGenre => {
+                  if(selectedGenre!="all" && selectedGenre!=""){
+                      document.getElementById(selectedGenre).checked = true;
+                  }
+              });
+        }
+        if(!(selectedGenres instanceof Array) && selectedGenres.length>0 && selectedGenres!="all"){
+                    document.getElementById(selectedGenres).checked = true;
+        }
+    }
+
+
+      if(selectedGender!=""){
+            if(selectedGender=="all") {document.getElementById("select-gender").selectedIndex  = 0; }
+            if(selectedGender=="m") {alert("male");document.getElementById("select-gender").selectedIndex = 1; }
+            if(selectedGender=="f") {alert("female");document.getElementById("select-gender").selectedIndex = 2; }
+      }
+
+  })
+</script>
+
+<script>
+  function validateForm() {
+    var numSelectedCategories = document.querySelectorAll('input[name="category"]:checked').length;
+    if(numSelectedCategories==0){ document.getElementById("checkboxCategoryAll").checked = true; }
+    else{ document.getElementById("checkboxCategoryAll").checked = false; }
+
+    var numSelectedGenres = document.querySelectorAll('input[name="genre"]:checked').length;
+    if(numSelectedGenres==0){ document.getElementById("checkboxGenreAll").checked = true; }
+    else{ document.getElementById("checkboxGenreAll").checked = false; }
+    
+
+    var inputValueCountry = document.forms["search-users"]["country"].value;
+    if (inputValueCountry == "") { document.getElementById("country").value = "all"; }
+    return true;
+} 
+</script>
+
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+  <div class="content">
+
+
+      <div class="layout-container-wide py-medium pb-0">
+         
+         <div class="row align-items-center">
+
+            <div class="col-8 d-flex align-items-center justify-content-between order-lg-1">
+              <h3 class="mb-2">Your artist search</h3> 
+            </div>
+
+            <div class="col-4 col-md-auto ml-auto order-lg-3">
+              <a class="btn btn-medium btn-bg-lighter btn-mobile-stretch" onclick="overlayEditSearchShow()"> <span class="hide-on-mobile"> Edit Search </span> <span class="icon icon-small hide-on-desktop"><img src="/icons/f/sliders.svg" alt=""></span> </a>
+            </div>
+
+              <div class="col-12 col-md-auto order-lg-2 ">
+                    <div class="resume-search-attributes">
+
+                      <div> <!-- COL FILTER CATEGORY -->
+                            <div><span class="icon icon-small hide-on-mobile"> <img src="/icons/f/tag.svg" alt=""> </span><span class="attribute-text">Category</span></div>
+                            <%= form.category!=undefined && form.category!="all" && form.category!="" ? form.category : "All Categories" %>
+                      </div>
+
+                      <div> <!-- COL FILTER GENRES -->
+                              <div><span class="icon icon-small hide-on-mobile"> <img src="/icons/f/music.svg"> </span><span class="attribute-text">Genres</span></div>
+                              <%= form.genre!=undefined && form.genre!="all" && form.genre!="" ? form.genre : "All Genres" %>        
+                       </div>
+
+                      <div> <!-- COL FILTER COUNTRY -->
+                          <div><span class="icon icon-small hide-on-mobile"> <img src="/icons/f/map-pin.svg"> </span><span class="attribute-text">Country</span></div>
+                          <%= form.country!=undefined && form.country!="all" && form.country!="" ? form.country : "All Countries" %>
+                      </div>
+
+                      <div><!-- COL FILTER GENRES -->
+                          <div><span class="icon icon-small hide-on-mobile"> <img src="/icons/f/circle.svg"> </span><span class="attribute-text">Gender</span></div>
+                          <%= form.gender!=undefined && form.gender!="all" && form.gender!="" ? form.gender : "All Genders" %>
+                      </div>
+
+                      <div><!-- COL FILTER LEVELS -->
+                        <div><span class="icon icon-small hide-on-mobile"> <img src="/icons/f/percent.svg"> </span><span class="attribute-text">Gender</span></div>
+                        <%= form.level!=undefined && form.level!="all" && form.level!="" ? form.level : "All Levels" %>
+                    </div>
+
+                    </div>
+              </div>
+
+    
+        </div>
+                
+      </div>
+
+
+
+
+       <div class="layout-container-wide py-small">
+
+          <div class="page-content-header row align-items-center justify-content-between">
+
+              <div class="col-auto">
+              <h6>You found <%= total_results_available %> artists with this search</h6>
+              </div>
+
+              <div class="col-auto d-flex align-items-center ml-auto">
+                    <div class="search-result-filters">
+                            Sort by
+                            <form name="searchsortform">
+                              <div class="select" tabindex="1">
+                                <input id="auto" class="selectopt" name="searchsort" type="radio" value="auto" checked>
+                                <label for="auto" class="option">Recommended</label>
+                                <input id="likes" class="selectopt" name="searchsort" type="radio" value="likes">
+                                <label for="likes" class="option">Likes</label>
+                                <input id="newusers" class="selectopt" name="searchsort" type="radio" value="newusers">
+                                <label for="newusers" class="option">Newest Users</label>
+                                <input id="artist_name" class="selectopt" name="searchsort" type="radio" value="artist_name">
+                                <label for="artist_name" class="option">Artist Name</label>
+                              </div>
+                            </form>
+                    </div>
+              </div>      
+
+          </div>
+      </div>  
+              
+                
+      <div class="layout-container-wide py-small">          
+                    <% if (users_result) { %>
+                      
+                        <div class="row">
+          
+                        <% users_result.forEach(function(res){ %>
+
+                            <div class="col-6 col-md-4 col-lg-3">
+                              <div class="card-user card-user-style0bg3 <%= res.artist_macro %>">
+
+                                  <div class="content-image">
+                                    <a href="profile/<%= res.user_name %>"><img src="uploads/<%= res.user_id %>/profile.jpg" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';" alt="" ></a>
+                                  </div>
+
+                                  <div class="content-text">
+                                      <div class="content-text-header">
+                                      <span class="artist-name"><a href="profile/<%= res.user_name %>"><%= res.artist_name %></a></span>
+                                      </div>
+                                      <div class="content-text-bottom">
+                                       
+                                        <span class="card-user-label"><%= res.artist_macro %></span>  
+                                        <% if(res.country != undefined) { %>  <span><i class='icon-location'></i><%= res.country %></span> <% } %> 
+                                        <% if(res.artist_type != undefined) { %>  <span class="artist-type"><%= res.artist_type %></span> <% } %> 
+                                        
+                                    </div>
+                                  </div>
+                              
+                              </div>
+                            </div>
+        
+                        <% }) %>
+                      </div>
+
+                    <% } %>
+
+
+                        <div id="container-more-results" class="row">
+                        </div>
+
+                        <div class="text-center">
+                          <a id="button_more_results" class="btn btn-medium btn-bg-outline" onclick="showMoreResults(12)">Show more</a>
+                        </div>
+
+                <p id="sql" class="console-sql"><%= sql %></p>
+
+
+       </div>
+
+  </div>
+</div>
+
+
+
+<script>
+  var numResultsToShow = 12;
+ 
+  function showMoreResults(last_limit){
+    var sql = document.getElementById("sql").innerText;
+    var button_more_results = document.getElementById("button_more_results");
+  
+        $.ajax({
+            url: '/show-more-results',
+            type: 'post',
+            data: {
+               sql: sql, last_limit: last_limit
+            },
+            success: function(response){
+                response = JSON.parse(response); console.log(response);
+                var container_more_results = document.getElementById("container-more-results");
+                response.result.forEach(function(res){
+                        const col = document.createElement('div');
+                        col.className = 'col-6 col-md-4 col-lg-3';
+                        col.innerHTML = `
+                        <div class="">
+                          <div class="card-user card-user-style0bg3">
+
+                              <div class="content-image">
+                                <a href="profile/${ res.user_name }"><img src="uploads/${ res.user_id }/profile.jpg" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';" alt="" ></a>
+                              </div>
+
+                              <div class="content-text">
+                                  <div class="content-text-header">
+                                  <span class="artist-name"><a href="profile/${ res.user_name }">${ res.artist_name }</a></span>
+                                  </div>
+                                  <div class="content-text-bottom">
+                                  <span><i class='icon-location'></i>${ res.country }</span> <span class="artist-type">${ res.artist_type }</span> 
+                                  </div>
+                              </div>
+                          
+                          </div>
+                        </div>
+                        `;
+                        container_more_results.appendChild(col);
+                });
+                if(response.result.length < numResultsToShow){
+                  button_more_results.remove();
+                }
+                else {
+                  var new_limit = last_limit + 12;
+                  button_more_results.setAttribute("onclick","showMoreResults("+new_limit+")");
+                }
+            }
+        });
+
+
+}
+</script>
+
+
+
+
+<script>
+  function overlayEditSearchShow() {
+    document.getElementById("overlay-background").className += " show";
+    document.getElementById("overlay-search").className += " show";
+}
+
+  function overlayEditSearchHide() {
+    document.getElementById("overlay-search").classList.remove("show");
+    document.getElementById("overlay-background").classList.remove("show");
+  }
+</script>
+
+
+   <script>
+   /*PRENDO PARAMETRO SORTYBY DA URL E IN BASE A QUELLO IMPOSTO COME CHECKED L'ELEMENTO RADIO DENTRO LA SELECT PER ORDINARE, se non c'è il default checked è reccomended*/
+        var url = window.location.href;
+
+        var tempArray = url.split("?");
+        
+        var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+      
+        if (additionalURL) {
+          tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+         
+      
+          //controllo se nell'url alla fine c'è già un parametro sortby
+          if(tempArray[tempArray.length-1].startsWith("sortby")){
+            var valueSortby = tempArray[tempArray.length-1].split("=")[1];
+            document.getElementById(valueSortby).checked = true;
+          }
+        }
+              
+  /*AGGIUNGO EVENT LISTENER AD OGNI ELEMENTO NEL DROPDOWN ORDINAMENTO PER FARE IL REFRESH DELLA PAGINA CON L'OPZIONE SCELTA*/
+        document.addEventListener('DOMContentLoaded', (event) => {
+              document.forms.searchsortform.searchsort.forEach(radio => {
+                  radio.addEventListener('change', () => {
+                        var attributeClickedSort = document.forms.searchsortform.searchsort.value;
+                        var newUrl = "";
+                        //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+                        var url = window.location.href;
+                        if(url.includes("?")){ // se ci sono parametri
+                                  var tempArray = url.split("?");
+                                  var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+                
+                                  tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+                                  console.log(tempArray[tempArray.length-1]);
+                    
+                                  //controllo se nell'url alla fine c'è già un parametro sortby
+                                  if(tempArray[tempArray.length-1].startsWith("sortby")){
+                                      console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                                      var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                                      console.log(urlBeforeSortby);
+                                      newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort;
+                                  }
+                                  else{
+                                      console.log("last parameter is not sort by");
+                                      newUrl = url + "&sortby="+attributeClickedSort;
+                                  }
+                        }
+                        else{
+                          newUrl = url + "?sortby="+attributeClickedSort;
+                        }
+                        
+                        console.log(newUrl);
+                        window.location = newUrl;
+                  })
+            });
+      });
+                            
+</script>
+
+
+
+<script>
+
+  /*
+  function myFunction(x) {
+    document.getElementById("myDropdown"+x).classList.toggle("show");
+  }
+  
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+  
+    if (!document.querySelectorAll(".dropdown-content")[0].contains(event.target) && !event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+          }
+      }
+    }
+  } 
+  */
+  </script>
+  
+
+
+
+<script src="../scripts/categories.js"></script>
+<script src="../scripts/genres.js"></script>
+              
+
+
+
+ <%- include partials/footer %>

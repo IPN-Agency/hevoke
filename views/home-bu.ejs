@@ -1,0 +1,783 @@
+
+  <%- include partials/header %>
+    
+  <%
+  /*------------------------------------------------------ SECTIONS TITLES -----------------------------------------------*/
+  var level = "";
+  var titleTodayActive = "Users active today";
+  var titleTodayNew = "Users new today";
+  var titleMoreLikes = "Users with more likes";
+  var titleSameLevel = "";
+  var titleSameCountry = "";
+  var titleRadars = "Users found by your Radars";
+  var urlRadars = "usersforradars";
+  if(logged){
+
+    if(userLoggedComplete.user_level!=null && res_users_samelevel.length>0){   
+      if(res_users_samelevel[0].user_level == '1'){ var level= "Less than 1 years";}
+      if(res_users_samelevel[0].user_level == '2'){ var level= "1-3 years";}
+      if(res_users_samelevel[0].user_level == '3'){ var level= "3-5 years"; }
+      if(res_users_samelevel[0].user_level == '4'){ var level= "5-10 years";}
+    }
+  
+    if(userLoggedComplete.artist_macro!=null){
+        if(userLoggedComplete.artist_macro=="M" && res_users_macro_sec_1!=undefined && res_users_macro_sec_2!=undefined){
+          var macroName = "Music";
+          var titleMacro1 = "Video Artists"; 
+          var titleMacro2 = "Dance Artists with a genre in common with you";
+        }
+        if(userLoggedComplete.artist_macro=="V" && res_users_macro_sec_1!=undefined && res_users_macro_sec_2!=undefined){
+          var macroName = "Video";
+          var titleMacro1 = "Dance Artists";
+          var titleMacro2 = "Music Artists";
+        }
+        if(userLoggedComplete.artist_macro=="D" && res_users_macro_sec_1!=undefined && res_users_macro_sec_2!=undefined){
+          var macroName = "Dance";
+          var titleMacro1 = "Music Artists";
+          var titleMacro2 = "Video Artists";
+        }
+
+        var urlMacro1 = titleMacro1.replace(/\s+/g,'').toLowerCase(); 
+        var urlMacro2 = titleMacro2.replace(/\s+/g,'').toLowerCase(); 
+
+        var titleSameGenre = "" + macroName + " Artists with a genre in common with you";
+        if(userLoggedComplete.user_level!=null){
+          titleSameLevel = "" + macroName + " Artists with your same level (" + level + ")";
+        }
+        if(userLoggedComplete.country!=null){
+          titleSameCountry = "" +  macroName + " Artists from your same country (" + userLoggedComplete.country + ")";
+        }
+    }
+    else{
+        titleSameGenre = "All Artists with a genre in common with you";
+        titleSameLevel = "All Artists with your same level (" + level + ")";
+        titleSameCountry = "All Artists from your same country (" + userLoggedComplete.country + ")";
+    }
+    
+  }
+  else{
+    var titleSameGenre = "";
+    var titleSameLevel = "";
+    var titleSameCountry = "";
+  }
+  
+%>
+
+
+
+
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+  <div class="content">
+
+        <section class="layout-container-wide py-medium">
+
+          <div class="row align-items-center">
+
+            <div class="col-auto">
+
+                <div class="d-flex align-items-center">
+                  <%if(logged==true){%>
+                  <div class="profile_default mr-3" ><img id="profile_picture_logged" class="user-profileimage-icon medium" src="../uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+                  <%}%>
+                  <div>
+                    <%if(logged==true){%> <p>Welcome <%=userLogged.artist_name %></p><h3>Today's Home</h3> <%}%>
+                    <%if(logged==false){%> <p>Welcome Visitor</p><h3>Today's Home</h3> <%}%>
+                  </div>
+                </div>
+      
+            </div>
+
+            <div class="col-auto ml-auto">
+
+                <% if(logged && (userLoggedComplete.artist_macro==null || userLoggedComplete.country==null || userLoggedComplete.user_level==null) ) { %> 
+                  <ul class="home-complete-profile">
+                    <% if(logged && userLoggedComplete.artist_macro==null) { %> <a href="/edit-profile/categories"> <li>  <div><p>Add a category</p> <p>See users with a category in common with you.</p></div>  <span> > </span> </li> </a> <% } %>
+                    <% if(logged && userLoggedComplete.country==null) { %> <a href="/edit-profile/country"> <li> <div><p>Add your country</p> <p>See users like you from your country.</p></div>  <span> > </span> </li> </a> <% } %>
+                    <% if(logged && userLoggedComplete.user_level==null) { %> <a href="/edit-profile/user_level"> <li> <div><p>Add your level</p> <p>See users like you with your same level.</p></div> <span> > </span> </li> </a> <% } %>
+                  </ul>
+               
+                <% } %>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+
+
+<section class="layout-container-wide">
+
+
+  
+ 
+</section>
+
+
+
+
+  <!------------------------------------------------------- USERS FOR RADARS ------------------------------------------------------->
+
+
+
+
+  
+
+
+<% if(logged && res_users_matchradars!=undefined && res_users_matchradars.length>0){ %>
+  <section class="layout-container-wide section-bg-radars py-small">
+
+  <p class="text-lighter text-smaller">In base a cosa cerchi</p>
+ 
+  <div class="section-scroll-header">
+    <div>
+      <h5><%= titleRadars %></h5>
+      <div class="wrapper-radar"><div class="radar"><div class="sonar"></div><div class="sonar delayed"></div></div></div>
+    </div>
+    
+    <span><a href="/users/<%= urlRadars %>"><img src="../icons/arrow-right.svg" alt=""></a></span>
+  </div>
+  
+  
+  <section class="horizontal-scroll">
+    
+          <div class="row">
+          <% res_users_matchradars.forEach(function(res){%>
+          
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+
+                  <div class="front">
+                      <figure>
+                      <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                      <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                      </figure>
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                
+                  <div class="icons">
+                    <% res_links.forEach(function(result){%>
+                      <%if(result.user_id == res.user_id){%>
+                        <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                      <%}%>
+                    <%})%>
+                  </div>
+
+              </div>
+          </div>
+            
+          <%})%>
+          
+      </div>
+    
+   </section>
+
+  
+</section>
+  
+ <% } %>
+
+
+
+ <section class="layout-container-wide py-small">
+
+   <!------------------------------------------------------------ USERS MORE LIKES --------------------------------------------------------->
+
+   <div class="section-scroll-header"><h5><%= titleMoreLikes %></h5><span><a href="/users/mostliked"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+
+   <section class="horizontal-scroll">
+         
+         <div class="row">
+         
+               <% res_users_morelikes.forEach(function(res){%>
+               
+                   <%if(logged && userLogged.user_id != res.user_id || !logged){%>
+                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                 <div class="card-container style1">
+                     <div class="front">
+                       <figure>
+                         <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                       </figure>
+                     </div>
+   
+                      <div class="content-text">
+                         <div class="followers">
+                           <span class="name"><%= res.artist_name %></span>
+                           <span>
+                             <svg enable-background="new 0 0 24 24" height="100%" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="m11.466 22.776c.141.144.333.224.534.224s.393-.08.534-.224l9.594-9.721c4.001-4.053 1.158-11.055-4.532-11.055-3.417 0-4.985 2.511-5.596 2.98-.614-.471-2.172-2.98-5.596-2.98-5.672 0-8.55 6.984-4.531 11.055z" fill="#f44336"/></svg>
+                             <p><%= res.countlike %></p>
+                           </span>
+                         </div>
+                     
+                         <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                       
+                         <div class="icons">
+                           <% res_links.forEach(function(result){%>
+                             <%if(result.user_id == res.user_id){%>  
+                             <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                             <%}%>
+                           <%})%>  
+                         </div>
+
+                   </div>
+           
+                 
+               </div>
+             </div>
+                 
+             <%}%>
+                   
+           <%})%>
+                
+         </div>
+           
+ </section>
+
+ </section>
+
+
+ <section class="layout-container-wide section-bg-lighter py-small">
+
+  <p class="text-smaller text-lighter">Complementary to <%= macroName %> Artist </p>
+        
+<!------------------------------------------------------- MACRO SECTION 1 ------------------------------------------------------->
+
+<% if(logged && res_users_macro_sec_1!=undefined && res_users_macro_sec_1.length>0){ %>
+ 
+    <div class="section-scroll-header"><h5><%= titleMacro1 %></h5><span><a href="/users/<%= urlMacro1 %>"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+    
+    <section class="horizontal-scroll">
+      
+            <div class="row">
+            <% res_users_macro_sec_1.forEach(function(res){%>
+            
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                  <div class="card-container style3">
+
+                    <div class="front">
+                        <figure>
+                        <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                        <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                        </figure>
+                    </div>
+
+                    <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                  
+                    <div class="icons">
+                      <% res_links.forEach(function(result){%>
+                        <%if(result.user_id == res.user_id){%>
+                          <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                        <%}%>
+                      <%})%>
+                    </div>
+
+                </div>
+            </div>
+              
+            <%})%>
+            
+        </div>
+      
+    </section>
+    
+   <% } %>
+
+   
+
+
+<!-------------------------------------------------------- MACRO SECTION 2 ---------------------------------------------------------->
+
+<% if(logged && res_users_macro_sec_2!=undefined && res_users_macro_sec_2.length>0){ %>
+
+    <div class="section-scroll-header"><h5><%= titleMacro2 %></h5><span><a href="/users/<%= urlMacro2 %>"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+    
+    <section class="horizontal-scroll">
+      
+            <div class="row">
+            <% res_users_macro_sec_2.forEach(function(res){%>
+            
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+
+                  <div class="front">
+                    <figure>
+                      <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                      <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                    </figure>
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                  
+                    <div class="icons">
+                      <% res_links.forEach(function(result){%>
+                        <%if(result.user_id == res.user_id){%>
+                        <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                        <%}%>
+                      <%})%>
+
+                    </div>
+              
+                </div>
+              </div>
+              
+            <%})%>
+            
+        </div>
+      
+    </section>
+   <% } %>
+
+
+
+
+
+
+
+</section>
+
+<section class="layout-container-wide section-bg-lighter2 py-small">
+
+<p class="text-smaller text-lighter">Artists more like you</p>
+
+ <!---------------------------------------------------------------- USERS WITH A COMMON GENRE ------------------------------------------------->
+
+  <%if(logged && res_users_samegenre!=""){%>
+    <div class="section-scroll-header"><h5><%= titleSameGenre %></h5><span><a href="/users/withcommongenre"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+    
+    <section class="horizontal-scroll">
+      
+            <div class="row">
+            <% res_users_samegenre.forEach(function(res){%>
+            
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+                    <div class="front">
+                        <figure>
+                          <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                        </figure>
+                    </div>
+                    <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                    <div class="icons">
+                      <% res_links.forEach(function(result){%>
+                        <%if(result.user_id == res.user_id){%>
+                          <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                        <%}%>
+                      <%})%>
+                    </div>
+                </div>
+              </div>
+              
+            <%})%>
+            
+        </div>
+      
+    </section>
+    <% } %>
+
+
+
+<!----------------------------------------------------- USERS SAME COUNTRY --------------------------------------------------------->
+
+  <%if(logged && res_users_samecountry!=""){%>
+    <div class="section-scroll-header"><h5><%= titleSameCountry %></h5><span><a href="/users/inmycountry"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+
+        <section class="horizontal-scroll">
+          
+                <div class="row">
+                <% res_users_samecountry.forEach(function(res){%>
+                 
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                      <div class="card-container style2">
+                          <div class="front">
+                            <figure>
+                              <a href="profile/<%=res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                              <a class="img-overlay"><h5 class="name"><%= res.artist_name %></h5></a>
+                            </figure>        
+                          </div>
+                          <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                          <div class="icons">
+                            <% res_links.forEach(function(result){%>
+                              <%if(result.user_id == res.user_id){%>
+                                <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png"></a>
+                              <%}%>
+                            <%})%>
+                          </div>
+                      </div>
+                    </div>
+                <%})%>
+            </div>
+        </section>
+  <%}%>
+
+  <!--<img src="foo.jpg" onerror="if (this.src != 'error.jpg') this.src = 'error.jpg';">-->
+
+
+
+
+  
+
+
+<!--------------------------------------------------------- USERS SAME LEVEL ------------------------------------------------------------------>
+
+    <% if(logged && res_users_samelevel!=""){ %>
+
+      <div class="section-scroll-header"><h5><%= titleSameLevel %></h5><span><a href="/users/samelevel"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+      <section class="horizontal-scroll">
+              <div class="row">
+              <% res_users_samelevel.forEach(function(res){%>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                  <div class="card-container style2">
+                      <div class="front">
+                        <figure>
+                          <a href="profile/<%=res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                          <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                        </figure>
+                      </div>
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p><p></p></div>
+                      <div class="icons">
+                        <% res_links.forEach(function(result){%>
+                          <%if(result.user_id == res.user_id){%>
+                            <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                          <%}%>
+                        <%})%>
+                      </div>
+                  </div>
+                </div>
+           <%})%>
+        </div>
+      </section>
+    <%}%>
+  
+
+
+
+
+ <!--------------------------------------------------------- USERS WITH A COMMON CATEGORY ----------------------------------------------->
+
+ <%if(logged && res_users_samecategory!=""){%>
+  <div class="section-scroll-header"><h5>Users with a category in common with you</h5><span><a href="/users/withcommoncategory"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+  
+  <section class="horizontal-scroll">
+    
+          <div class="row">
+          <% res_users_samecategory.forEach(function(res){%>
+          
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+              <div class="card-container style3">
+
+                  <div class="front">
+                      <figure>
+                        <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                        <a class="img-overlay"><span class="name"><%= res.artist_name %></span></a>
+                      </figure>
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                  
+                  <div class="icons">
+                    <% res_links.forEach(function(result){%>
+                      <%if(result.user_id == res.user_id){%>
+                        <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png"></a>
+                      <%}%>
+                    <%})%>
+                  </div>
+
+              </div>
+            </div>
+            
+          <%})%>
+          
+      </div>
+    
+  </section>
+  <%}%>
+
+</section>
+
+
+<section class="layout-container-wide py-small">   
+  
+<p class="text-smaller text-lighter">General Sections</p>
+
+<!------------------------------------------------------- [LOGGED/UNLOGGED] USERS MUSIC  ------------------------------------------------------->
+
+<% if(res_users_music.length>0){ %>
+ 
+  <div class="section-scroll-header"><h5> <span class="color-primary">Music</span> Artists</h5><span><a href="/section/musicartists"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+  
+  
+  <section class="horizontal-scroll">
+    
+          <div class="row">
+          <% res_users_music.forEach(function(res){%>
+          
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+
+                  <div class="front">
+                      <figure>
+                      <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                      <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                      </figure>
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                
+                  <div class="icons">
+                    <% res_links.forEach(function(result){%>
+                      <%if(result.user_id == res.user_id){%>
+                        <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                      <%}%>
+                    <%})%>
+                  </div>
+
+              </div>
+          </div>
+            
+          <%})%>
+          
+      </div>
+    
+  </section>
+  
+ <% } %>
+
+
+ <!------------------------------------------------------- [LOGGED/UNLOGGED] USERS VIDEO  ------------------------------------------------------->
+
+<% if(res_users_video.length>0){ %>
+ 
+  <div class="section-scroll-header"><h5><span class="color-primary">Video</span> Artists</h5><span><a href="/section/videoartists"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+  
+  
+  <section class="horizontal-scroll">
+    
+          <div class="row">
+          <% res_users_video.forEach(function(res){%>
+          
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+
+                  <div class="front">
+                      <figure>
+                      <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                      <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                      </figure>
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                
+                  <div class="icons">
+                    <% res_links.forEach(function(result){%>
+                      <%if(result.user_id == res.user_id){%>
+                        <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                      <%}%>
+                    <%})%>
+                  </div>
+
+              </div>
+          </div>
+            
+          <%})%>
+          
+      </div>
+    
+  </section>
+  
+ <% } %>
+
+
+ <!------------------------------------------------------- [LOGGED/UNLOGGED] USERS DANCE  ------------------------------------------------------->
+
+<% if(res_users_dance.length>0){ %>
+ 
+  <div class="section-scroll-header"><h5><span class="color-primary">Dance</span> Artists</h5><span><a href="/section/danceartists"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+  
+  
+  <section class="horizontal-scroll">
+    
+          <div class="row">
+          <% res_users_dance.forEach(function(res){%>
+          
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="card-container style3">
+
+                  <div class="front">
+                      <figure>
+                      <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                      <a class="img-overlay"><h6 class="name"><%= res.artist_name %></h6></a>
+                      </figure>
+                  </div>
+
+                  <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                
+                  <div class="icons">
+                    <% res_links.forEach(function(result){%>
+                      <%if(result.user_id == res.user_id){%>
+                        <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png" alt=""></a>
+                      <%}%>
+                    <%})%>
+                  </div>
+
+              </div>
+          </div>
+            
+          <%})%>
+          
+      </div>
+    
+  </section>
+  
+ <% } %>
+
+ 
+</section>
+
+
+<section class="layout-container-wide py-small">
+
+<p class="text-smaller text-lighter">Based on activity</p>
+ 
+  <!------------------------------------------------------------- USERS TODAY ACTIVE --------------------------------------------------->
+  <% if(res_users_active.length > 1){ %>
+  <div class="section-scroll-header"><h5><%= titleTodayActive %></h5><span><a href="/users/activetoday"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+
+        <section class="horizontal-scroll">
+          
+          <div class="row">
+          
+                <% res_users_active.forEach(function(res){%>
+                
+                  <%if(logged && userLogged.user_id != res.user_id || !logged){%>
+                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                  <div class="card-container style3">
+                    <div class="front">
+                      <figure>
+                        <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+                      </figure>
+                    </div>
+                  
+                    <div class="content-text">
+
+                      <span class="name"><%= res.artist_name %></span>
+                      <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                        
+                        <div class="icons">
+                          <% res_links.forEach(function(result){%>
+                            <%if(result.user_id == res.user_id){%>   
+                            <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png"></a>
+                            <%}%>
+                          <%})%>                      
+                        </div>
+   
+                    </div>
+
+                </div>
+              </div>
+                  
+              <%}%>
+                    
+            <%})%>
+                
+         </div>
+            
+      </section>
+
+  <% } %>
+
+
+
+
+<!----------------------------------------------------------- USERS TODAY NEW --- -------------------------------------------------->
+
+<% if(res_users_newuser.length > 5){ %>
+  <div class="section-scroll-header"><h5><%= titleTodayNew %></h5><span><a href="/users/newusertoday"><img src="../icons/arrow-right.svg" alt=""></a></span></div>
+
+<section class="horizontal-scroll">
+  
+  <div class="row">
+  
+    <% res_users_newuser.forEach(function(res){%>
+        
+         <%if(logged && userLogged.user_id != res.user_id || !logged){%>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+          <div class="card-container style3">
+            <div class="front">
+              <figure>
+                <a href="profile/<%= res.user_name%>"><img class="img_profile" src="uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != 'uploads/default/default.jpg') this.src = 'uploads/default/default.jpg';"></a>
+              </figure>
+            </div>
+  
+            <div class="content-text">
+   
+                <span class="name"><%= res.artist_name %></span>
+                <div class="artist_info"><p><%= res.country %></p><p><%= res.artist_type %></p></div>
+                
+                <div class="icons">
+                  <% res_links.forEach(function(result){%>
+                    <%if(result.user_id == res.user_id){%>
+                    <a href="<%=result.url%>"><img src="/icons/platforms/w-<%=result.link_name%>.png"></a>
+                    <%}%>
+                  <%})%>
+                </div>
+
+            </div>
+    
+          
+        </div>
+      </div>
+          
+    <% } %>
+            
+  <% }) %>
+        
+  
+  </div>
+    
+</section>
+<% } %>
+
+
+
+</section>
+
+
+</div>
+</div>
+
+
+  
+
+<div id="panel-message-floating" class="panel-message-floating">
+  <span class="scroll-icon"><span class="scroll-icon__dot"></span></span>
+  <p>Muovi il puntatore in una sezione ed esplorala usando la rotellina</p>
+</div>
+
+<!--
+<section class="layout-container-wide bg-section-updates py-bodytop py-small">
+  <div class="d-flex flex-row justify-between">
+    <div>
+<h5> Lorem ipsum dolor sit amet consectetur adipisicing. </h5>
+Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa saepe, praesentium corporis molestiae officiis nobis.
+    </div>
+    <div>
+<a href="" class="btn btn-medium btn-bg-outline"> Learn More! </a>
+    </div>
+  </div>
+</section>
+-->
+
+
+
+
+<%- include partials/footer %>
+
+

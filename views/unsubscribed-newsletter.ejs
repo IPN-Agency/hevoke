@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>L26</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <link rel='stylesheet' href='../css/style.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body class="nopanel">
+
+
+
+    
+
+
+    <section class="layout-container-narrow py-medium section-bg-lighter">
+        <span class="site-logo-text logo-text-medium">L26</span>
+        <h4>Newsletter</h4>
+    </section>
+
+   <!-- <iframe id="video1" class="yvideo" width="560" height="315" src="https://www.youtube.com/embed/nVUUk_12yXU?autoplay=1&mute=1&enable_js=1" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+
+   -->
+    
+
+    <section class="layout-container-narrow py-medium">
+
+
+        <!-------------------- POST -------------------->
+        <% if(locals.status && status=="KO"){ %>
+
+            <div class="py-small">
+            <p class="lead">A problem occurred.</p>
+            <p><%- msg %></p> 
+            </div>
+ 
+            <p class="text-lighter text-smaller">If you think this is our mistake please get in contact with us.</p>
+            
+        <% } %>
+
+        <% if(locals.status && status=="OK"){ %>
+            <h4>Check your email.</h4>
+         
+            <div class="py-small">
+            <p class="lead">We've sent you an email at <%- email_subscribed %> to confirm your subscription!</p>
+            <p>After you confirm, we can start sending you all the good stuff.</p> 
+           
+            </div>
+ 
+            <p>If you don't see the confirmation email in your inbox within a few minutes, please be sure to check your spam/junk folder.</p>
+   
+        <% } %>
+
+
+        <!--------------------GET-------------------->
+        <% if(!locals.status){ %>
+            <h4>Unsubscribe</h4>
+            <br>
+            You will receive an email to unsubscribe.
+
+            <hr>
+
+            <form action="/unsubscribed-newsletter" method="POST">
+            <p class="">Your email</p>
+            <input type="email" name="email" class="input-lead input-bg-outline" required>
+            <!--ANTISPAM HONEYPOT--><input type="text" name="website" style="display:none !important" tabindex="-1" autocomplete="off" value="">
+            <!--ANTISPAM HONEYPOT--><input type="checkbox" name="contact_me_by_phone" value="1" style="display:none !important" tabindex="-1" autocomplete="off">
+            <hr>
+            <br>
+            <button type="submit" class="btn btn-big btn-bg-primary">Unsubscribe</button>
+          
+            </form> 
+
+            <% } %>
+        <hr>
+        <div class="general-footer-bar">
+            <a href="/home">Home</a> <a href="/getstarted">Features</a>  <a href="/login">Login</a>  <div>Don't have an account?<a href="" class="btn btn-small btn-bg-outline">Signup</a></div>
+        </div>     
+        
+        
+
+    </section>   
+
+
+
+<script>
+
+
+
+function checkInputEmail(){
+    
+        var email =  document.getElementById("email").value.trim();
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+                if(email != ''){
+                    $.ajax({
+                        url: '/signupCheckEmail',
+                        type: 'post',
+                        data: {email: email},
+                        success: function(response){
+                            if(response=="false"){
+                                checkEmail = false;
+                                $('#signup-email-response').html("<span class='form-response'>This email is already used for an account.</span>");
+                                document.getElementById("email-status").classList.remove("success");
+                                document.getElementById("email-status").innerHTML = "x";
+                                document.getElementById("email-status").classList.add("input-review");
+                                
+                            }
+                            else{
+                                checkEmail = true;
+                                $('#signup-email-response').html("");
+                                document.getElementById("email-status").innerHTML = "✓";
+                                document.getElementById("email-status").classList.add("success");
+                            
+                            }
+                            
+                        }
+                    });
+                }else{
+                    $("#signup-email-response").html("");
+                    
+                }
+        }
+        else{
+            checkEmail = false;
+            $('#signup-email-response').html("<span class='form-response'>This email is not in a valid format.</span>");
+            document.getElementById("email-status").classList.remove("success");
+            document.getElementById("email-status").innerHTML = "x";
+            document.getElementById("email-status").classList.add("input-review");
+          
+        }
+
+}
+
+
+
+
+$("#email").on('change', function(){
+    checkInputEmail();
+});
+
+
+
+
+/* PREVENT SPACES IN INPUTS */
+
+
+
+var inputEmail = document.querySelector('[name="email"]');
+inputEmail.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode;
+    if (key === 32) { event.preventDefault(); }
+});
+
+
+</script>
+                
+       
+   
+</body>
+</html>

@@ -1,0 +1,51 @@
+
+
+<section class="layout-container-wide py-medium">
+    
+    <div class="row align-items-center justify-content-between">
+
+        <div class="col-12 col-lg-auto">
+        
+            <div class="d-flex align-items-center">
+                <div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon medium" src="../uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+                <div class="pl-3">
+                    <p>Welcome <%=userLogged.artist_name %></p>
+                    <h3>Your Connections Dashboard</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+            <% if (true) { %>
+                <div> <a href="/new-radar" class="btn btn-ic btn-medium btn-bg-lighter">Create Radar <img src="/icons/f/arrow-right.svg" alt=""></a> </div>
+            <% } %>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="layout-container-wide py-small section-bg-lighter">
+    
+<div id="connections-nav">
+    <a class="<%= active == 'dashboard' ? 'active' : '' %>" href="/myconnections"> <span></span> Overview</a>
+    <a class="<%= active == 'radars' ? 'active' : '' %>" href="/myconnections/radars"> <span></span> Radars</a>
+    <a class="<%= active == 'signals-collab-received' ? 'active' : '' %>" href="/myconnections/signals-collab-received"> <span></span> Other Signals Collaboration</a>
+    <a class="<%= active == 'signals-collab-sent' ? 'active' : '' %>" href="/myconnections/signals-collab-sent"> <span></span> Signals Collaboration Sent</a>
+    <a class="<%= active == 'likes-received' ? 'active' : '' %>" href="/myconnections/like-received"> <span></span> Likes received</a>
+    <a class="<%= active == 'likes-sent' ? 'active' : '' %>" href="/myconnections/like-sent"> <span></span> Likes sent</a>
+    <a class="<%= active == 'following' ? 'active' : '' %>" href="/myconnections/following"> <span></span> Following</a>
+    <!--
+    <a class="<%= active == 'followers' ? 'active' : '' %>" href="/myconnections/followers"> <span></span> Followers</a>
+    -->
+</div>
+  
+</section>
+
+
+
+
+
+

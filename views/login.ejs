@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hevoke - Sign In</title>
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+    <link rel='stylesheet' href='../css/style.css' />
+    <link rel='stylesheet' href='../css/access.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="access login">
+
+  
+<section class="layout-container-wide">
+
+        <div class="central-form-container h-100">
+            
+            <form class="access-form form-login" action="/login" method="post" onsubmit="return validateForm()">
+                <div>
+                    <span class="site-logo-text logo-text-big">Hevoke</span>
+                </div>
+
+                <div>
+                    <p class="lead">Sign in to your Hevoke account</p>
+                </div>
+
+                <div>
+                    <div class="input-container">
+                     <i class="input-icon"><img src="/icons/f/at-sign.svg"></i> 
+                    <input type="email" class="input-field input-lead" id="email" name="email" placeholder="Email" required> </div>
+
+                    <div class="input-container">
+                        <i class="input-icon"><img src="/icons/f/lock.svg"></i>
+                    <input type="password" class="input-field input-lead" id="password" name="password" placeholder="Password" required>
+                    </div>
+            
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
+                </div>
+
+                <div>
+                    <button id="login" type="submit" class="btn btn-big btn-bg-primary btn-mobile-stretch">Sign In</button>
+                    <ul>
+                        <li><a href="/account/request-reset-password">Forgot password?</a></li>
+                        <li><a href="/signup">Create a free account</a></li>
+                    </ul>
+                </div>
+           
+                    <!--
+                    <div class="checkbox"><input id="login-remember" type="checkbox" name="remember" value="1">  <label>Remember me</label></div>
+                    -->
+            </form>
+
+        </div>
+
+</section>
+
+
+
+
+<div id="loader">
+    <div>
+      <div class="bars-cont bars-cont">
+          <div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div>
+          <div class="load-bar"></div>
+          <div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+/*-------------------------------------------------------- LOGIN VALIDATION ---------------------------------------------------*/
+function validateForm(){
+    var error = false; var msg="";
+    var inputEmail = document.getElementById("email");
+    var inputPassword = document.getElementById("password");
+    if(inputEmail.value == ""){ error = true; }
+    if(inputPassword.value == ""){ error = true; }
+    //also for sql injections: check if email or password have any kind of white space
+    if(/\s/.test(inputEmail.value)){error = true;}
+    if(/\s/.test(inputPassword.value)){error = true;}
+    if(!error){ showLoader(); }
+    return !error;
+}
+
+
+
+  function showLoader(){
+    let bars = document.querySelectorAll('.load-bar'); for(let i = 0; i < bars.length; i++){ bars[i].style.animationDelay = `${i/15}s`;}
+    document.getElementById("loader").classList.add("show-loader");
+  }
+
+
+
+</script>
+
+<script>
+                     
+/* PREVENT SPACES IN INPUTS */
+var inputEmail = document.querySelector('[name="email"]');
+inputEmail.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode; if (key === 32) { event.preventDefault(); }
+});
+
+var inputPassword = document.querySelector('[name="password"]');
+inputPassword.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode; if (key === 32) { event.preventDefault(); }
+});
+</script>
+                    
+                 
+</body>
+</html>

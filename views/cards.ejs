@@ -1,0 +1,304 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>L26 - Registrati</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+   <link rel='stylesheet' href='../css/style.css' />
+    
+</head>
+<body class="access">
+
+
+<div id="panel-message-floating" class="panel-message-floating">
+
+  <span class="scroll-icon"><span class="scroll-icon__dot"></span></span>
+  <p>Muovi il puntatore in una sezione ed esplorala usando la rotellina</p>
+</div>
+
+
+
+
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+  
+  <div class="content">
+
+
+        <div class="layout-container-wide py-medium">
+
+        <div class="section-scroll-header"><h5>All artists</h5><span>Guarda tutti</span></div>
+           
+        <div class="horizontal-scroll">
+
+                <div class="row">
+            
+                    <% users_result.forEach(function(res){ %>
+
+                        <div class="col-md-4 col-lg-3">
+                        <div class="card-user card-user-style0bg2">
+
+                            <div class="content-image">
+                            <a href="profile/<%= res.urlname %>"><img src="uploads/<%= res.user_id %>/profile.jpg" alt="" ></a>
+                            </div>
+
+                            <div class="content-text">
+                                <div class="content-text-header">
+                                <span class="artist-name"><a href="profile/<%= res.urlname %>"><%= res.artist_name %></a></span>
+                                <span class="artist-type"><%= res.artist_type %></span>
+                                </div>
+                                <div class="content-text-bottom">
+                                 <span class=""><i class='icon-location'></i><%= res.city %></span> <span>100</span>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        </div>
+
+                    <% }) %>
+                
+                  </div>
+
+          
+               </div>
+         
+
+   </div>
+              
+              
+  </div>
+              
+</div>
+
+
+
+
+<!--
+
+<div class="contain layout-container-wide py-medium">
+
+    <h5>Video o foto a scopo promozionale a pagamento</h5>
+
+    <div class="horizontal-scroll">
+    <div class="row">
+      <div class="row__inner">
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-2.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-3.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-4.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-5.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-6.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-7.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-8.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-9.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+  
+
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-16.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-17.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-18.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+        <div class="tile">
+          <div class="tile__media">
+            <img class="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-19.jpg" alt=""  />
+          </div>
+          <div class="tile__details">
+            <div class="tile__title">
+              Top Gear
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>
+
+</div>
+
+
+-->
+
+<script>
+(function() {
+    
+   
+
+    Array.prototype.forEach.call(document.getElementsByClassName("horizontal-scroll"), function(element) {
+
+        function scrollHorizontally0(e) {
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        element.scrollLeft -= (delta*80); // Multiplied by 40
+        
+        e.preventDefault();
+        }
+
+        if (element.addEventListener) {
+            element.addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+            element.addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+        
+        } else {
+            element.attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+            
+        }
+});
+
+
+ /*
+    function scrollHorizontally0(e) {
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+        document.getElementsByClassName('horizontal-scroll')[0].scrollLeft -= (delta*100); // Multiplied by 40
+        
+        e.preventDefault();
+    }
+    */
+
+/*
+
+    if (document.getElementsByClassName('horizontal-scroll')[0].addEventListener) {
+        
+        document.getElementsByClassName('horizontal-scroll')[0].addEventListener("mousewheel", scrollHorizontally0, false); // IE9, Chrome, Safari, Opera
+
+        
+        document.getElementsByClassName('horizontal-scroll')[0].addEventListener("DOMMouseScroll", scrollHorizontally0, false); // Firefox
+        
+    } else {
+       
+        document.getElementsByClassName('horizontal-scroll')[0].attachEvent("onmousewheel", scrollHorizontally0); // IE 6/7/8
+        
+    }
+
+    */
+})();
+
+</script>
+
+
+
+</body>
+</html>
+

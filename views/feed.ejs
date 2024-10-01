@@ -1,0 +1,57 @@
+
+
+<%- include partials/header %>
+
+<div class="layout-container-wide py-bodytop py-medium">
+
+  <h5 class="text-lighter">Feed personale</h5><h3>Uscite importanti degli artisti che segui</h3>
+  <hr>
+
+<div class="row">
+<div class="col-md-9">
+
+</div>
+<div class="col-md-3 text-right">
+
+</div>
+
+</div>
+
+        
+       
+      
+            <hr>
+              
+              <% if (posts) { %>
+              
+                <div class="row">
+   
+                <% posts.forEach(function(res){ %>
+
+                    <div class="col-md-12 col-lg-12">
+                      <div class="card-feed-post">
+                         <div><span class=""></span><%= res.datetime_feed.toUTCString(); %></span></div>
+                        <div class="content-image"><a href="profile/<%= res.user_id %>"><img src="uploads/<%= res.user_id %>/profile.jpg" alt="" ></a><span class="artist-name"><a href="profile/<%= res.user_id %>"><%= res.artist_name %></a></div>
+
+                          <div> <span class=""><%= res.post_type %></span> </div>  
+                          <div><span class=""><a href="profile/<%= res.user_id %>"><%= res.post_title %></a></span></div>  
+                           
+                          <div>   <span class=""><a class="btn btn-small btn-bg-lighter"href="profile/<%= res.user_id %>">Profile</a></span></div> 
+   
+                     
+                      
+                    </div>
+                    </div>
+                      
+ 
+                <% }) %>
+              </div>
+
+                <% } %>
+
+
+                <p class="console-sql"><%= sql %></p>
+
+
+              </div>
+ <%- include partials/footer %>

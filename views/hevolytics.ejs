@@ -1,0 +1,41 @@
+<%- include partials/header %>
+
+<section class="layout-container-wide py-medium pb-0">
+  <h3>DB User Records</h3>
+</section>
+
+<section class="layout-container-wide py-medium">
+<h5>Accounts</h5>
+<ul class="py-small pb-0">
+  <% listUsers.forEach(function(user){ %>
+    <li class="d-flex  align-items-center">
+      <span class="mr-5"> <%= user.email %></span>
+      <span class="mr-5"> <%= user.user_name %></span>
+      <span class="mr-5"> status <%= user.active %></span>
+    </li>
+  <% }) %>
+</ul>
+
+</section>
+
+
+
+
+<section class="layout-container-wide py-medium">
+  <h5>Newsletter</h5>
+  <ul class="py-small pb-0">
+    <% listSubscribersNewsletter.forEach(function(user){ %>
+      <li class="d-flex  align-items-center">
+        <span class="mr-5"> <%= user.email %></span>
+        <span class="mr-5"> <%= user.date_opt_in %></span>
+        <span class="mr-5"> status <%= user.status %></span>
+      </li>
+    <% }) %>
+  </ul>
+  
+  </section>
+  
+
+    
+
+ <%- include partials/footer-account %>

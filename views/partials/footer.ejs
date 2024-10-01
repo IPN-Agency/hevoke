@@ -1,0 +1,82 @@
+<% if(true){ %>
+    <div class="catch-emails layout-container-medium" data-tag="">
+        <h6>Want to stay updated?</h6>
+        <p class="text-smaller py-small">
+            new major functionalities, updates about community growth, artist related exclusive offers, opportunities for artists promotion
+        </p>
+        <form action="/newsletter" method="GET">
+           <div class="form">     
+                <input type="text" class="email" name="email" placeholder="Insert your email or click 'Next Step'">
+                <input type="hidden" class="phone" value="" style="display:none !important" tabindex="-1" autocomplete="off">
+                <button type="submit" class="button action-subscribe">Next Step</button>
+                <div class="action-close-catch-emails"> x </div>
+            </div>
+          </form>
+        </div>
+<% } %>
+
+
+
+<% if(logged == false){ %>
+<section class=" py-medium">
+    <div class="section-cta-container layout-container-wide">
+        <div class="cta-text">     
+            <h4>Free account, better experience.</h4>
+            
+        </div>
+        <div class="cta-text">     
+            <p class="pt-3">Setup your profile to see compatible artists. <br>No credit card or personal information required.</p>
+        </div>
+        <div class="cta-action">
+            <div class="wrapper-inputs">
+                <a href="/signup" class="btn btn-big btn-bg-white btn-mobile-stretch">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</section>
+<% } %>
+
+
+
+    <footer id="footer" class="layout-container-medium footer py-medium text-center">
+
+        <div class="footer-widget py-small">
+              <div class="socials-icons medium white">
+                <a class="" href="#"><img src="/icons/platforms/w-facebook.png"></a>
+                <a class="" href="#"><img src="/icons/platforms/w-youtube.png"></a>
+                <a class="" href="https://instagram.com/hevoke.com_"><img src="/icons/platforms/w-instagram.png"></a>
+                <a class="" href="#"><img src="/icons/platforms/w-twitter.png"></a>
+              </div>
+        </div>
+
+         <div class="footer-widget text-center">
+          <span class="footer-links">
+              <a href="#">Get Started</a>
+              <a href="newsletter">Updates</a>
+              <a href="#">Help Center</a>
+              <a href="mailto:support@hevoke.com">Contact us</a>
+          </span>
+        </div>
+
+</footer>
+  
+
+
+    <div class="copyright layout-container-wide">
+        <div class="copyright-menu text-center">
+            <ul>
+                <li> <a href="terms">Terms and Conditions</a> </li>
+                <li> <a href="privacy">Privacy and Cookie Policy</a>  </li>
+                <li> <a href="home">Help Centre</a> </li>
+                <li> <a href="mailto:support@hevoke.com">Contact Us</a> </li>
+            </ul>
+        </div>      
+    </div>
+    <!-- End Copyright -->
+ 
+
+<script src="/scripts/horizontalscroll.js"></script>
+
+
+</body>
+</html>

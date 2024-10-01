@@ -1,0 +1,252 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hevoke</title>
+        <link rel="icon" href="../images/favicon.ico">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+       <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+       <link rel='stylesheet' href='/css/style.css' />
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+<body>
+
+
+    <div id="radar-selection-mode" class="loader">
+      <span id="close-radar-selection-mode" class="close"> <img src="/icons/f/x.svg" alt=""> </span>
+      <div class="inner-content">
+        <h4>Radar Eye</h4>
+        
+        <br>
+        <h5>Select a mode</h5>
+        <div class="wrapper-radar-launch-mode py-small">
+          <div class="div-mode" id="div-mode-discover" onclick="selectMode('discover')">
+            <span class="icon icon-medium icon-bg-outline"><img src="/icons/f/eye.svg" alt="" style="width: 25px; height: 25px; filter: invert(1)"></span>
+            <h5>Discover</h5>
+            <p class="text-lighter">Users that are compatible with your radars or similar to you.</p>
+          </div>
+       
+          <div class="div-mode" id="div-mode-match" onclick="selectMode('match')">
+            <span class="icon icon-medium icon-bg-outline"><img src="/icons/f/repeat.svg" alt="" style="width: 25px; height: 25px; filter: invert(1)"></span>
+            <h5>Radar Match</h5>
+            <p class="text-lighter">Users that are compatible with your radars and also have an active radar looking for your main category.</p>
+          </div>
+        </div>
+        <p class="text-lighter text-smaller">Users that you already liked won't show up. Ordered by similarity to your profile.</p>
+        <a href="#" id="btn-start-radar-scan" onclick="showLoader(this)" class="btn btn-medium btn-bg-lighter">Start</a>
+      </div>
+    </div>
+
+  <script>
+     function selectMode(mode){
+      var elems = document.querySelectorAll(".div-mode");
+      [].forEach.call(elems, function(el) { el.classList.remove("selected"); });
+
+      if(mode == "discover"){ document.getElementById("btn-start-radar-scan").href = "/fyp";  document.getElementById("div-mode-discover").classList.add('selected'); }
+      if(mode == "match"){ document.getElementById("btn-start-radar-scan").href = "/fypradar";  document.getElementById("div-mode-match").classList.add('selected'); }
+     }
+  </script>
+
+
+
+    <div id="loader-radar" class="loader">
+      <div>
+        <div class="bars-cont bars-cont">
+            <div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div>
+            <div class="load-bar"></div>
+            <div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div><div class="load-bar"></div>
+        </div>
+        <p>Searching artists for you...</p>
+      </div>
+    </div>
+  
+
+
+
+<script>
+  function showLoader(obj){
+    var href = obj.getAttribute("href");
+    if(href=="/fyp" || href=="/fypradar"){
+      let bars = document.querySelectorAll('.load-bar'); for(let i = 0; i < bars.length; i++){ bars[i].style.animationDelay = `${i/15}s`;}
+      document.getElementById("loader-radar").classList.add("show-loader");
+    }
+  }
+
+  function showSelectMode(){
+    document.getElementById("radar-selection-mode").classList.add("show-loader");
+  }
+</script>
+
+    
+
+  <div class="menu-container">
+ 
+      <div id="menu-panel" class="menu-panel">
+
+          <div class="menu-panel-content">
+
+            <div>
+                  <div class="menu-panel-content-header">
+                    <div>
+                      <span class="site-logo-text logo-text-small">Hevoke</span>
+                    </div>
+                   
+                    <span id="closemenu" class="icon"> <img src="/icons/f/x.svg" alt=""> </span>
+                  </div>
+            </div>
+                  
+            <nav>
+                  <ul class="menu-links">
+                    <li>Home</li>
+                    <li><a href="/home">Discovery</a></li> <li><a href="/search">Search</a></li> <li><a href="/genres">Genres</a></li>
+                  </ul>               
+              
+                  <ul class="menu-links">
+                    <li>Artists</li>
+                      <li><li><a href="/section/musicartists">Music</a></li> <li><a href="/section/videoartists">Visual</a> <li><a href="/section/danceartists">Dance</a></li></li>
+                  </ul>
+              
+                  <% if(logged == true){ %>
+                  <ul class="menu-links">
+                    <li>Connections</li>
+                    <li><a href="/myconnections">Connections</a></li> <li><a href="/myconnections/signals-collab-received">Collab Requests</a> <li><a href="/myconnections/likesreceived">Likes</a>  <li><a href="/myconnections/radars">Radars</a></li>
+                  </ul>
+                  <% } %>
+          
+            </nav>
+                
+            <div class="menu-panel-content-header">
+
+              <div>
+                <% if(logged == true){ %>
+                  <div class="d-flex align-items-center">
+                    <a href="/manage-profile"><div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon medium" src="/uploads/<%= userLogged.user_id %>/profile.jpg"></div></a>
+                    <a href="/logout" class="btn btn-medium btn-bg-outline">Logout</a>
+                  </div>
+                <% } %>
+                <% if(logged == false){ %>
+                  <div class="">
+                  <a href="" class="btn btn-medium btn-bg-lighter">Signup</a>
+                  <a href="" class="btn btn-medium btn-bg-outline">Login</a>
+                  </div> 
+                <% } %>
+              </div>
+                    
+              <div class="socials-icons big white">
+                <a class="" href="https://facebook.com"><img src="/icons/platforms/w-facebook.png"></a>
+                <a class="" href="https://facebook.com"><img src="/icons/platforms/w-youtube.png"></a>
+                <a class="" href="https://facebook.com"><img src="/icons/platforms/w-instagram.png"></a>
+               <!--<a class="" href="https://facebook.com"><img src="/icons/platforms/w-twitter.png"></a>--> 
+              </div>
+
+          </div>
+
+  
+      </div>
+    </div>
+        
+    
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+      document.getElementById('openmenu').addEventListener('click', function() {
+          document.getElementById('menu-panel').classList.add("opened");
+      });
+  
+      document.getElementById('closemenu').onclick = function(){
+          document.getElementById('menu-panel').classList.remove("opened"); 
+      };
+
+      document.getElementById('close-radar-selection-mode').onclick = function(){
+          document.getElementById('radar-selection-mode').classList.remove("show-loader"); 
+      };
+});
+</script>
+
+
+
+
+
+ <!-------
+<nav id="navsite" class='navbar  navbar-expand-lg fixed-top align-items-center'>
+
+  <a id="openmenu" class="hamburger-checkbox">
+    <div class="hamburger-icon"> <label for="openmenu" id="hamburger-label"> <span></span> <span></span><span></span></label>  </div>
+  </a>
+
+  <a id='logo' class='navbar-brand nonlink-look logo' href='/home'>L26</a>
+
+  <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">o</span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <ul class="navbar-nav">
+              <li class="nav-item nav-link-general"><a class="nav-link" href='/home'>Home</a></li>
+              <li class="nav-item nav-link-general"><a class="nav-link" href='/search'>Search Artists</a></li>
+              <li class="nav-item nav-link-general"><a class="nav-link" href='/genres'>Browse Genres</a></li>
+              <li class="nav-item nav-link-general"><a class="nav-link" href='/cards'>New Artists</a></li>
+              <li class="nav-item nav-link-general"><a class="nav-link" href='http://localhost:8080/search-result'>Ricerca vuota</a></li>
+      </ul>
+
+
+      <ul class="navbar-nav ml-auto">
+        <% if(logged == true){%>
+        
+            <li class="nav-item dropdown">
+              <div class="navbar-panel-userlogged">
+                <a class="nav-link dropdown-toggle" href="/manage-profile"  data-toggle="dropdown">
+                  <%= userLogged.artist_name %><img class="user-profileimage-icon small" src="../uploads/<%= userLogged.user_id %>/profile.jpg" alt="">
+                </a>
+              </div>
+              
+              <ul class="dropdown-menu">
+                <a href="/manage-profile"><img class="user-profileimage-icon big" src="../uploads/<%= userLogged.user_id %>/profile.jpg" alt=""></a>
+                <h6><%= userLogged.artist_name %></h6>
+                <span>Network</span>
+                <li ><a class="dropdown-item" href="/feed">Feed</a></li>
+                <li ><a class="dropdown-item" href="/like-received">Likes Ricevuti</a></li>
+                <li ><a class="dropdown-item" href="/like-sent">Likes Inviati</a></li>
+                <li ><a class="dropdown-item" href="/followers">Followers</a></li>
+                <li ><a class="dropdown-item" href="/following">Following</a></li>
+                <li ><a class="dropdown-item" href="/chat">Messaggi</a></li>
+                <span>Profilo</span>
+                <li ><a class="dropdown-item" href="/manage-profile">Gestione profilo</a></li>
+            
+                <li ><a class="dropdown-item btn-navbar-logout" href="/logout">Logout</a></li>
+              </ul>
+            </li>
+      
+      <%}else{%>
+            <li class="nav-item"><a class="nav-link btn btn-navbar-login " href="/login">Login</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-navbar-signup" href="/signup">Signup</a></li>
+        <%}%>
+
+      </ul>
+
+  </div>
+
+</nav>
+
+-->
+
+
+
+<script>
+/*
+$(window).scroll(function() {
+  var nav = $('#navsite');
+  var top = 200;
+  if ($(window).scrollTop() >= top) {
+      nav.addClass('scroll');
+      document.getElementById("panel-message-floating").classList.add("hide");
+  } else {
+      nav.removeClass('scroll');
+      document.getElementById("panel-message-floating").classList.remove("hide");
+  }
+});
+*/
+</script>

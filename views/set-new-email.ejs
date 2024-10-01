@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hevoke - Change your email address</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+   <link rel='stylesheet' href='../css/style.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="nopanel">
+
+
+    <section class="layout-container-narrow py-medium section-bg-lighter">
+
+        <div class="d-flex align-items-center py-small pb-0 justify-content-between">
+         
+          <div class="d-flex align-items-center">
+            <div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon big" src="../uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+            <div class="pl-3">
+              <h3>Edit Profile</h3>
+              <h4 class="text-lighter"><%=userLogged.artist_name%></h4>
+            </div>
+          </div>
+          
+        </div>
+      
+      </section>
+
+
+    <div class="layout-container-narrow py-medium">
+       
+                       <h5>Change your email address</h5>
+                       <br>
+                       <p class="text-lighter">Insert a new email address below.<br>We'll send you a link to confirm this change to your current email address.</p>
+
+                            <form role="form" method="post" action="/account/set-new-email" onsubmit="return validateForm()">
+    
+                                <div style="margin:20px 0;">
+
+                                    <label>New email address</label>
+                                    <span class="d-flex align-items-center span_edit" style="display: flex; align-items: center;">
+                                        <input type="email" name="email" id="email" class="input-lead input-bg-lighter" placeholder="New email" onblur="checkInputEmail()" style="text-transform: lowercase;"><i id="email-status">✓</i></span>
+                                    
+                                      <span id="signup-email-response"></span>
+
+                                </div>
+
+                                    <div id="response-box"></div>
+                                    
+                                    <button id="button-submit-form" type="submit" class="btn btn-ic btn-big btn-bg-lighter">Send Link<img src="../icons/f/mail.svg"></button>
+       
+                            </form>
+
+                            <% if (message.length > 0) { var alertClass= status=='ok' ? 'alert-success' : 'alert-danger'; %>
+                                <div class="alert <%= alertClass %>"><%= message %></div>
+                                <% } %>
+    
+                                <span class="btn-navigation-back"> <a href="/pm"> <img src="../icons/back.svg"> Go back</a> </span>
+                    </div>   
+
+<script>
+
+
+function checkInputEmail(){
+    
+        var email =  document.getElementById("email").value.trim();
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+                if(email != ''){
+                    $.ajax({
+                        url: '/signupCheckEmail',
+                        type: 'post',
+                        data: {email: email},
+                        success: function(response){
+                            if(response == "false"){
+                                checkEmail = false;
+                                $('#signup-email-response').html("<span class='form-response'>This email is already used for an account.</span>");
+                                document.getElementById("email-status").classList.remove("success");
+                                document.getElementById("email-status").innerHTML = "x";
+                                document.getElementById("email-status").classList.add("input-review");
+                                document.getElementById("button-submit-form").setAttribute('disabled',"")
+                                
+                            }
+                            else{
+                                checkEmail = true;
+                                $('#signup-email-response').html("");
+                                document.getElementById("email-status").innerHTML = "✓";
+                                document.getElementById("email-status").classList.remove("input-review");
+                                document.getElementById("email-status").classList.add("success");
+                                document.getElementById("button-submit-form").removeAttribute('disabled',"")
+                            
+                            }
+                            
+                        }
+                    });
+                }else{
+                    $("#signup-email-response").html("");
+                    
+                }
+        }
+        else{
+            checkEmail = false;
+            $('#signup-email-response').html("<span class='form-response'>This email is not in a valid format.</span>");
+            document.getElementById("email-status").classList.remove("success");
+            document.getElementById("email-status").innerHTML = "x";
+            document.getElementById("email-status").classList.add("input-review");
+            document.getElementById("button-submit-form").setAttribute('disabled',"")
+          
+        }
+
+}
+
+
+
+/*
+$("#email").on('change', function(){
+    checkInputEmail();
+});*/
+
+
+
+
+
+/* PREVENT SPACES IN INPUTS */
+
+var inputEmail = document.querySelector('[name="email"]');
+inputEmail.addEventListener('keypress', function ( event ) {  
+   var key = event.keyCode;
+    if (key === 32) { event.preventDefault(); }
+});
+
+
+function validateForm() { 
+   var msg = "";
+   var responseBox = document.getElementById("response-box");  
+   var emailId = document.getElementById("email");
+   var error = false;
+   if(emailId.id == "email"){
+        if (emailId.value == "" || emailId.value == null) {
+            error = true; msg += " <li>Field is empty.</li>"; 
+        }   
+        if(error){
+            responseBox.innerHTML = "<span><ul>"+msg+"</ul></span>"; return false; 
+        }
+    }
+}
+
+</script>
+           
+
+
+<script>   
+    var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+    
+      const xhr = new XMLHttpRequest();  // create an XHR object
+      xhr.onload = () => { // listen for `onload` event
+          if (xhr.status == 200) { console.log('Image exists.');}
+          else {
+              console.log('Image does not exist.');
+              for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+                let element = document.getElementsByClassName("profile_default")[index];
+                console.log(element); console.log(document.getElementById("profile_picture_logged"));
+                element.removeChild(element.firstChild); //rimuove elemento img
+                let div = document.createElement('div'); div.className = "user-icon-default user-icon-default-big";
+                let h2 = document.createElement('h2'); h2.textContent = artistName[0];
+                div.append(h2);
+                element.append(div);
+              }
+          }
+      };
+      xhr.open('HEAD', document.getElementById("profile_picture_logged").src);   // create a `HEAD` request
+      xhr.send();   // send request
+    </script>
+       
+   
+</body>
+</html>

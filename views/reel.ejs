@@ -1,0 +1,756 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>L26 - Registrati</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  
+   <link rel='stylesheet' href='../css/style.css' />
+   <link rel='stylesheet' href='../css/landing.css' />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+
+
+<!--
+
+  MUSIC ARTIST -> (MUSIC)
+  VIDEO ARTIST -> VIDEO DIRECTOR (VIDEO), VIDEOGRAPHER (VIDEO), GRAPHIC DESIGNER (SONG/ALBUM ARTWORK)
+  DANCE ARTIST -> CHOREOGRAPHER/DANCER (PROMOTION CONTENT)
+
+ R
+
+
+CREATE Concepts For Video
+CREATE Original Music Video
+
+
+ CONTENT CREATOR - INFLUENCE
+  PROMOTE their music,
+Having FRESH CONTENT for their social media,
+Create a choreography for their MUSIC VIDEO,
+Starting a new TREND or VIRAL DANCE
+
+1
+SCOPRI SENZA SFORZO
+SET RADAR AND GET YOUR PAGE OF RESULTS
+
+
+2 DISCOVER FROM HOME
+Get users similars to you, users that are 
+
+
+3 BE DISCOVERED -
+Vivisiblity to your content, your socials
+By the people that might
+
+
+
+
+
+4 
+
+DISCOVER ARTISTS IN HOME
+
+
+
+3
+
+
+
+
+IDEE TESTI DA ALTRI SITI
+
+Trova la musica che vuoi
+Trova facilmente album, concerti dal vivo e remix cercando il testo o descrivendo il brano.
+
+Scopri senza sforzo
+Lasciati suggerire nuova musica in base ai tuoi gusti e a ciò che emoziona chi ti sta intorno.
+
+Scopri nuova musica e artisti di tendenza
+YouTube Music ti propone musica basata sui tuoi gusti e su ciò che emoziona chi ti sta intorno. Scopri qualcosa di nuovo o stai al passo con le ultime tendenze.
+
+
+-->
+
+
+
+
+
+
+<body class="nopanel landing">
+
+  <section class="layout-container-medium py-medium">
+
+  </section>
+
+
+
+
+  <div id="navsite" class="sidebar layout-container-wide">
+
+    <div class="mobile-header">
+      <div>
+        <span class="site-logo-text logo-text-medium">EV0KE</span> 
+       <a id="openmenu" class="hamburger-checkbox"><div class="hamburger-icon"> <label for="openmenu" id="hamburger-label">  <span></span> <span></span><span></span></label>  </div></a>
+      </div>
+      
+    </div>
+  
+    <ul class="">
+     <a href="/login" class="btn btn-small hide-on-mobile">Login</a>
+     <a href="/signup" class="btn btn-small btn-bg-primary">Signup</a>
+    </ul>
+  
+  </div>
+  
+
+
+
+<section class="">
+  <div id="slider" class="vibereel">
+    <div class="text"><h2>DaniLeigh</h2></div>
+    <div class="players">
+      <div class="player">
+        <iframe width="280" height="135" src="https://www.youtube.com/embed/xeBfKr-guOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p class="title">Artist Music Video</p>
+      </div>
+      <div class="player">
+        <iframe width="280" height="135" src="https://www.youtube.com/embed/xeBfKr-guOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p class="title">Artist Music Video</p>
+      </div>
+    </div>
+    <img id="img" src="/images/reel/1.jpg"/>
+  </div>
+
+
+</section>
+
+
+
+<script>
+  // Code goes here
+function displayNextImage() {
+  x = (x === images.length - 1) ? 0 : x + 1;
+  fadeIn("img", 100);
+  document.getElementById("img").src = images[x];
+}
+
+function displayPreviousImage() {
+  x = (x <= 0) ? images.length - 1 : x - 1;
+  fadeIn("img", 100);
+  document.getElementById("img").src = images[x];
+}
+
+function startTimer() {
+  setInterval(displayNextImage, 3000);
+}
+
+function fadeIn(elementId, miliseconds) {
+  var el = document.getElementById(elementId); el.style.opacity = 0;
+  var op = parseFloat(0);
+
+  var timer = setInterval(function() {
+    if (op >= 1.0)
+      clearInterval(timer);
+    op += 0.1;
+    el.style.opacity = op;
+  }, miliseconds);
+}
+
+var images = [],
+  x = -1;
+images[0] = "/images/reel/1.jpg";
+images[1] = "/images/reel/2.jpg";
+images[2] = "/images/reel/3.jpg";
+images[3] = "/images/reel/4.jpg";
+images[4] = "/images/reel/5.jpg";
+</script>
+
+<script>
+  startTimer();
+</script>
+
+
+
+
+
+<section class="layout-container-wide py-medium">
+
+  <div class="row align-items-center">
+    
+    <div class="col-auto">
+      <ul class="profile-info">
+       <li> <p> <span class="profile-label profile-label-M">M</span> Singer </p></li>
+      <li> <p>USA</p> </li>
+    </ul>
+  </div>
+    <div class="col-auto"> <ul class="profile-genres">
+      <li> <a href="">rap</a> </li>
+      <li> <a href="">hip hop</a> </li>
+      <li> <a href="">rnb</a>  </li>
+    </ul>
+  </div>
+
+
+  <div class="col-auto ml-auto">
+    <div class="profile-panel-interaction">
+   
+    <a href="/login" id="btn-collaboration" class="btn-icon off"><span class="icon"><img src="../icons/f/loader.svg" alt=""></span>Collab</a>
+    <a href="/login" id="btn-dm" class="btn-icon"><span class="icon"><img class="icon" src="../icons/f/message-square.svg" alt=""></span>Message</a>
+    <a href="/login" id="btn-like" class="btn-icon off" ><span class="icon"><img src="../icons/f/heart.svg" alt=""></span></a>
+    <a href="/login" id="btn-follow" class="btn-icon off"><span class="icon"><img src="../icons/f/bookmark.svg" alt=""></span></a>
+  </div>
+  </div>
+
+  </div>
+
+ <br>
+  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. At temporibus, eligendi laudantium suscipit minus nulla placeat ex! Eum minima harum alias nam quasi. Voluptatibus, possimus maiores voluptates dolorum necessitatibus ipsam perspiciatis fuga voluptatem quis neque sint libero maxime eaque tempore numquam. Officia rem ipsam, ad modi libero animi. Recusandae tempore sit quaerat expedita commodi similique quam quod in dolore voluptatum assumenda accusantium tenetur soluta eaque debitis illum possimus ipsum distinctio, eos ea maiores quibusdam consectetur totam! Adipisci, ipsam esse omnis sed dolorem eum eligendi praesentium quas rerum deleniti magni qui asperiores blanditiis? Fugiat possimus in exercitationem optio cumque tempora adipisci. Eaque, dolorem quae architecto exercitationem ab quo enim. Rerum harum, enim in eius voluptatibus laborum provident est consectetur ipsum autem amet ea recusandae corporis quis sunt nihil, quae libero ratione vel repellat? Aliquam iure quia ducimus velit ipsa ab laudantium laboriosam? Reprehenderit iure amet corrupti itaque obcaecati, fuga esse maxime consectetur nisi dignissimos exercitationem repellat id repudiandae illo similique est pariatur iusto doloremque eligendi deleniti. Quasi aliquam ex culpa fugit ipsam fuga numquam minus tempora rerum eius iste id, incidunt sed velit voluptate facere quae illum, ipsum animi dolorum explicabo? Nesciunt sunt laboriosam fuga tempore architecto reiciendis totam exercitationem ad?</p>
+  <span>Full Bio</span>
+
+</section>
+
+
+
+<section class="layout-container-medium py-large text-center">
+  <ul class="profile-links">
+    <li>
+      <div>Listen</div>
+      <div>
+        <ul> 
+      <li> <a onclick="trackClickLink('0elWFr7TW8piilVRYJUe4P', 'spotify', 'https://open.spotify.com/artist/0elWFr7TW8piilVRYJUe4P')"> <img src="../icons/platforms/spotify.svg"> </a> </li><li> <a onclick="trackClickLink('0elWFr7TW8piilVRYJUe4P', 'youtube', 'https://youtube.com/natanaelcano')"> <img src="../icons/platforms/youtube.svg"> </a> </li>
+        </ul>
+    </div>
+    </li>
+
+    <li>
+      <div>Connect</div>
+      <div>
+        <ul>
+          <li> <a onclick="trackClickLink('0elWFr7TW8piilVRYJUe4P', 'instagram', 'https://instagram.com/natanaelcano')"> <img src="../icons/platforms/instagram.svg"> </a> </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</section>
+
+
+
+  
+
+
+
+
+
+<!----------- GSAP ANIMATION SNIPPET 2 ------------->
+
+
+
+  <!----------- END GSAP ANIMATION SNIPPET 1 ------------->
+
+
+
+
+  <section class="py-large">
+
+    <div class="outline-text-background">
+      <div class="content"> 
+         <iframe width="580" height="355" src="https://www.youtube.com/embed/xeBfKr-guOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="texts">
+        <div> <p id="text1"> DaniLeigh</p> </div>
+        <div> <p id="text2"> DaniLeigh </p> </div>
+        <div> <p id="text3"> DaniLeigh </p> </div>
+      </div>
+      
+    </div>
+  
+  </section>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      function FillSlogan(){
+          var text = '';
+          for(var i = 0; i < 10; i++){  text += '<span>Dani</span>Leigh'; 
+            $('#text1').html(text);
+          }
+          var text = '';
+          for(var i = 0; i < 10; i++){  text += '<span>Music</span>Leigh'; 
+            $('#text2').html(text);
+          }
+          var text = '';
+          for(var i = 0; i < 10; i++){  text += '<span>Dance</span>Leigh'; 
+            $('#text3').html(text);
+          }
+      }
+  
+      FillSlogan();
+  });
+  </script>
+
+
+
+
+
+<div class="players-full">
+  <div class="player">
+    <iframe width="280" height="135" src="https://www.youtube.com/embed/xeBfKr-guOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p class="title">Diamonds</p>
+  </div>
+  <div class="player">
+    <iframe width="280" height="135" src="https://www.youtube.com/embed/xeBfKr-guOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p class="title">Diamonds</p>
+  </div>
+</div>
+
+
+
+<section class="layout-container-medium py-large text-center">
+  <span class="quote">we in sky-ami</span>
+  </section>
+
+
+
+
+  <!----------- GSAP ANIMATION SNIPPET 1 ------------->
+  <section class="py-large">
+
+    <section class="main">
+      <img class="image" src="images/features/screenshots/cards.png">
+      <div class="container">
+        <p class="filled-text">ARTIST NETWORKING</p>
+        <p class="outline-text">ARTIST NETWORKING</p>
+      </div>
+    </section>
+  
+  </section>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/gsap-latest-beta.min.js?r=5426"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/ScrollTrigger.min.js"></script>
+
+
+
+
+<section class="layout-container-medium py-large text-center">
+  <ul class="producer-tools">
+  <span>fl studio</span>
+</ul>
+  </section>
+
+
+
+
+
+
+
+  <section class="layout-container-medium py-medium">
+
+    <div class="row align-items-center justify-content-center px-5 py-5">
+      <div class="col text-center">
+        <p class="text-lighter">Interested in what's next?</p>
+      
+        <p class="text-smaller">One email every few weeks. Unsubscribe at any time.</p>
+        <br>
+        <button id="btn-open-modal-newsletter" class="btn btn-medium btn-bg-lighter">Put me in the list</button>
+      </div>
+    </div>
+
+    
+
+    <p class="text-lighter mb-small">
+      
+      <br>
+      
+  </section>
+
+
+
+<!------------------------------------------------------- BOTTOM BAR FIXED  ------------------------------------------------------------->
+
+<!--
+<div class="catch-emails" data-tag="">
+  <form action="/newsletter" method="POST">
+     <div class="form">
+   
+          <p>Get email</p>
+          <select name="frequency" class="width-auto">
+          <option selected="" value="daily">daily</option><option value="weekly">weekly</option>
+          </select>
+
+          email with big updates/offers at
+        
+          <input type="text" class="email" name="email" placeholder="Type your email..." required>
+          <input type="hidden" class="phone" value="" style="display:none !important" tabindex="-1" autocomplete="off">
+          
+          <button type="submit" class="button action-subscribe">Subscribe</button>
+
+          <div class="action-close-catch-emails"> x </div>
+    
+      </div>
+    </form>
+  </div>
+-->
+
+<script>
+var recaptchaLoaded = false;
+var spamCheckAnswer = prompt("To avoid spam sign ups, please answer: What is 1+1?");
+if(	spamCheckAnswer!=2 &&	spamCheckAnswer!='2' &&	spamCheckAnswer!='two'	) 
+{	return;	}
+console.log('submitSubscribeForm');	
+</script>
+
+
+
+
+
+<!------------------------------------------------------- COOKIE BAR  ------------------------------------------------------------->
+
+  <script>
+    /*mailchimp
+    We use cookies to provide website functionality, to analyze traffic on our Mailchimp Sites, personalize content, serve targeted advertisements and to enable social media functionality. Our Cookie Statement provides more information and explains how to update your cookie settings. View our Cookie Statement.
+    */
+
+    /*
+    stripe
+    Impieghiamo i cookie per migliorare la tua esperienza e per finalità di marketing. Per ulteriori informazioni, consulta la nostra informativa sull'utilizzo dei cookie. 
+    */
+
+    /*
+    splice
+    We use cookies to provide the services and features offered on our website, and to improve our user experience. Learn more*/
+    /*
+
+    Our use of cookies
+    We use necessary cookies to make our site work. We'd also like to set optional analytics cookies to help us improve it. We won't set optional cookies unless you enable them. Using this tool will set a cookie on your device to remember your preferences.
+    
+    For more detailed information about the cookies we use, see our Cookies page (Opens in a new window)
+    Necessary cookies
+    
+    Necessary cookies enable core functionality such as security, network management, and accessibility. You may disable these by changing your browser settings, but this may affect how the website functions.
+    Analytics cookies
+    
+    We'd like to set Google Analytics cookies to help us to improve our website by collecting and reporting information on how you use it. The cookies collect information in a way that does not directly identify anyone. For more information on how these cookies work, please see our 'Cookies page'.
+    Analytics cookiesOnOff
+    Marketing (targeting or advertising) cookies
+    
+    We use marketing (targeting or advertising) cookies to help us improve the relevancy of advertising campaigns you receive.
+  */
+  </script>
+
+
+ 
+
+<!------------------------------------------------------- MODAL CENTER  ------------------------------------------------------------->
+
+
+<div id="modal-newsletter" class="modal">
+    <div class="modal-content animated bounce">
+        <a class="modal-close" id="btn-close-modal-newsletter"></a>
+        <div class="modal-text">
+            <h4>Get exclusive updates and offers</h4>
+            <p>New major functionalities, opportunities for artists promotion, exclusive offers by our partners, related future side projects.<br>
+            </p>
+
+              <ul class="service-bulletpoints text-smaller">
+                <li>No spam.</li> <li>One email every few weeks.</li>  <li>Unsubscribe anytime.</li>
+              </ul>
+        </div>
+        <div class="modal-img">
+            <img src="images/features/screenshots/mobile/home.png" width="50px" height="200px">
+        
+            <form action="/newsletter" method="POST" class="form-inline">
+            <input type="text" class="modal-input" name="email" placeholder="Your Email Address"/>
+            <!--ANTISPAM HONEYPOT--><input name="website" type="text" style="display:none !important" tabindex="-1" autocomplete="off">
+            <input type="submit" class="modal-submit-btn btn-bg-primary" value="Ok"/>
+            </form>
+           
+        
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+    </div>
+</div>
+
+
+
+<script>
+
+var modal_newsletter = document.getElementById("modal-newsletter");
+var btn_open_modal_newsletter = document.getElementById("btn-open-modal-newsletter");
+var btn_close_modal_newsletter = document.getElementById("btn-close-modal-newsletter");
+
+btn_open_modal_newsletter.onclick = function() {modal_newsletter.style.display = "grid"; }
+
+btn_close_modal_newsletter.onclick = function() { modal_newsletter.style.display = "none"; }
+
+window.onload = function() {
+  setTimeout(function() {  modal_newsletter.style.display = 'grid';
+  }, 20000);
+}
+
+window.onclick = function(event) {  if (event.target == modal_newsletter) { modal_newsletter.style.display = "none"; }}
+
+</script>
+  
+
+
+ 
+
+
+
+    
+  <footer id="footer" class="layout-container-medium footer py-medium text-center copyright ">
+
+        
+
+          <div class="footer-widget py-small">
+                <div class="socials-icons medium white">
+                  <a class="" href="https://facebook.com"><img src="icons/platforms/w-facebook.png"></a>
+                  <a class="" href="https://facebook.com"><img src="icons/platforms/w-youtube.png"></a>
+                  <a class="" href="https://facebook.com"><img src="icons/platforms/w-instagram.png"></a>
+                  <a class="" href="https://facebook.com"><img src="icons/platforms/w-twitter.png"></a>
+                </div>
+          </div>
+  
+           <div class="footer-widget text-center">
+            <span class="footer-links">
+                <a href="#">For Artists</a> <a href="#">For Sponsors</a> <a href="#">Resources</a><a href="#">Blog</a>           
+                <a href="#">Help Center</a> <a href="#">Contact us</a>
+            </span>
+          </div>
+ 
+  </footer>
+    
+    
+  <div class="copyright layout-container-wide text-center">
+    
+      <div class="copyright-menu">
+          <ul>
+              <li> <a href="#">Terms and Conditions</a> </li>
+              <li> <a href="#">Privacy Policy</a>  </li>
+              <li> <a href="#">Cookie Policy</a>  </li>
+              <li> <a href="#">Help Centre</a> </li>
+              <li> <a href="#">Contact</a> </li>
+          </ul>
+      </div>
+            
+  </div>
+     
+
+  
+  <script src="../scripts/horizontalscroll.js"></script>
+  
+  
+  </body>
+  </html>
+
+
+       
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+
+<script>
+
+function removeElement(element) {
+  if (typeof(element) === "string") {
+    element = document.querySelector(element);
+  }
+  return function() {
+    element.parentNode.removeChild(element);
+  };
+}
+
+/*----------- GSAP ANIMATION SNIPPET 3 -----------*/
+console.clear();
+
+const threshold = 0.7; // trigger
+const options = {
+  root: null,
+  rootMargin: '0px',
+  threshold: threshold
+};
+
+const observer = new IntersectionObserver(animHandler, options);
+const targets = document.querySelectorAll("section.target");
+const ar = [].slice.call(targets); 
+let animations = [];
+
+
+let count = 0;
+
+for (let target of ar) {
+  animations[count] = new TimelineMax({paused:true});  
+  observer.observe(target);
+  count++;
+}
+
+
+animations[0].to("#apple1", 1.5, {opacity: 1, scale: 1, ease: Sine.easeOut}, 0)
+            .to("#appletext1", 1.5, {opacity: 1, scale: 0.7, ease: Sine.easeOut}, 0);
+
+animations[1].to("#apple2", 1.5, {opacity: 1, scale: 1, ease: Sine.easeOut}, 0)
+            .to("#appletext2", 1.5, {opacity: 1, scale: 0.7, ease: Sine.easeOut}, 0);
+
+
+
+// observer handler
+function animHandler(targets, observer) {
+  for (var entry of targets) {
+    let i = ar.indexOf(entry.target);
+    if (entry.isIntersecting) {
+      animations.forEach(tl => tl.pause(0));
+      animations[i].play();
+
+    } else {
+        //return;
+      animations[i].reverse();
+    }
+  }
+}
+</script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js"></script>
+
+<script type="text/javascript">
+
+
+/*---------------------- GSAP ANIMATION SNIPPET 1 ------------------*/
+
+  gsap.to(".filled-text", {
+    scrollTrigger:{
+      trigger: ".filled-text, .outline-text", 
+      start: "top 100%", 
+      end: "top -50%", 
+      scrub: 1
+    },
+    x: 1000
+  })
+
+  gsap.to(".outline-text", {
+    scrollTrigger:{
+      trigger: ".filled-text, .outline-text", 
+      start: "top 100%", 
+      end: "top -50%", 
+      scrub: 1
+    },
+    x: -1000
+  })
+
+
+</script>
+
+
+
+<script>
+
+ 
+/*----------- GSAP ANIMATION SNIPPET 2 -----------*/
+
+  function animateFrom(elem, direction) {
+  direction = direction || 1;
+  var x = 0,
+      y = direction * 100;
+  if(elem.classList.contains("gs_reveal_fromLeft")) { x = -100; y = 0;
+  }
+  else if (elem.classList.contains("gs_reveal_fromRight")) {
+    x = 100; y = 0;
+  }
+  elem.style.transform = "translate(" + x + "px, " + y + "px)";
+  elem.style.opacity = "0";
+  gsap.fromTo(elem, {x: x, y: y, autoAlpha: 0}, {
+    delay: .25,
+    duration: 2.25, 
+    x: 0,
+    y: 0, 
+    autoAlpha: 1, 
+    ease: "expo", 
+    overwrite: "auto"
+  });
+}
+
+function hide(elem) {
+  gsap.set(elem, {autoAlpha: 0});
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  gsap.registerPlugin(ScrollTrigger);
+  
+  gsap.utils.toArray(".gs_reveal").forEach(function(elem) {
+    hide(elem); // assure that the element is hidden when scrolled into view
+    
+    ScrollTrigger.create({
+      trigger: elem,
+      onEnter: function() { animateFrom(elem) }, 
+      onEnterBack: function() { animateFrom(elem, -1) },
+      onLeave: function() { hide(elem) } // assure that the element is hidden when scrolled into view
+    });
+  });
+});
+
+</script>
+
+
+
+<script>
+  
+  /*  function to hide navbar on scroll down */
+     /*
+      var prevScrollpos = window.pageYOffset;
+      window.onscroll = function() {
+      var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+          document.getElementById("navsite").style.top = "0";
+        } else {
+          document.getElementById("navsite").style.top = "-100px";
+        }
+        prevScrollpos = currentScrollPos;
+      }
+     */
+     
+      /*  function to add class on navbar on scroll down with offset*/
+    
+      $(window).scroll(function() {
+          var nav = $('#navsite');
+          var top = 10;
+          var hero = $('#hero').height();
+          if ($(window).scrollTop() >= top) {
+              nav.addClass('scroll');
+              document.getElementById("panel-message-floating").classList.add("hide");
+          } else {
+              nav.removeClass('scroll');
+              document.getElementById("panel-message-floating").classList.remove("hide");
+          }
+      });
+     
+       
+</script>
+
+   
+</body>
+</html>

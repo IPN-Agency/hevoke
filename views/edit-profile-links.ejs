@@ -1,0 +1,1038 @@
+<%- include partials/header-account %>
+
+<style>
+
+  .img_links{
+    width: 25px!important;
+    height: 25px!important;
+    cursor: pointer;
+  }
+
+  .img_links:hover{
+    transform: scale(1.2);
+    transition: all 200ms;
+  }
+
+  @media (min-width: 900px){
+    .img_links{
+      width: 38px!important;
+      height: 38px!important;
+    }
+  }
+
+  .input_transfrom{
+    animation: input_transfrom  1.5s forwards;
+  }
+
+  .label{
+    padding-top: 20px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .op_med{
+    opacity: .4;
+  }
+
+  .edit_link, .delete_link{
+     cursor: pointer;
+  }
+  
+  .edit_link{
+    padding-right: .3em;
+  }
+
+  .edit_link img:hover{
+    /*background: rgba(255, 255, 255, 0.303);*/
+    /*background: rgba(255, 255, 255, 0.303);*/
+    /*transition: all 200ms;*/
+    transform: scale(1.2);
+    transition: all 200ms;
+  }
+
+  .delete_link img:hover{
+    /*background-color: red;*/
+    transform: scale(1.2);
+    transition: all 200ms;
+  }
+  
+  .remove_link{
+    width: 32px;
+    float: right;
+    cursor: pointer;
+  }
+
+  .remove_link:hover{
+    transform: scale(1.3);
+    transition: all 200ms;
+  }
+
+  .fade-out {
+  animation: fade .5s;
+  -webkit-animation: fade .5s;
+  -moz-animation: fade .5s
+}
+
+  @keyframes fade {
+    from { opacity: 1 }
+    to { opacity: 0 }
+  }
+
+  @keyframes input_transfrom {
+    0%{opacity: 0;   }
+   100%{  opacity: 1; }
+  }
+
+  input.input-bg-without-outline{
+  background: none!important;
+  border: none!important;
+}
+
+/*---------------------------------------------------------------------ADD EDIT LINKS EDIT PROFILE -----------------------------------*/
+.link-edit{
+   max-width: 680px;
+}
+
+.link-edit .row{
+  display: flex;
+  background: rgb(52, 52, 53);
+  padding: 1em;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+@media (min-width: 900px){
+  .link-edit .row{
+  background: none;
+  }
+}
+
+.link-edit .row > .col-auto:nth-child(1){
+ padding: 0!important;
+}
+
+.link-edit .row > .col-auto:nth-child(2){
+  order: 2;
+  overflow-x: hidden;
+  font-size: .99em!important;
+  width: 90%;
+}
+
+.link-edit .row > .col-auto:nth-child(2) span{
+     display: block;
+     max-width: 400px!important;
+ }
+    
+.link-edit .row > .col-auto:nth-child(3){
+  display: block;
+  order: 3!important;
+  width: auto;
+  text-align: right;
+  position: absolute;
+  right: 0;
+  z-index: 100;
+  background: rgb(52, 52, 53);
+}
+.link-edit input{
+  padding: .25em .25em!important;
+  font-size: 1em!important;
+}
+
+@media (min-width: 900px){
+    .link-edit input{
+      padding: .35em .5em!important;
+    }
+    .link-edit .row > .col-auto:nth-child(2) span{
+     max-width: 620px!important;
+ }
+    .link-edit .row > .col-auto:nth-child(3){
+      background: none;
+    }
+}
+
+.edit_link img, .delete_link img, img.remove_link{
+  filter: saturate(10%) contrast(30%);
+  width: 25px;
+  height: 25px;
+}
+
+
+.edit_link:hover img, .delete_link:hover img, img.remove_link:hover{
+  filter: saturate(100%) contrast(100%);
+}
+
+.link-error{
+  color: rgb(245, 62, 93);
+  margin-bottom: 1em;
+  display: block;
+}
+</style>
+
+
+<section class="layout-container-medium py-medium section-bg-lighter">
+ 
+  <div class="d-flex align-items-center py-small pb-0 justify-content-between">
+   
+    <div class="d-flex align-items-center">
+      <div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon big" src="/uploads/<%= userLogged.user_id %>/profile.jpg"></div>
+      <div class="pl-3">
+        <h3>Edit Profile</h3>
+        <h5 class="text-lighter"><%=userLogged.artist_name%></h5>
+      </div>
+    </div>
+    
+  </div>
+
+</section>
+    
+
+<section class="layout-container-medium py-medium">
+     
+                <h4>Links to your music and socials</h4>
+
+                <% if (message.length > 0) { %>
+                  <div class="alert alert-danger col-sm-12"><%= message %></div>
+                  <% } %>
+
+                <hr>
+
+                <form id="loginform" class="form-horizontal" role="form" method="post" action="/pm/edit-s/links" style="max-width:100%">
+                  
+                  <p>Click the icon of the platform/social you want to add, then type or paste your link</p>
+                  <br>
+                  <div class="row d-flex align-items-center">
+                    <%
+                    let flag_facebook=false;
+                    let flag_youtube=false;
+                    let flag_instagram=false;
+                    let flag_tiktok=false;
+                    let flag_spotify=false;
+                    
+                    link.forEach(function(res){
+                      if(res.link_name =="facebook"){
+                        flag_facebook= true;
+                      }
+                      if(res.link_name =="youtube"){
+                        flag_youtube= true;
+                      }
+                      if(res.link_name =="instagram"){
+                        flag_instagram= true;
+                      }
+                      if(res.link_name =="tiktok"){
+                        flag_tiktok= true;
+                      }
+                      if(res.link_name =="spotify"){
+                        flag_spotify= true;
+                      }
+                      })%>
+                    <% if(flag_facebook == false){%>
+                      <div class="col-auto">
+                        <img class="img_links" id="facebook" src="/icons/addlinks/facebook.png" alt="facebook" onClick="addSocialLink(this)">
+                      </div>
+                    <%}else{%>
+                      <div class="col-auto">
+                        <img class="op_med" id="facebook" src="/icons/addlinks/facebook.png" alt="facebook">
+                      </div>
+                    <%}%>
+                    <% if(flag_youtube == false){%>
+                      <div class="col-auto">
+                        <img class="img_links" id="youtube" src="/icons/addlinks/youtube.png" alt="youtube" onclick="addSocialLink(this)">
+                      </div>
+                    <%}else{%>
+                      <div class="col-auto">
+                        <img class="op_med" id="youtube" src="/icons/addlinks/youtube.png" alt="youtube">
+                      </div>
+                    <%}%>
+                    <% if(flag_instagram == false){%>
+                      <div class="col-auto">
+                        <img class="img_links" id="instagram" src="/icons/addlinks/instagram.png" alt="instagram" onclick="addSocialLink(this)">
+                      </div>
+                    <%}else{%>
+                      <div class="col-auto">
+                        <img class="op_med" id="instagram" src="/icons/addlinks/instagram.png" alt="instagram">
+                      </div>
+                    <%}%>
+                    <% if(flag_tiktok == false){%>
+                      <div class="col-auto">
+                        <img class="img_links" id="tiktok" src="/icons/addlinks/tiktok.png" alt="tiktok" onclick="addSocialLink(this)">
+                      </div>
+                    <%}else{%>
+                      <div class="col-auto">
+                        <img class="op_med" id="tiktok" src="/icons/addlinks/tiktok.png" alt="tiktok">
+                      </div>
+                    <%}%>
+                    <% if(flag_spotify == false){%>
+                      <div class="col-auto">
+                        <img class="img_links" id="spotify" src="/icons/addlinks/spotify.png" alt="spotify" onclick="addSocialLink(this)">
+                      </div>
+                    <%}else{%>
+                      <div class="col-auto">
+                        <img class="op_med" id="spotify" src="/icons/addlinks/spotify.png" alt="spotify">
+                      </div>
+                    <%}%>
+                   
+                  </div>
+                  <hr>
+                  <hr>
+                  <div class="link-edit">
+                    <% if(link!=''){%>
+                      <h5>Edit or delete your links</h5>
+                      <br>
+                    <%}%>
+                    <%link.forEach(function(res){%>
+                      <div id="delete_container_<%=res.link_name%>">
+                        <div class="row align-items-center">
+                      
+                          <div class="col-auto">
+                            <img src='/icons/addlinks/<%= res.link_name%>.png' alt='<%= res.link_name%>'>
+                          </div>
+                       
+                            <div class="col-auto" id="edit_link_<%=res.link_name%>">           
+                             <span><%=res.url%></span> 
+                            <!-- class="col-auto"<input class="input-lead input-bg-without-outline" id="edit_link_<%=res.link_name%>" name="<%=res.link_name%>" value="<%=res.url%>">-->
+                          </div>
+                        
+                          <!---->
+                          <div class="col-auto ml-auto">     
+                              <a class="edit_link" onclick="edit_link('<%=res.link_name%>',this);"><img src="/icons/addlinks/edit_link.png" alt="E"></a>                                            
+                              <a class="delete_link" id="delete_link_<%=res.link_name%>" onclick="ajaxDeleteLink('<%=res.link_name%>','<%=res.user_id%>')"><img src="/icons/addlinks/delete_link.png" alt=""></a>
+                          </div>
+                        </div>
+                        <span class="link-error" id="error_<%=res.link_name%>"></span>
+                      </div>
+                     
+                      
+                    <%})%>
+                  </div>
+                  <hr>
+                  
+                  <br>
+                  <div id="add_input_social"  class="link-edit">
+                    
+                  </div>
+                  
+                  <hr>
+                  <hr>
+            
+        
+        
+       
+             <div style="margin-top:10px" class="form-group">
+                <!-- Button -->
+
+                <div class="col-sm-12 controls" id="controls">
+
+               
+                  <!--<button id="btn-login" type="submit" class="btn btn-big btn-bg-primary" style="display: none;">Salva e prosegui</button>-->
+
+                </div>
+            </div>
+
+
+           
+        </form>   
+
+
+        <span class="box-information">
+          Available options for this section are subject to changes based on user's feedack and requests.
+          <br>If you would like to use a category that is not available, just write us at <a href="mailto:support@hevoke.com">support@hevoke.com</a> or send us a direct on Instagram at @hevoke.com_
+        </span>
+
+        <span class="btn-navigation-back"> <a href="/pm"> <img src="/icons/back.svg"> Go back</a> </span>
+    
+  
+  </section>
+        
+
+<script>
+let user_link_string, user_link_obj;
+user_link_string=('<%- JSON.stringify(link) %>');
+user_link_obj=JSON.parse(user_link_string);
+
+
+function check_input_link(string,ele){
+  var error=false;
+  var all_empty=false;
+  let button= document.getElementById("btn-login");
+
+    if(string.name=='facebook'){
+      //console.log(string.name+" "+ele)
+      //https://www.facebook.com/
+      if(!(ele.startsWith("https://www.facebook.com/"))&& !(ele.startsWith("https://facebook.com/"))){
+        button.disabled = true;
+        error=true;
+
+        /******RESPONSE ERROR******/
+        let span;
+        span=document.getElementById("error_"+string.name);
+        span.textContent="field is empty or url is not in a valid format"
+      }else{
+        let span;
+        span=document.getElementById("error_"+string.name);
+        span.textContent=""
+      }
+      
+    }else if(string.name=='youtube'){
+      
+      //console.log(string.name+" "+ele);
+      if(!(ele.startsWith("https://www.youtube.com/"))&&!(ele.startsWith("https://youtube.com/"))){
+        button.disabled = true
+        error=true;
+
+        /******RESPONSE ERROR******/
+        let span;
+        span=document.getElementById("error_"+string.name);
+        
+        span.textContent="field is empty or url is not in a valid format"
+      }else{
+        let span;
+        span=document.getElementById("error_"+string.name);
+        span.textContent=""
+      }
+
+    }else if(string.name=='instagram'){
+      
+      //console.log(string.name+" "+ele)
+      if(!(ele.startsWith("https://www.instagram.com/"))&&!(ele.startsWith("https://instagram.com/"))){
+        button.disabled = true
+        error=true;
+
+        /******RESPONSE ERROR******/
+        let span;
+        span=document.getElementById("error_"+string.name);
+        
+        span.textContent="field is empty or url is not in a valid format";
+      }else{
+        let span;
+        span=document.getElementById("error_"+string.name);
+        span.textContent=""
+      }
+
+    }else if(string.name=='tiktok'){
+      
+      //console.log(string.name+" "+ele)
+      if(!(ele.startsWith("https://www.tiktok.com/"))&&!(ele.startsWith("https://tiktok.com/"))){
+        button.disabled = true;
+        error=true;
+
+        /******RESPONSE ERROR******/
+        let span;
+        span=document.getElementById("error_"+string.name);
+        
+        span.textContent="field is empty or url is not in a valid format"
+      }else{
+        let span;
+        span=document.getElementById("error_"+string.name);
+        span.textContent=""
+      }
+
+    }else{
+      
+      //console.log(string.name+" "+ele)
+      if(!(ele.startsWith("https://www.spotify.com/")) && !(ele.startsWith("https://spotify.com/"))){
+        button.disabled = true;
+        error=true;
+
+        /******RESPONSE ERROR******/
+        let span;
+        span=document.getElementById("error_"+string.name);
+        
+        span.textContent="field is empty or url is not in a valid format"
+      }else{
+        let span;
+        span=document.getElementById("error_"+string.name);
+        span.textContent=""
+      }
+       
+    }
+
+    if(error==false){
+      
+      button.disabled = false ;
+    }else{
+      button.disabled = true;
+    }
+}
+
+
+var count=0;
+var fbCount=0;
+var ytCount=0;
+var instCount=0;
+var tiktokCount=0;
+var spotCount=0;
+
+  function addSocialLink(ele){
+
+    let add_input_social = "";
+    add_input_social= document.getElementById("add_input_social")
+    //console.log(add_input_social)
+    if(ele.id == "facebook"){
+      fbCount+=1
+      if(fbCount==1){
+        let label,input,div,remove_link,remove_link_img,img,span,internal_div,responsive_div_one,responsive_div_two,responsive_div_three;
+
+        /****REMOVE****/
+        remove_link=document.createElement('a');
+        remove_link_img=document.createElement('img');
+        remove_link_img.src='/icons/addlinks/remove_link.png';
+        remove_link_img.className="remove_link";
+        remove_link.alt="X";
+        //remove_link.innerHTML='remove';
+        remove_link.setAttribute("onClick","remove_input_link("+ele.id+")");
+        remove_link.append(remove_link_img);
+
+        /*****EXTERNAL DIV******/
+        div= document.createElement('div');
+        div.id="container_"+ele.id;
+
+
+        /*****INTERNAL DIV******/
+        internal_div=document.createElement('div');
+        internal_div.className="row";
+        internal_div.style.alignItems="center";
+        internal_div.style.paddingTop="10px";
+
+        responsive_div_one=document.createElement('div');
+        responsive_div_one.className="col-auto";
+        responsive_div_two=document.createElement('div');
+        responsive_div_two.className="col-auto";
+        responsive_div_three=document.createElement('div');
+        responsive_div_three.className="col-auto";
+
+
+        /****IMAGE + TEXT*****/
+        span=document.createElement('span');
+        span.innerHTML="<img src='/icons/addlinks/facebook.png' alt='Facebook'>"
+
+        /******INPUT********/
+        input=document.createElement('input');
+        input.type="text";
+        input.name=ele.id;
+        input.className="input-lead input-bg-outline-bottom input_transfrom";
+        input.placeholder="https://site.com/yourusername";
+        input.setAttribute("onblur","check_input_link("+ele.id+", this.value)");
+
+      
+
+        /******RESPONSE ERROR******/
+        let span_error;
+        span_error=document.createElement('span');
+        span_error.id="error_"+ele.id;
+        
+        
+        /******APPEND && INSTERT BEFORE*******/
+        responsive_div_one.append(span);
+        responsive_div_two.append(input);
+        responsive_div_three.append(remove_link);
+        internal_div.append(responsive_div_one);
+        internal_div.append(responsive_div_two);
+        internal_div.append(responsive_div_three);
+        div.append(internal_div);
+        div.append(span_error);
+        add_input_social.insertBefore(div, add_input_social.firstChild);
+      }
+      
+      
+    }else if(ele.id == "youtube"){
+      ytCount+=1
+      if(ytCount==1){
+        let label,input,div,remove_link,img;
+
+        /****REMOVE****/
+        remove_link=document.createElement('a');
+        remove_link_img=document.createElement('img');
+        remove_link_img.src='/icons/addlinks/remove_link.png';
+        remove_link_img.className="remove_link";
+        remove_link.alt="X";
+        //remove_link.innerHTML='remove';
+        remove_link.setAttribute("onClick","remove_input_link("+ele.id+")");
+        remove_link.append(remove_link_img);
+       
+
+       /*****EXTERNAL DIV******/
+       div= document.createElement('div');
+        div.id="container_"+ele.id;
+
+
+        /*****INTERNAL DIV******/
+        internal_div=document.createElement('div');
+        internal_div.className="row";
+        internal_div.style.alignItems="center"
+        internal_div.style.paddingTop="10px"
+
+
+        responsive_div_one=document.createElement('div');
+        responsive_div_one.className="col-auto";
+        responsive_div_two=document.createElement('div');
+        responsive_div_two.className="col-auto";
+        responsive_div_three=document.createElement('div');
+        responsive_div_three.className="col-auto";
+
+
+        /****IMAGE + TEXT*****/
+        span=document.createElement('span');
+        span.innerHTML="<img src='/icons/addlinks/youtube.png' alt='Youtube'>";
+
+
+        /******INPUT********/
+        input=document.createElement('input');
+        input.type="text";
+        input.name=ele.id;
+        input.className="input-lead input-bg-outline-bottom input_transfrom";
+        input.placeholder="https://site.com/yourusername";
+        input.setAttribute("onblur","check_input_link("+ele.id+", this.value)");
+
+
+        /******RESPONSE ERROR******/
+        let span_error;
+        span_error=document.createElement('span');
+        span_error.id="error_"+ele.id;
+
+        
+        /******APPEND && INSTERT BEFORE*******/
+        responsive_div_one.append(span);
+        responsive_div_two.append(input);
+        responsive_div_three.append(remove_link);
+        internal_div.append(responsive_div_one);
+        internal_div.append(responsive_div_two);
+        internal_div.append(responsive_div_three);
+        div.append(internal_div);
+        div.append(span_error);
+        add_input_social.insertBefore(div, add_input_social.firstChild);
+      }
+      
+     
+    }else if(ele.id == "instagram"){
+      instCount+=1
+      if(instCount==1){
+        let label,input,div,remove_link,img;
+
+         /****REMOVE****/
+         remove_link=document.createElement('a');
+        remove_link_img=document.createElement('img');
+        remove_link_img.src='/icons/addlinks/remove_link.png';
+        remove_link_img.className="remove_link";
+        remove_link.alt="X";
+        //remove_link.innerHTML='remove';
+        remove_link.setAttribute("onClick","remove_input_link("+ele.id+")");
+        remove_link.append(remove_link_img);
+
+
+        /*****EXTERNAL DIV******/
+        div= document.createElement('div');
+        div.id="container_"+ele.id;
+        
+
+
+        /*****INTERNAL DIV******/
+        internal_div=document.createElement('div');
+        internal_div.className="row";
+        internal_div.style.alignItems="center"
+        internal_div.style.paddingTop="10px"
+
+        responsive_div_one=document.createElement('div');
+        responsive_div_one.className="col-auto";
+        responsive_div_two=document.createElement('div');
+        responsive_div_two.className="col-auto";
+        responsive_div_three=document.createElement('div');
+        responsive_div_three.className="col-auto";
+
+
+        /****IMAGE + TEXT*****/
+        span=document.createElement('span');
+        span.innerHTML="<img src='/icons/addlinks/instagram.png' alt='Instagram'>";
+
+
+        /******INPUT********/
+        input=document.createElement('input');
+        input.type="text";
+        input.name=ele.id;
+        input.className="input-lead input-bg-outline-bottom input_transfrom";
+        input.placeholder="https://site.com/yourusername";
+        input.setAttribute("onblur","check_input_link("+ele.id+", this.value)");
+
+
+        /******RESPONSE ERROR******/
+        let span_error;
+        span_error=document.createElement('span');
+        span_error.id="error_"+ele.id;
+
+
+        /******APPEND && INSTERT BEFORE*******/
+        responsive_div_one.append(span);
+        responsive_div_two.append(input);
+        responsive_div_three.append(remove_link);
+        internal_div.append(responsive_div_one);
+        internal_div.append(responsive_div_two);
+        internal_div.append(responsive_div_three);
+        div.append(internal_div);
+        div.append(span_error);
+        add_input_social.insertBefore(div, add_input_social.firstChild);
+      }
+      
+      
+    }else if(ele.id=="tiktok"){
+      tiktokCount+=1
+      if(tiktokCount==1){
+        let label,input,div,remove_link,img;
+
+         /****REMOVE****/
+         remove_link=document.createElement('a');
+        remove_link_img=document.createElement('img');
+        remove_link_img.src='/icons/addlinks/remove_link.png';
+        remove_link_img.className="remove_link";
+        remove_link.alt="X";
+        //remove_link.innerHTML='remove';
+        remove_link.setAttribute("onClick","remove_input_link("+ele.id+")");
+        remove_link.append(remove_link_img);
+       
+
+        /*****EXTERNAL DIV******/
+       div= document.createElement('div');
+        div.id="container_"+ele.id;
+
+
+        /*****INTERNAL DIV******/
+        internal_div=document.createElement('div');
+        internal_div.className="row";
+        internal_div.style.alignItems="center"
+        internal_div.style.paddingTop="10px"
+
+
+        responsive_div_one=document.createElement('div');
+        responsive_div_one.className="col-auto";
+        responsive_div_two=document.createElement('div');
+        responsive_div_two.className="col-auto";
+        responsive_div_three=document.createElement('div');
+        responsive_div_three.className="col-auto";
+
+
+        /****IMAGE + TEXT*****/
+        span=document.createElement('span');
+        span.innerHTML="<img src='/icons/addlinks/tiktok.png' alt='tiktok'>";
+
+
+        /******INPUT********/
+        input=document.createElement('input');
+        input.type="text";
+        input.name=ele.id;
+        input.className="input-lead input-bg-outline-bottom input_transfrom";
+        input.placeholder="https://site.com/yourusername";
+        input.setAttribute("onblur","check_input_link("+ele.id+", this.value)");
+
+
+        /******RESPONSE ERROR******/
+        let span_error;
+        span_error=document.createElement('span');
+        span_error.id="error_"+ele.id;
+
+
+        
+        /******APPEND && INSTERT BEFORE*******/
+        responsive_div_one.append(span);
+        responsive_div_two.append(input);
+        responsive_div_three.append(remove_link);
+        internal_div.append(responsive_div_one);
+        internal_div.append(responsive_div_two);
+        internal_div.append(responsive_div_three);
+        div.append(internal_div);
+        div.append(span_error);
+        add_input_social.insertBefore(div, add_input_social.firstChild);
+      }
+      
+      
+    }else{
+      spotCount+=1
+      if(spotCount==1){
+        let label,input,div,remove_link,img;
+
+         /****REMOVE****/
+         remove_link=document.createElement('a');
+        remove_link_img=document.createElement('img');
+        remove_link_img.src='/icons/addlinks/remove_link.png';
+        remove_link_img.className="remove_link";
+        remove_link.alt="X";
+        //remove_link.innerHTML='remove';
+        remove_link.setAttribute("onClick","remove_input_link("+ele.id+")");
+        remove_link.append(remove_link_img);
+
+        /*****EXTERNAL DIV******/
+       div= document.createElement('div');
+        div.id="container_"+ele.id;
+
+
+        /*****INTERNAL DIV******/
+        internal_div=document.createElement('div');
+        internal_div.className="row";
+        internal_div.style.alignItems="center"
+        internal_div.style.paddingTop="10px"
+
+        responsive_div_one=document.createElement('div');
+        responsive_div_one.className="col-auto";
+        responsive_div_two=document.createElement('div');
+        responsive_div_two.className="col-auto";
+        responsive_div_three=document.createElement('div');
+        responsive_div_three.className="col-auto";
+
+
+
+        /****IMAGE + TEXT*****/
+        span=document.createElement('span');
+        span.innerHTML="<img src='/icons/addlinks/spotify.png' alt='Spotify'>";
+
+
+        /******INPUT********/
+        input=document.createElement('input');
+        input.type="text";
+        input.name=ele.id;
+        input.className="input-lead input-bg-outline-bottom input_transfrom";
+        input.placeholder="https://site.com/yourusername";
+        input.setAttribute("onblur","check_input_link("+ele.id+", this.value)");
+
+
+        /******RESPONSE ERROR******/
+        let span_error;
+        span_error=document.createElement('span');
+        span_error.id="error_"+ele.id;
+        
+
+        /******APPEND && INSTERT BEFORE*******/
+        responsive_div_one.append(span);
+        responsive_div_two.append(input);
+        responsive_div_three.append(remove_link);
+        internal_div.append(responsive_div_one);
+        internal_div.append(responsive_div_two);
+        internal_div.append(responsive_div_three);
+        div.append(internal_div);
+        div.append(span_error);
+        add_input_social.insertBefore(div, add_input_social.firstChild);
+      } 
+      
+
+    }
+    
+    count++;
+    if(count == 1){
+      let controls = document.getElementById("controls");
+      let button;
+      button = document.createElement("button");
+      button.id = "btn-login";
+      button.type = "submit";
+      button.className = "btn btn-big btn-bg-primary input_transfrom";
+      button.textContent = "Confirm and Save";
+      controls.append(button);
+    }
+
+    
+  }
+
+
+  function remove_input_link(element){
+    add_input_social= document.getElementById("add_input_social");
+
+    if(element.id=='facebook'){
+      let container;
+      container= document.getElementById("container_"+element.id);
+      container.className="fade-out";
+      setTimeout(()=>{add_input_social.removeChild(container)},500);
+      fbCount=0;
+    }else if(element.id=='youtube'){
+      let container;
+      container= document.getElementById("container_"+element.id);
+      container.className="fade-out";
+      setTimeout(()=>{add_input_social.removeChild(container)},500);
+      ytCount=0;
+    }else if(element.id=='instagram'){
+      let container;
+      container= document.getElementById("container_"+element.id);
+      container.className="fade-out";
+      setTimeout(()=>{add_input_social.removeChild(container)},500);
+      instCount=0;
+    }else if(element.id=='tiktok'){
+      let container;
+      container= document.getElementById("container_"+element.id);
+      container.className="fade-out";
+      setTimeout(()=>{add_input_social.removeChild(container)},500);
+      tiktokCount=0;
+    }else{
+      let container;
+      container= document.getElementById("container_"+element.id);
+      container.className="fade-out";
+      setTimeout(()=>{add_input_social.removeChild(container)},500);
+      spotCount=0;
+    }
+
+    //console.log(add_input_social.childElementCount)
+    if(add_input_social.childElementCount==1){
+      let controls= document.getElementById("controls");
+      let button=document.getElementById("btn-login");
+      button.classList.add("fade-out");
+      setTimeout(()=>{controls.removeChild(button)},500);
+      count=0
+    }
+  }
+
+
+  function edit_link(ele,btn){
+    
+    console.log(btn)
+    if(ele== "facebook"){
+      let container_edit,input_edited,p_text;
+      container_edit= document.getElementById("edit_link_"+ele);
+      //console.dir(container_edit)
+      p_text = container_edit.children[0].textContent;
+      console.log(p_text)
+      container_edit.removeChild(container_edit.children[0]);
+      container_edit.innerHTML="<input type=\"text\" class=\"input-lead input-bg-outline-bottom\" name='"+ele+"' value='"+p_text+"' onblur=\"check_input_link("+ele+",this.value)\">";
+    }
+    if(ele== "youtube"){
+      let container_edit,input_edited,p_text;
+      container_edit= document.getElementById("edit_link_"+ele);
+      //console.dir(container_edit)
+      p_text = container_edit.children[0].textContent;
+      console.log(p_text)
+      container_edit.removeChild(container_edit.children[0]);
+      container_edit.innerHTML="<input type=\"text\" class=\"input-lead input-bg-outline-bottom\" name='"+ele+"' value='"+p_text+"' onblur=\"check_input_link("+ele+",this.value)\">";
+    }
+    if(ele== "instagram"){
+      /*let edit;
+      edit= document.getElementById("edit_link_"+ele);
+      console.log(edit)
+      edit.classList.remove("input-bg-without-outline");
+      edit.classList.add("input-bg-outline-bottom");
+      edit.classList.add("input-transform");
+      edit.disabled=false;
+      edit.setAttribute("type", "text");
+      btn.removeAttribute('onclick',"edit_link("+ele+"',this);")
+      edit.setAttribute("onblur","check_input_link("+ele+", this.value)");*/
+      let container_edit,input_edited,p_text;
+      container_edit= document.getElementById("edit_link_"+ele);
+      //console.dir(container_edit)
+      p_text = container_edit.children[0].textContent;
+      console.log(p_text)
+      container_edit.removeChild(container_edit.children[0]);
+      container_edit.innerHTML="<input type=\"text\" class=\"input-lead input-bg-outline-bottom\" name='"+ele+"' value='"+p_text+"' onblur=\"check_input_link("+ele+",this.value)\">";
+
+    }
+    if(ele== "tiktok"){
+      let container_edit,input_edited,p_text;
+      container_edit= document.getElementById("edit_link_"+ele);
+      //console.dir(container_edit)
+      p_text = container_edit.children[0].textContent;
+      console.log(p_text)
+      container_edit.removeChild(container_edit.children[0]);
+      container_edit.innerHTML="<input type=\"text\" class=\"input-lead input-bg-outline-bottom\" name='"+ele+"' value='"+p_text+"' onblur=\"check_input_link("+ele+",this.value)\">";
+    }
+    if(ele== "spotify"){
+      let container_edit,input_edited,p_text;
+      container_edit= document.getElementById("edit_link_"+ele);
+      //console.dir(container_edit)
+      p_text = container_edit.children[0].textContent;
+      console.log(p_text)
+      container_edit.removeChild(container_edit.children[0]);
+      container_edit.innerHTML="<input type=\"text\" class=\"input-lead input-bg-outline-bottom\" name='"+ele+"' value='"+p_text+"' onblur=\"check_input_link("+ele+",this.value)\">";
+    }
+
+    count++;
+    if(count==1){
+      let controls= document.getElementById("controls");
+      let button;
+      button= document.createElement("button");
+      button.id="btn-login";
+      button.type="submit";
+      button.className="btn btn-big btn-bg-primary input_transfrom";
+      button.textContent="Salva e prosegui";
+      controls.append(button);
+    }
+
+  }
+
+  if(location.reload){
+    console.log("reload")
+    let input = document.getElementsByTagName('input');
+    for (let index = 0; index < input.length; index++) {
+      let element = input[index];
+      element.disabled=true;
+    }
+    
+  }
+
+</script>
+
+
+<!--INCLUSIONE JQUERY AJAX-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+
+  function ajaxDeleteLink(link_name,user_id){
+    console.log(link_name + " "+ user_id);
+    console.log(document.getElementById(link_name))
+    $.ajax({
+      url: '/ajaxDeleteLInk',
+      type: 'post',
+      data: {
+          link_name: link_name,
+          id: user_id,
+      },
+      
+      success: function(response){
+          response=JSON.parse(response);
+          console.log(response)
+          if(response == true){
+            //alert(response)
+            let img_link,container_delete,container_edit;
+
+            /*-----------------*/
+            img_link=document.getElementById(link_name);
+            img_link.classList.remove('op_med');
+            img_link.className="img_links";
+            img_link.setAttribute("onClick","addSocialLink(this)");
+
+            /*-----------------*/
+            container_edit= document.getElementsByClassName("link-edit");
+            console.log(container_edit)
+
+            /*-----------------*/
+            container_delete= document.getElementById("delete_container_"+link_name);
+            container_delete.classList.add("fade-out");
+
+            /*-----------------*/
+            setTimeout(()=>{container_edit[0].removeChild(container_delete)},500);
+
+          }
+      }
+    })
+  }   
+  
+</script>
+
+
+
+
+<script>   
+var artistName = JSON.parse('<%- JSON.stringify(userLogged.artist_name) %>');
+
+  const xhr = new XMLHttpRequest();  // create an XHR object
+  xhr.onload = () => { // listen for `onload` event
+      if (xhr.status == 200) { console.log('Image exists.');}
+      else {
+          console.log('Image does not exist.');
+          for (let index = 0; index < document.getElementsByClassName("profile_default").length; index++) {
+            let element = document.getElementsByClassName("profile_default")[index];
+            console.log(element); console.log(document.getElementById("profile_picture_logged"));
+            element.removeChild(element.firstChild); //rimuove elemento img
+            let div = document.createElement('div'); div.className = "user-icon-default user-icon-default-big";
+            let h2 = document.createElement('h2'); h2.textContent = artistName[0];
+            div.append(h2);
+            element.append(div);
+          }
+      }
+  };
+  xhr.open('HEAD', document.getElementById("profile_picture_logged").src);   // create a `HEAD` request
+  xhr.send();   // send request
+</script>
+      
+       
+<%- include partials/footer-account %>

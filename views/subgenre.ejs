@@ -1,0 +1,179 @@
+
+
+
+<%- include partials/header %>
+
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+
+  <div class="content">
+
+
+        <div class="layout-container-wide py-medium">
+          <% subgenre_url = subgenre_url.charAt(0).toUpperCase() + subgenre_url.slice(1)%>
+  
+          <div class="page-content-header row align-items-center">
+          <div class="col-auto">
+              <h4>Artists in subgenre <%=subgenre_url%></h4>
+          </div>
+          <div class="col-auto ml-auto">
+            <div class="search-result-filters">
+              Sort by
+              
+                    <form name="searchsortform">
+                      <div class="select" tabindex="1">
+
+                        <input id="created" class="selectopt" name="searchsort" type="radio" value="created" checked>
+                        <label for="created" class="option">Data iscrizione</label>
+          
+                        <input id="date_birth" class="selectopt" name="searchsort" type="radio" value="date_birth">
+                        <label for="date_birth" class="option">Età</label>
+          
+                        <input id="opt3" class="selectopt" name="searchsort" type="radio" value="yearsactivity">
+                        <label for="opt3" class="option">Anni di attività</label>
+          
+                        <input id="opt4" class="selectopt" name="searchsort" type="radio" value="songsreleased">
+                        <label for="opt4" class="option">Canzoni rilasciate</label>
+          
+                        <input id="opt5" class="selectopt" name="searchsort" type="radio" value="likes">
+                        <label for="opt5" class="option">Likes</label>
+          
+                        <label for="artist_name" class="option">Nome Artista</label>
+                        <input id="artist_name" class="selectopt" name="searchsort" type="radio" value="artist_name">
+          
+                      </div>
+                    </form>
+          
+          
+                    </div>
+          </div>
+          
+          </div>
+                  
+
+          <hr>
+      
+      <% if(artist_subgenre){%>
+
+      <div class="row">
+
+        <% artist_subgenre.forEach(function(res){ %>
+
+            <div class="col-md-4 col-lg-3">
+              <div class="card-user card-user-style0bg3 <%= res.artist_macro %>">
+
+                <div class="content-image">
+                  <a href="../profile/<%= res.user_name %>"><img src="../uploads/<%= res.user_id %>/profile.jpg" alt="" onerror="if (this.src != '../uploads/default/default.jpg') this.src = '../uploads/default/default.jpg';"></a>
+                </div>
+
+                  <div class="content-text">
+                    <div class="content-text-header">
+                    <span class="artist-name"><a href="../profile/<%= res.user_name %>"><%= res.artist_name %></a></span>
+                  </div>
+                  <div class="content-text-bottom">
+                    <span class="card-user-label"><%= res.artist_macro %></span>   
+                    <span class="artist-type"><%= res.artist_type %></span> 
+                    <span><i class='icon-location'></i><%= res.country %></span>
+                  </div>
+              
+              
+              </div>
+              
+            </div>
+            </div>
+              
+
+        <% }) %>
+      </div>
+      </div>
+      <%}%>
+
+
+  </div>
+</div>
+
+<%- include partials/footer %>
+
+
+
+
+<script>
+  var url = window.location.href;
+  
+  var tempArray = url.split("?");
+  
+  var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+
+  if (additionalURL) {
+    tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+    console.log(tempArray[tempArray.length-1]);
+
+    //controllo se nell'url alla fine c'è già un parametro sortby
+    if(tempArray[tempArray.length-1].startsWith("sortby")){
+      var valueSortby=tempArray[tempArray.length-1].split("=")[1];
+    
+      document.getElementById(valueSortby).checked = true;
+
+    }
+  }
+
+</script>
+
+    
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM completamente caricato e analizzato');
+    document.forms.searchsortform.searchsort.forEach(radio => {
+      radio.addEventListener('change', () => {
+        var attributeClickedSort=document.forms.searchsortform.searchsort.value;
+      
+
+            var newUrl = "";
+            
+            //var url = req.url; // ottengo search-result?city=milano&artist_type=all&gender=all&sortby=artist_name
+            var url = window.location.href;
+            
+            var tempArray = url.split("?");
+            
+            var additionalURL = tempArray[1]; //ottengo city=milano&artist_type=all&gender=all&sortby=artist_name
+
+            if (additionalURL) {
+              tempArray = additionalURL.split("&");   // ottengo array: [ 'city='milano, 'artist_type=all', 'gender=all', 'sortby=artist_name' ]
+              console.log(tempArray[tempArray.length-1]);
+
+              //controllo se nell'url alla fine c'è già un parametro sortby
+              if(tempArray[tempArray.length-1].startsWith("sortby")){
+                  console.log("parametro sortby esiste già nell'url, sortyby è gia definito");
+                  var urlBeforeSortby = url.split("sortby")[0]; //prendo tutto l'url fino a dove inizia "sortby"
+                  console.log(urlBeforeSortby);
+                  newUrl = urlBeforeSortby + "sortby=" +attributeClickedSort;
+                  
+
+              }
+              else{
+                  console.log("last parameter is not sort by");
+                  newUrl = url + "&sortby="+attributeClickedSort;
+
+              }
+
+              console.log(newUrl);
+              window.location = newUrl;
+
+            }
+
+
+      })
+    });
+});
+
+
+
+</script>
+    
+
+  
+</body>
+</html>

@@ -1,0 +1,390 @@
+
+
+<%- include partials/header %>
+
+
+<%
+if(userProfile.date_b != null) { 
+  var dateB = userProfile.date_b.toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '')     // delete the dot and everything after
+  dateB = dateB.split(" ")[0];  
+}
+else{ var dateB = ""; }
+  
+%> 
+
+<script> var artistNameJs = JSON.parse('<%- JSON.stringify(userProfile.artist_name) %>'); </script>
+
+<div class="container-layout-sidebar">
+
+  <%- include partials/sidebar %>
+
+
+  <div class="content">
+
+    <div class="profile-container">
+
+      <div class="profile-row">
+
+          <div class="profile-col-image profile_default_image">
+            <img id="profile_picture" src="../uploads/<%= userProfile.user_id %>/profile.jpg" alt="">
+            <div class="profile-image-overlay wrapper-padding">
+              <h1 class="profile-name"><%= userProfile.artist_name %></h1>
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <ul class="profile-info">
+                      <% if(userProfileCategories.length>0) { %> <li> <p> <span class="profile-label profile-label-<%= userProfile.artist_macro %>"><%= userProfile.artist_macro %></span> <% userProfileCategories.forEach(function(res,index){ %>  <%= res.category_id.toUpperCase() %>  <% if(index<userProfileCategories.length-1) {%>, <% } %>   <% }) %> </p></li><% } %>
+                      <% if(userProfile.country!=null) { %> <li> <p>(<%= userProfile.country %>)</p> </li><% } %>
+                    </ul>
+                  </div>
+                  <div class="col-auto">
+                    <ul class="profile-genres">
+                      <% userProfileGenres.forEach(function(res){ %><li><a href="/subgenre/<%= res.cod_subgenre %>"><%= res.cod_subgenre %></a></li><% }) %>
+                    </ul>
+                  </div>
+                </div>
+               
+            </div>
+          </div>
+
+          <div class="profile-col-text">
+
+             <div class="wrapper-nopadding">
+                <ul class="profile-links">
+                  <li>
+                    <div>Listen/Watch</div>
+                    <div>
+                      <ul> 
+                    <% userProfileLinks.forEach(function(res){ if(res.link_type=="listen"){ %><li> <a onclick="trackClickLink('<%= userProfile.user_id %>', '<%= res.link_name%>', '<%= res.url %>')"> <img src="../icons/platforms/<%= res.link_name %>.svg"> </a> </li><% } }) %>
+                      </ul>
+                  </div>
+                  </li>
+
+                  <li>
+                    <div>Connect</div>
+                    <div>
+                      <ul>
+                        <% userProfileLinks.forEach(function(res){ if(res.link_type=="connect"){ %><li> <a onclick="trackClickLink('<%= userProfile.user_id %>', '<%= res.link_name%>', '<%= res.url %>')"> <img src="../icons/platforms/<%= res.link_name %>.svg"> </a> </li><% } }) %>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+            </div>
+
+
+            <div class="wrapper-padding">
+                
+               <% if(userProfileTableProfile.bio!=null) { %> <p class="profile-bio"><%= userProfileTableProfile.bio %></p> <% } %>
+               <p class="text-smaller d-none"><%= dateB %></p>               
+
+                <hr>
+
+                <div class="profile-panel-interaction">
+
+
+                  <%
+                  var radarMatch = false;
+                  for(var radar of userProfileRadars) {
+                    if(userLogged.artist_type == radar.category_id){ radarMatch = true; break;}
+                  }          
+                   %>
+
+                  
+                  <%if(logged && userProfile.user_id != userLogged.user_id){%>
+               
+                      <!--------------------- ifs per bottone like ----------------------->
+                      <% if(logged_likes_this){ var buttonLikeClass = "on"; var buttonLikeStatus = 1; var buttonLikeText = "Liked"; } %>
+                      <% if(!logged_likes_this){ var buttonLikeClass = "off"; var buttonLikeStatus = 0; var buttonLikeText = "Like"; } %>
+
+                      <!---------------------  ifs per bottone follow --------------------->
+                      <% if(logged_follows_this){ var buttonFollowClass = "on"; var buttonFollowStatus = 1; var buttonFollowText = "Following";  } %>
+                      <% if(!logged_follows_this){ var buttonFollowClass = "off"; var buttonFollowStatus = 0; var buttonFollowText = "Follow";  } %>
+
+                       <!---------------------  ifs per bottone collaboration --------------------->
+                       <%
+                       var logged_signalcollab_noradar_this = false;
+                       if(rows_logged_signalscollab_this != null && rows_logged_signalscollab_this.length>0){
+                          for(var c=0; c < rows_logged_signalscollab_this.length; c++) {
+                              if(rows_logged_signalscollab_this[c].radar_id!=""){
+                                logged_signalcollab_noradar_this = true;
+                              }
+                          }
+                       }
+                       %>
+
+                       <% if(logged_signalcollab_noradar_this){ var buttonCollaborationClass = "on"; var buttonCollaborationStatus = 1; var buttonCollaborationText = "Collab Sent";  } %>
+                       <% if(!logged_signalcollab_noradar_this){ var buttonCollaborationClass = "off"; var buttonCollaborationStatus = 0; var buttonCollaborationText = "Collab"; } %>
+
+                      <a id="btn-like" class="btn-icon <%= buttonLikeClass %>" onclick="clickButtonLike(<%= buttonLikeStatus %>,'<%= userProfile.user_id %>')"> <span class="icon"><img class="icon" src="../icons/f/heart.svg" alt=""></span> <span id="btn-like-text"><%= buttonLikeText %></span> </a>
+                      <a id="btn-follow" class="btn-icon <%= buttonFollowClass %>" onclick="clickButtonFollow(<%= buttonFollowStatus %>,'<%= userProfile.user_id %>')"><span class="icon"><img src="../icons/f/bookmark.svg" alt=""></span> <span id="btn-follow-text"><%= buttonFollowText %></span></a>
+                      <%if(!radarMatch){%>
+                      <a id="btn-collaboration" class="btn-icon <%= buttonCollaborationClass %>" onclick="clickButtonCollaboration(<%= buttonCollaborationStatus %>,'<%= userProfile.user_id %>', '')"><span class="icon"><img src="../icons/f/loader.svg" alt=""></span> <span id="btn-collaboration-text"><%= buttonCollaborationText %></span></a>
+                      <%}%>
+
+                      <!--------------------- bottone dm --------------------->
+                      <form action="/chat" method="post">
+                        <input type="hidden" name="profile_userid" value="<%= userProfile.user_id %>">
+                        <input type="hidden" name="profile_artistname" value="<%= userProfile.artist_name %>">
+                        <input type="hidden" name="profile_username" value="<%= userProfile.user_name %>">
+                        <button type="submit" class="btn-icon" id="btn-dm"> <span class="icon"><img class="icon" src="../icons/f/message-square.svg" alt=""></span>Message</button>
+                      </form>
+
+                  <%}%>
+
+                  <%if(logged && userProfile.user_id == userLogged.user_id){%>
+                      <a id="btn-like" class="btn-icon off btn-disabled"><span class="icon"><img src="../icons/f/heart.svg" alt=""></span>Like</a>
+                      <a id="btn-follow" class="btn-icon off btn-disabled"> <span class="icon"><img src="../icons/f/bookmark.svg" alt=""></span> Follow</a>
+                      <a id="btn-collaboration" class="btn-icon off btn-disabled"> <span class="icon"><img src="../icons/f/loader.svg" alt=""></span>Collab</a>
+                      <a href="/chat" class="btn-icon" id="btn-dm" disabled><span class="icon"><img class="icon" src="../icons/f/message-square.svg" alt=""></span>Message</a>
+                  <%}%>
+
+                  <% if(!logged){ %>
+                    <a href="/login" id="btn-like" class="btn-icon off" ><span class="icon"><img src="../icons/f/heart.svg" alt=""></span>Like</a>
+                    <a href="/login" id="btn-follow" class="btn-icon off"><span class="icon"><img src="../icons/f/bookmark.svg" alt=""></span>Follow</a>
+                    <a href="/login" id="btn-collaboration" class="btn-icon off"><span class="icon"><img src="../icons/f/loader.svg" alt=""></span>Collab</a>
+                    <a href="/login" id="btn-dm" class="btn-icon"><span class="icon"><img class="icon" src="../icons/f/message-square.svg" alt=""></span>Message</a>
+                  <% } %>
+
+            </div>
+        
+          </div>
+
+
+          <% if(!logged){ %>
+            <section class="section-bg-lighter2 layout-container-wide py-medium">
+              <p class=""><a class="link-text" href="/login">Login</a> to see if this artist is looking for a collaboration.</p>
+            </section>
+          <% } %>
+
+
+
+
+
+          <% if(logged){ %>
+            <section class="section-bg-lighter layout-container-wide py-medium">
+
+              <h4> <%= userProfile.artist_name %>'s Radars </h4>
+              <p class="text-smaller text-lighter-more">Find out what kind of collaborations this artist is looking for.</p>
+              
+              <% if(userProfileRadars.length>0){ %>
+
+                <ul class="profile-radar py-small">
+                  <% userProfileRadars.forEach(function(radar){  %>
+                    <li>
+                      <div>
+                        <span class="profile-radar-tag">
+                          <span class="profile-radar-image"><img src="../icons/profile/radar.svg" alt=""></span>
+                          <span class="profile-radar-value"><%= radar.category_id %></span>
+                        </span>
+                      </div>
+                      <div>
+                        <% if(userLogged.user_id != userProfile.user_id){ %>
+
+                          <%
+                          var btnRadarStatus = 0; var btnRadarClass = "off"; var btnRadarText = "Collab";
+                          for(var c=0; c < rows_logged_signalscollab_this.length; c++) {
+                            if(rows_logged_signalscollab_this[c].radar_id == radar.radar_id ){
+                              btnRadarStatus = 1; btnRadarClass = "on"; btnRadarText = "Collab Sent";
+                              break;
+                            }
+                          }
+                          %>
+
+                        <% if(userLogged.artist_type == radar.category_id){ %>
+                          <a id="btn-collaboration" class="btn-icon <%= btnRadarClass %>" onclick="clickButtonCollaboration(<%= btnRadarStatus %>,'<%= userProfile.user_id %>', '<%= radar.radar_id %>')"><span class="icon"><img src="../icons/collaboration.svg" alt=""></span> <span id="btn-collaboration-text"><%= btnRadarText %></span></a>
+                          <% } %>
+                        <% if(userLogged.artist_type != radar.category_id){ %> <p class="text-lighter text-smaller">Only users with main category <%= radar.category_id %> can react to this radar.</p><% } %>
+                        <% } %>
+                        <% if(userLogged.user_id == userProfile.user_id){ %><p class="text-lighter text-smaller">Only users with main category <%= radar.category_id %> can react to this radar.</p><% } %>
+                        
+                      </div>
+                      <div>
+                        <% if(userLogged.user_id != userProfile.user_id){ %>
+                        <% if(userLogged.artist_type == radar.category_id) {%><p>Your main category matches this radar.</p><% } %>
+                        <% if(userLogged.artist_type != radar.category_id){ %><p>Your main category doesn't match this radar.</p><% } %>
+                        <% } %>
+                      </div>
+                    </li>
+                  <% }) %>
+                </ul>
+
+                <div class="text-smaller text-lighter-more"><p>You are able to react to an user's radar based on your main artist category: <span class="user-category"><%= userLogged.artist_type  %></span> </p></div>
+              <% } %>
+      
+
+              <% if(userProfileRadars==undefined || userProfileRadars.length==0){ %>
+                <p class="py-small text-smaller">This user doesn't have active radars now.</p>
+              <% } %>
+
+
+            </section>
+          <% } %>
+ 
+
+      </div>
+
+   </div>
+
+    </div>
+
+  </div>
+</div>
+              
+        
+
+
+<script>
+  function trackClickLink(id_user_profile, link_name, link_url){
+    
+        $.ajax({
+            url: '/track-click-link',
+            type: 'post',
+            data: {
+                id_user_profile, link_name, link_url
+            },
+            success: function(response){
+                response = JSON.parse(response);
+                if(response.status == "OK"){
+                  console.log("OK");  
+                }
+                if(response.status == "KO"){
+                  console.log("KO"); 
+                }
+                location.href = link_url;
+            }
+        });
+
+}
+</script>
+
+
+
+
+<script>
+  function clickButtonLike(current_status, id_receiver){
+        $.ajax({
+            url: '/action-button-like',
+            type: 'post',
+            data: {
+                current_status: current_status, id_receiver: id_receiver
+            },
+            success: function(response){
+                response = JSON.parse(response);
+                if(response.new_status == 1){
+                  document.getElementById("btn-like").classList.remove("off");
+                    document.getElementById("btn-like").classList.add("on");
+                    document.getElementById("btn-like-text").innerText = "Liked";
+                    document.getElementById("btn-like").setAttribute("onclick","clickButtonLike(1,'<%= userProfile.user_id %>')");  
+                }
+                if(response.new_status == 0){
+                    document.getElementById("btn-like").classList.remove("on");
+                    document.getElementById("btn-like").classList.add("off");
+                    document.getElementById("btn-like-text").innerText = "Like";
+                    document.getElementById("btn-like").setAttribute("onclick","clickButtonLike(0,'<%= userProfile.user_id %>')");  
+                }
+            }
+        });
+
+}
+</script>
+
+
+
+<script>
+  function clickButtonFollow(current_status, id_receiver){
+        $.ajax({
+            url: '/action-button-follow',
+            type: 'post',
+            data: {
+               current_status: current_status,
+               id_receiver: id_receiver
+            },
+            success: function(response){
+                response = JSON.parse(response);
+                //alert(response.content);
+                
+                if(response.new_status== 1){
+                   document.getElementById("btn-follow").classList.remove("off");
+                   document.getElementById("btn-follow").classList.add("on");
+                   document.getElementById("btn-follow-text").innerText = "Following";
+                   document.getElementById("btn-follow").setAttribute("onclick","clickButtonFollow(1,'<%= userProfile.user_id %>')");  
+                }
+                if(response.new_status== 0){
+                   document.getElementById("btn-follow").classList.remove("on");
+                   document.getElementById("btn-follow").classList.add("off");
+                   document.getElementById("btn-follow-text").innerText = "Follow";
+                   document.getElementById("btn-follow").setAttribute("onclick","clickButtonFollow(0,'<%= userProfile.user_id %>')");  
+                }
+
+            }
+        });
+  
+}
+</script>
+
+
+
+<script>
+  function clickButtonCollaboration(current_status, id_receiver, radar_id){
+        $.ajax({
+            url: '/action-button-collaboration',
+            type: 'post',
+            data: {
+               current_status: current_status,
+               id_receiver: id_receiver,
+               radar_id, radar_id
+            },
+            success: function(response){
+                response = JSON.parse(response);
+                //alert(response.content);
+                
+                if(response.new_status== 1){
+                   document.getElementById("btn-collaboration").classList.remove("off");
+                   document.getElementById("btn-collaboration").classList.add("on");
+                   document.getElementById("btn-collaboration-text").innerText = "Collab Sent";
+                   document.getElementById("btn-collaboration").setAttribute("onclick","clickButtonCollaboration(1,'<%= userProfile.user_id %>', '"+radar_id+"')");  
+                }
+                if(response.new_status== 0){
+                   document.getElementById("btn-collaboration").classList.remove("on");
+                   document.getElementById("btn-collaboration").classList.add("off");
+                   document.getElementById("btn-collaboration-text").innerText = "Collab";
+                   document.getElementById("btn-collaboration").setAttribute("onclick","clickButtonCollaboration(0,'<%= userProfile.user_id %>', '"+radar_id+"')");  
+                }
+            }
+        });
+}
+</script>
+
+
+
+<script>
+  // create an XHR object
+  const xhr2 = new XMLHttpRequest();
+
+  // listen for `onload` event
+  xhr2.onload = () => {
+      if (xhr2.status == 200) {
+          console.log('Image exists.');
+      }
+      else {
+          console.log('Image does not exist.');
+          for (let index = 0; index < document.getElementsByClassName("profile_default_image").length; index++) {
+            let element = document.getElementsByClassName("profile_default_image")[index];
+            element.removeChild(element.firstElementChild);
+            element.classList.add("default_image");  
+          }
+      }
+  };
+
+  // create a `HEAD` request
+  xhr2.open('HEAD', document.getElementById("profile_picture").src);
+
+  // send request
+  xhr2.send();
+
+</script>
+
+
+    
+ <%- include partials/footer-account %>

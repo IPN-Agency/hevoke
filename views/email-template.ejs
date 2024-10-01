@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>L26 - Registrati</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"> 
+  <script src="https://kit.fontawesome.com/ce061fb4d7.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <section class="py-large"><div id="emailhtml1"></div></section>
+  <section class="py-large"><div id="emailhtml2"></div></section>
+</body>
+</html>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+/* email template 1*/
+    var link = "http://localhost:8080/account/verify?code=569789b17b418e5d684d6f8e16a3fa89";
+    var htmlString = "";
+    htmlString += '<div style="background-color: #212121; font-family: \'DM Sans\', sans-serif; color: #ffffff; text-align: center; padding: 35px 0;">';
+    htmlString += '<div style="max-width: 900px; margin: 0 auto; background-color: #121212;  padding: 35px; text-align: center;">';
+    /*htmlString += '<div style="line-height:30px; margin-top: 0px;"><img style="display:inline-block; line-height:0px;" src="https://webdevtrick.com/wp-content/uploads/logo-fb-1.png" width="60" height="60" alt="logo"></div>';*/
+    htmlString += '<div style="color:#808080; font-size: 19px; margin-top: 15px;">L26.com</div>';
+    htmlString += '<div style="font-size: 45px; line-height: 45px; margin-top: 20px; font-weight: 300;">Welcome on L26!</div>';     
+    htmlString += '<div style="font-size: 22px; line-height: 30px; margin-top: 10px;">To activate your account use the button below:</div>';     
+    htmlString += '<a style="background-color: #171718; border: 2px solid grey; color: #fff; font-size: 17px; text-decoration: none; padding: 0.8rem 2.3rem; margin-top: 20px; display: inline-block; width: auto; border-radius: 3px;" href='+link+'>Confirm</a>';
+    htmlString += '<div style="color:#E8E8E8; font-size: 15px; line-height: 15px; margin-top: 20px;">or copy and paste this url:</div>';   
+    htmlString += '<div style="color:#808080; font-size: 14px; line-height: 15px; margin-top: 5px; white-space: wrap">'+link+'</div>';     
+    htmlString += '<div style="color:#E8E8E8; font-size: 15px; margin-top: 35px; border-top: 1px solid #696969; padding: 15px 0; border-bottom: 1px solid #696969;">';
+    /*htmlString += '<a>Instagram</a> <a>Youtube</a>';*/
+    htmlString += '<div style="display: inline-flex; gap: 27px; font-size: 27px"><i class="fab fa-facebook"></i> <i class="fab fa-youtube"></i> <i class="fab fa-instagram"></i></div>';
+    htmlString += '</div>';
+    htmlString += '<div style="color:#5C5C5C; font-size: 13px; margin-top: 30px;">Hai ricevuto questo messaggio perchè il tuo indirizzo email è stato indicato durante una registrazione su l26.com.<br>Se non hai fatto questa richiesta puoi segnalarcelo a info@l26.com.</div>';   
+    htmlString += '<div style="color:#5C5C5C; font-size: 12px; margin-top: 15px;">l26.com</div>';
+    htmlString += '</div>';
+    htmlString += '</div>';
+    document.getElementById("emailhtml1").innerHTML = htmlString;
+
+
+    /* email template 2*/
+  var link = "http://localhost:8080/account/verify?code=569789b17b418e5d684d6f8e16a3fa89";
+  var htmlString = "";
+    htmlString += '<div style="background-color: #ffff; font-family: \'DM Sans\', sans-serif; color: #191919; padding: 35px">';
+    htmlString += '<div style="line-height:30px; margin-top: 0px;"><img style="display:block; line-height:0px;" src="https://webdevtrick.com/wp-content/uploads/logo-fb-1.png" width="60" height="60" alt="logo"></div>'; 
+    htmlString += '<div style="font-size: 35px; line-height:30px; margin-top: 20px;">Welcome on L26!</div>';     
+    htmlString += '<div style="font-size: 20px; line-height:30px; margin-top: 10px;">To activate your account use the button below:</div>';     
+    htmlString += '<a style="background-color: #171718; color: #fff; font-size: 17px; text-decoration: none; padding: 0.8rem 2.3rem; margin-top: 20px; display: inline-block; width: auto; font-weight: bold; border-radius: 3px; " href='+link+'>Conferma</a>';
+    htmlString += '<div style="color:#484848; font-size: 15px; line-height: 15px; margin-top: 20px;">or copy and paste this url:</div>';   
+    htmlString += '<div style="color:#808080; font-size: 15px; line-height: 15px; margin-top: 5px;">'+link+'</div>';       
+    htmlString += '<div style="color:#989898; font-size: 12px; line-height: 15px; margin-top: 40px; max-width: 800px">Hai ricevuto questo messaggio perchè il tuo indirizzo email è stato indicato durante una registrazione su l26.com, se non hai fatto questa richiesta puoi segnalarcelo a info@l26.com.</div>';
+    htmlString += '<div style="color:#989898; font-size: 12px; margin-top: 15px;">l26.com</div>';
+    htmlString += '</div>';
+    document.getElementById("emailhtml").innerHTML = htmlString;
+});
+
+</script>
+
+
+
+
+</body>
+</html>

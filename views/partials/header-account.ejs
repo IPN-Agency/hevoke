@@ -1,0 +1,193 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hevoke</title>
+        <link rel="icon" href="/images/favicon.ico">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+       <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+       <link rel='stylesheet' href='/css/style.css' />
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="nopanel">
+
+      
+      <script>
+        /*
+        $(window).scroll(function() {
+          var nav = $('#navsite');
+          var top = 200;
+          if ($(window).scrollTop() >= top) {
+              nav.addClass('scroll');
+              document.getElementById("panel-message-floating").classList.add("hide");
+          } else {
+              nav.removeClass('scroll');
+              document.getElementById("panel-message-floating").classList.remove("hide");
+          }
+      });
+      */
+      </script>
+
+ <!--
+          <nav id="navsite" class='navbar  navbar-expand-lg fixed-top align-items-center'>
+
+            <a id="openmenu" class="hamburger-checkbox">
+              <div class="hamburger-icon"> <label for="openmenu" id="hamburger-label"> <span></span> <span></span><span></span></label>  </div>
+            </a>
+
+            <a id='logo' class='navbar-brand nonlink-look logo' href='/home'>L26</a>
+        
+            <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">o</span>
+            </button>
+        
+        
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        
+                <ul class="navbar-nav">
+                        <li class="nav-item nav-link-general"><a class="nav-link" href='/home'>Home</a></li>
+                        <li class="nav-item nav-link-general"><a class="nav-link" href='/search'>Search Artists</a></li>
+                        <li class="nav-item nav-link-general"><a class="nav-link" href='/genres'>Browse Genres</a></li>
+                        <li class="nav-item nav-link-general"><a class="nav-link" href='/cards'>New Artists</a></li>
+                        <li class="nav-item nav-link-general"><a class="nav-link" href='http://localhost:8080/search-result'>Ricerca vuota</a></li>
+                </ul>
+
+        
+                <ul class="navbar-nav ml-auto">
+                  <% if(logged == true){%>
+                 
+                      <li class="nav-item dropdown">
+                        <div class="navbar-panel-userlogged">
+                          <a class="nav-link dropdown-toggle" href="/manage-profile"  data-toggle="dropdown">
+                            <%= userLogged.artist_name %><img class="user-profileimage-icon small" src="../uploads/<%= userLogged.user_id %>/profile.jpg" alt="">
+                          </a>
+                        </div>
+                        
+                        <ul class="dropdown-menu">
+                          <a href="/manage-profile"><img class="user-profileimage-icon big" src="../uploads/<%= userLogged.user_id %>/profile.jpg" alt=""></a>
+                          <h6><%= userLogged.artist_name %></h6>
+                          <span>Network</span>
+                          <li ><a class="dropdown-item" href="/feed">Feed</a></li>
+                          <li ><a class="dropdown-item" href="/like-received">Likes Ricevuti</a></li>
+                          <li ><a class="dropdown-item" href="/like-sent">Likes Inviati</a></li>
+                          <li ><a class="dropdown-item" href="/followers">Followers</a></li>
+                          <li ><a class="dropdown-item" href="/following">Following</a></li>
+                          <li ><a class="dropdown-item" href="/chat">Messaggi</a></li>
+                          <span>Profilo</span>
+                          <li ><a class="dropdown-item" href="/manage-profile">Gestione profilo</a></li>
+                      
+                          <li ><a class="dropdown-item btn-navbar-logout" href="/logout">Logout</a></li>
+                        </ul>
+                     </li>
+               
+                <%}else{%>
+                      <li class="nav-item"><a class="nav-link btn btn-navbar-login " href="/login">Accedi</a></li>
+                      <li class="nav-item"><a class="nav-link btn btn-navbar-signup" href="/signup">Registrati</a></li>
+                  <%}%>
+
+                </ul>
+
+            </div>
+        
+        </nav>
+
+       -->
+
+   <div class="menu-container">
+ 
+            <div id="menu-panel" class="menu-panel">
+                       
+                <div class="menu-panel-content">
+
+                  <div>
+                        <div class="menu-panel-content-header">
+                          <span class="site-logo-text-top site-logo-text-big">HEVOKE</span>
+                     
+                          <span id="closemenu">X</span>
+                          </div>
+
+                    </div>
+                        
+                      <nav>
+                      
+                            <ul class="menu-links">
+                              <li>Home</li>
+                              <li><a href="/home">Home</a> </li>
+                              <li><a href="/search">Search Artists</a></li>
+                              <li><a href="/genres">Genres</a></li>
+                            </ul>               
+                        
+                            <ul class="menu-links">
+                              <li>Artists</li>
+                                <li><a href="/feed">Search Artists</a></li>
+                                <li><a href="/feed">New Artists</a></li>
+                            </ul>
+                          
+                            <ul class="menu-links">
+                              <li>Genres</li>
+                                <li><a href="/feed">Popular Genres</a></li>
+                                <li><a href="/feed">All Genres</a></li>
+                            </ul>
+
+                            <% if(logged == true){ %>
+                            <ul class="menu-links">
+                              <li>Connections</li>
+                              <li><a href="/feed">Popular Genres</a></li>
+                              <li><a href="/feed">All Genres</a></li>
+                            </ul>
+                            <% } %>
+                            
+                            
+                       </nav>
+                      
+                       <div class="menu-panel-content-header">
+                            <div class="socials-icons bg-lighter medium white">
+                              <a class="" href="https://facebook.com">
+                            <svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 512 512" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M374.244,285.825l14.105,-91.961l-88.233,0l0,-59.677c0,-25.159 12.325,-49.682 51.845,-49.682l40.116,0l0,-78.291c0,0 -36.407,-6.214 -71.213,-6.214c-72.67,0 -120.165,44.042 -120.165,123.775l0,70.089l-80.777,0l0,91.961l80.777,0l0,222.31c16.197,2.541 32.798,3.865 49.709,3.865c16.911,0 33.511,-1.324 49.708,-3.865l0,-222.31l74.128,0Z" style="fill-rule:nonzero;"/></svg>
+                            </a>
+                            <a class="" href="https://facebook.com">
+                            <svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 512 512" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M501.303,132.765c-5.887,-22.03 -23.235,-39.377 -45.265,-45.265c-39.932,-10.7 -200.038,-10.7 -200.038,-10.7c0,0 -160.107,0 -200.039,10.7c-22.026,5.888 -39.377,23.235 -45.264,45.265c-10.697,39.928 -10.697,123.238 -10.697,123.238c0,0 0,83.308 10.697,123.232c5.887,22.03 23.238,39.382 45.264,45.269c39.932,10.696 200.039,10.696 200.039,10.696c0,0 160.106,0 200.038,-10.696c22.03,-5.887 39.378,-23.239 45.265,-45.269c10.696,-39.924 10.696,-123.232 10.696,-123.232c0,0 0,-83.31 -10.696,-123.238Zm-296.506,200.039l0,-153.603l133.019,76.802l-133.019,76.801Z" style="fill-rule:nonzero;"/></svg>
+                            </a>
+                            <a class="" href="https://facebook.com">
+                            <svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 600 600" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="matrix(1.01619,0,0,1.01619,44,43.8384)"><path d="M251.921,0.159C183.503,0.159 174.924,0.449 148.054,1.675C121.24,2.899 102.927,7.157 86.902,13.385C70.336,19.823 56.287,28.437 42.282,42.442C28.277,56.447 19.663,70.496 13.225,87.062C6.997,103.086 2.739,121.399 1.515,148.213C0.289,175.083 0,183.662 0,252.08C0,320.497 0.289,329.076 1.515,355.946C2.739,382.76 6.997,401.073 13.225,417.097C19.663,433.663 28.277,447.712 42.282,461.718C56.287,475.723 70.336,484.337 86.902,490.775C102.927,497.002 121.24,501.261 148.054,502.484C174.924,503.71 183.503,504 251.921,504C320.338,504 328.917,503.71 355.787,502.484C382.601,501.261 400.914,497.002 416.938,490.775C433.504,484.337 447.553,475.723 461.559,461.718C475.564,447.712 484.178,433.663 490.616,417.097C496.843,401.073 501.102,382.76 502.325,355.946C503.551,329.076 503.841,320.497 503.841,252.08C503.841,183.662 503.551,175.083 502.325,148.213C501.102,121.399 496.843,103.086 490.616,87.062C484.178,70.496 475.564,56.447 461.559,42.442C447.553,28.437 433.504,19.823 416.938,13.385C400.914,7.157 382.601,2.899 355.787,1.675C328.917,0.449 320.338,0.159 251.921,0.159ZM251.921,45.551C319.186,45.551 327.154,45.807 353.718,47.019C378.28,48.14 391.619,52.244 400.496,55.693C412.255,60.263 420.647,65.723 429.462,74.538C438.278,83.353 443.737,91.746 448.307,103.504C451.757,112.381 455.861,125.72 456.981,150.282C458.193,176.846 458.45,184.814 458.45,252.08C458.45,319.345 458.193,327.313 456.981,353.877C455.861,378.439 451.757,391.778 448.307,400.655C443.737,412.414 438.278,420.806 429.462,429.621C420.647,438.437 412.255,443.896 400.496,448.466C391.619,451.916 378.28,456.02 353.718,457.14C327.158,458.352 319.191,458.609 251.921,458.609C184.65,458.609 176.684,458.352 150.123,457.14C125.561,456.02 112.222,451.916 103.345,448.466C91.586,443.896 83.194,438.437 74.378,429.621C65.563,420.806 60.103,412.414 55.534,400.655C52.084,391.778 47.98,378.439 46.859,353.877C45.647,327.313 45.391,319.345 45.391,252.08C45.391,184.814 45.647,176.846 46.859,150.282C47.98,125.72 52.084,112.381 55.534,103.504C60.103,91.746 65.563,83.353 74.378,74.538C83.194,65.723 91.586,60.263 103.345,55.693C112.222,52.244 125.561,48.14 150.123,47.019C176.687,45.807 184.655,45.551 251.921,45.551Z" style="fill-rule:nonzero;"/><path d="M251.921,336.053C205.543,336.053 167.947,298.457 167.947,252.08C167.947,205.702 205.543,168.106 251.921,168.106C298.298,168.106 335.894,205.702 335.894,252.08C335.894,298.457 298.298,336.053 251.921,336.053ZM251.921,122.715C180.474,122.715 122.556,180.633 122.556,252.08C122.556,323.526 180.474,381.444 251.921,381.444C323.367,381.444 381.285,323.526 381.285,252.08C381.285,180.633 323.367,122.715 251.921,122.715Z" style="fill-rule:nonzero;"/><path d="M416.627,117.604C416.627,134.3 403.092,147.834 386.396,147.834C369.701,147.834 356.166,134.3 356.166,117.604C356.166,100.908 369.701,87.374 386.396,87.374C403.092,87.374 416.627,100.908 416.627,117.604Z" style="fill-rule:nonzero;"/></g></svg>
+                            </a>
+                            </div>
+
+                            <div>
+                              <% if(logged == true){ %>
+                                <div class="d-flex align-items-center">
+                                  <a href="/logout">Logout</a>
+                                  <a href="/manage-profile"><div class="profile_default"><img id="profile_picture_logged" class="user-profileimage-icon medium" src="/uploads/<%= userLogged.user_id %>/profile.jpg"></div></a>
+                                </div>
+                              <% } %>
+                              <% if(logged == false){ %>
+                                <div class="text-right">
+                                  <h5>Create your free account</h5>
+                                <a href="" class="btn btn-medium btn-bg-outline">Signup</a>
+                                </div> 
+                              <% } %>
+                            </div>
+                        
+
+                        </div>
+ 
+                      
+        
+            </div>
+          </div>
+        
+          
+        </div>
+
+        <script>
+         document.addEventListener('DOMContentLoaded', (event) => {
+
+              document.getElementById('openmenu').addEventListener('click', function() {
+                  document.getElementById('menu-panel').classList.add("opened");
+              });
+          
+              document.getElementById('closemenu').onclick = function(){
+                  document.getElementById('menu-panel').classList.remove("opened"); 
+              };
+        });
+        </script>
