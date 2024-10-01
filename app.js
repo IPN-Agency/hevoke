@@ -36,6 +36,16 @@ var dbSelection = "HEROKU";
 var dbSelection = "DO";
 var dbSelection = "a2";
 var dbSelection = "LOCAL";
+var dbSelection = "RENDER";
+
+if(dbSelection=="RENDER"){
+  var connection = mysql.createConnection({
+    host     : 'dpg-cru0u91u0jms73c1f0r0-a',
+    user     : 'hevoke_admin',
+    password : 'aj88YQyLbrzNn2KL6SrlDIGKPLj4hSrO',
+    database : 'hevoke_database'
+  });
+}
 
 if(dbSelection=="LOCAL"){
   var connection = mysql.createConnection({
