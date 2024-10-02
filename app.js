@@ -341,6 +341,7 @@ app.get("/privacy", function (req, res) { res.render("docs/privacy.ejs"); });
 app.get('/cards', search.allUsers);
 app.get("/email-template", function (req, res) { res.render("email-template.ejs"); });
 app.get('/spotifyapis', home.spotifyapis);
+app.get('/spotifyapisglobal', home.spotifyapisglobal);
 app.get('/reel', home.reel);
 
 
