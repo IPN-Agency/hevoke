@@ -25,7 +25,7 @@
                     <div class="d-flex">
                         <div class="col-auto">
                             <h5>Redirect Local</h5><br>
-                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.onrender.com%2Fspotifyapis&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">GET Top 50 Global Tracks</a>
+                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.onrender.com%2Fspotifyapisglobal&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token</a>
                         </div>
                     </div>
             </div>
@@ -194,11 +194,8 @@ var token = getParameterByName('access_token');
 
     }
 
-
-
     load('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks');
-
-         
+ 
 });
 
 
