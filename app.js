@@ -45,7 +45,8 @@ if(dbSelection=="AIVEN"){
     user     : 'avnadmin',
     password : 'AVNS_ZxTuQbEyH-xmRFqiM_Y',
     database : 'defaultdb',
-    port: 27720
+    port: 27720,
+    ssl : true
   });
 }
 
