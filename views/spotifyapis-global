@@ -1,0 +1,215 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create users with Spotify API</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel='stylesheet' href='../css/style.css' />
+    <link rel='stylesheet' href='../css/access.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+
+<body class="access login">
+
+<section class="layout-container-wide py-medium">
+
+        <h2>Create users with Spotify API</h2>
+        <hr>
+
+        <div class="row">
+
+            <div class="col">
+                    <h4>Authorize and get a token</h4>
+                    <br>
+
+                    <div class="d-flex">
+                        <div class="col-auto">
+                            <h5>Redirect Local</h5><br>
+                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=http:%2F%2Flocalhost:8080%2Fspotifyapis&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token</a>
+                        </div>
+                        <div class="col-auto">
+                            <h5>Redirect Hevoke.com</h5><br>
+                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.com%2Fspotifyapis&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token </a>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="col">
+                <div id="step-form" style="display: none">
+                <h4>Send form for images</h4><br>
+                <a class="btn btn-big btn-bg-outline" onclick="document.getElementById('sendform').click()">Send Form</a>
+                 </div>
+            </div>
+
+</section>
+
+
+<section class="layout-container-wide py-medium">
+
+        <h4>Queries with your top artists</h4>
+        <hr>
+        <ul id="top-artists"></ul>
+
+ </section>
+       
+
+ <section class="layout-container-wide py-medium">
+        <h4>Save on disk images from urls</h4>
+        <hr>
+        <form method="POST" action="/upload-image-url">
+        <div id="form-upload-images-from-api"></div>
+        <button class="btn btn-big btn-bg-outline d-none" type="submit" id="sendform">Save Images</button>
+        </form>
+
+</section>
+
+
+<script>
+    
+var url = decodeURIComponent(window.location.href);
+
+function getParameterByName(name) {
+    var match = RegExp('[#&]' + name + '=([^&]*)').exec(url);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+var token = getParameterByName('access_token'); 
+
+ $(document).ready(function() {
+
+    function load(url){
+            $.ajax({
+
+                type: 'GET',
+                url: url,
+                contentType : 'application/json',
+
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    console.log(response.items);
+                    var ul = document.getElementById("top-artists");  
+
+                    var form = document.getElementById("form-upload-images-from-api")
+                    for (i = 0; i < response.items.length; i++) { 
+                        
+                        var user_id = response.items[i].id;
+                        var user_name = response.items[i].name.replace(/\s+/g, '').toLowerCase();
+                        var artist_name = response.items[i].name;
+                        var followers = response.items[i].followers.total;
+                        var spotify_url = response.items[i].external_urls.spotify;
+                        if(response.items[i].popularity < 30){ var user_level = 1; }
+                        if(response.items[i].popularity >= 30 && response.items[i].popularity < 60){ var user_level = 2; }
+                        if(response.items[i].popularity >= 60 ){ var user_level = 3; }
+
+                        var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
+                        var country = countries[Math.floor(Math.random() * countries.length)];
+
+                        var artist_types = ["singer", "rapper", "producer", "dancer", "video director"];
+                        var artist_type = artist_types[Math.floor(Math.random() * artist_types.length)];
+
+                        if(artist_type=="singer" || artist_type=="rapper" || artist_type=="producer"){
+                            artist_macro="M";
+                        }
+                        if(artist_type=="dancer"){
+                            artist_macro="D";
+                        }
+                        if(artist_type=="video director"){
+                            artist_macro="V";
+                        }
+
+                        var radar_category = artist_types[Math.floor(Math.random() * artist_types.length)];
+
+                        var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
+                        var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserArtist (user_id, user_name, artist_name, artist_macro, artist_type, country, email, password, active, user_level) VALUES ('${user_id}', '${user_name}', '${artist_name}', '${artist_macro}', '${artist_type}', '${country}', '${user_name}@email.it', '$2b$10$zBoLgQzRTERVfNc/zWVhFOQ6ni3xHbAmd80xDCytrq652ZsuS8HhG', '1', '${user_level}');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserProfile (user_id, bio) VALUES ('${user_id}', '${followers} followers su Spotify');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserRadar (user_id, category_id) VALUES ('${user_id}', '${radar_category}');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserCategory (user_id, category_id) VALUES ('${user_id}', '${artist_type}');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'spotify', '${spotify_url}');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'youtube', 'https://youtube.com/${user_name}');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'connect', 'instagram', 'https://instagram.com/${user_name}');`));
+                        ul.appendChild(li);
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLikes (id_sender, id_receiver) VALUES ('${user_id}', '${liked_id}');`));
+                        ul.appendChild(li);
+                        
+                        var genres = response.items[i].genres;
+
+                        var dbGenre = "";
+                        for (var j = 0; j < genres.length; j++) {
+                            if(genres[j].includes("rap")){dbGenre = "rap";}
+                            if(genres[j].includes("rock")){ dbGenre = "rock";}   
+                            if(genres[j].includes("pop")){ dbGenre = "pop"; }   
+                            if(genres[j].includes("metal")){ dbGenre = "metal";}  
+                            if(genres[j].includes("dance") || genres[j].includes("electronica")){ dbGenre = "dance-electronica"; }          
+                        }
+
+                        if(dbGenre.length>0){
+                            var li = document.createElement("li");
+                            li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserGenres (user_id, cod_subgenre) VALUES ('${user_id}', '${dbGenre}');`));
+                            ul.appendChild(li);
+                        }
+                        
+                        var input = document.createElement("input");
+                        input.type = "text";
+                        input.name = "urls";
+                        input.value = response.items[i].images[0].url;
+                        input.setAttribute("value", response.items[i].images[0].url);
+                        form.appendChild(input);
+
+                        var input = document.createElement("input");
+                        input.type = "text";
+                        input.name = "ids";
+                        input.value = user_id;
+                        input.setAttribute("value", user_id);
+                        
+                        form.appendChild(input);
+                        
+                        document.getElementById("step-form").style.display="block";
+                                            
+                        }
+                }
+            });
+
+    }
+
+
+    load('https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50');
+    load('https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=50');
+    load('https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=50');
+
+
+         
+});
+
+
+</script>
+ 
+                    
+</body>
+</html>
