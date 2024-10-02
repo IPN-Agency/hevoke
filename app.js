@@ -37,12 +37,23 @@ var dbSelection = "DO";
 var dbSelection = "a2";
 var dbSelection = "LOCAL";
 var dbSelection = "RENDER";
+var dbSelection = "AIVEN";
+
+if(dbSelection=="AIVEN"){
+  var connection = mysql.createConnection({
+    host     : 'hevoke-hevoke.l.aivencloud.com',
+    user     : 'avnadmin',
+    password : 'AVNS_ZxTuQbEyH-xmRFqiM_Y',
+    database : 'defaultdb',
+    port: 27720
+  });
+}
 
 if(dbSelection=="RENDER"){
   var connection = mysql.createConnection({
     host     : 'dpg-cru0u91u0jms73c1f0r0-a',
     user     : 'hevoke_admin',
-    password : 'aj88YQyLbrzNn2KL6SrlDIGKPLj4hSrO',
+    password : '',
     database : 'hevoke_database'
   });
 }
@@ -60,7 +71,7 @@ if(dbSelection=="HEROKU"){
   var connection = mysql.createConnection({
     host     : 'eu-cdbr-west-03.cleardb.net',
     user     : 'bff364faf7f742',
-    password : '8643b42b',
+    password : '',
     database : 'heroku_03d73d9693723ab'
   });
 }
@@ -69,7 +80,7 @@ if(dbSelection=="DO"){
   var connection = mysql.createConnection({
     host     : 'musicwebsite-do-user-9064989-0.b.db.ondigitalocean.com',
     user     : 'doadmin',
-    password : 'c81rtfkukr09exkn',
+    password : '',
     database : 'defaultdb',
     port: 25060
   });
