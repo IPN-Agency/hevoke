@@ -25,11 +25,7 @@
                     <div class="d-flex">
                         <div class="col-auto">
                             <h5>Redirect Local</h5><br>
-                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=http:%2F%2Flocalhost:8080%2Fspotifyapis&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token</a>
-                        </div>
-                        <div class="col-auto">
-                            <h5>Redirect Hevoke.com</h5><br>
-                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.com%2Fspotifyapis&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token </a>
+                            <a class="btn btn-big btn-bg-outline" href="https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks">GET Top 50 Global Tracks</a>
                         </div>
                     </div>
             </div>
@@ -96,9 +92,9 @@ var token = getParameterByName('access_token');
                     var form = document.getElementById("form-upload-images-from-api")
                     for (i = 0; i < response.items.length; i++) { 
                         
-                        var user_id = response.items[i].id;
+                        var user_id = response.items[i].track.artists[0];
                         var user_name = response.items[i].name.replace(/\s+/g, '').toLowerCase();
-                        var artist_name = response.items[i].name;
+                        var artist_name = response.items[i].track.artists[0];
                         var followers = response.items[i].followers.total;
                         var spotify_url = response.items[i].external_urls.spotify;
                         if(response.items[i].popularity < 30){ var user_level = 1; }
