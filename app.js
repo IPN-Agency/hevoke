@@ -43,7 +43,7 @@ if(dbSelection=="AIVEN"){
   var connection = mysql.createConnection({
     host     : 'hevoke-hevoke.l.aivencloud.com',
     user     : 'avnadmin',
-    password : 'AVNS_ZxTuQbEyH-xmRFqiM_Y',
+    password : 'AVNS_Vxy6c4Fiu85tvR_FX35',
     database : 'defaultdb',
     port: 27720,
     ssl : true
