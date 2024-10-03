@@ -175,14 +175,14 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
             
                             
             
-                                    var user_id = responseArtist.spotify_id;
-                                    var user_name = responseArtist.hevoke_username;
-                                    var artist_name = responseArtist.spotify_name;
+                                    var user_id = spotify_id;
+                                    var user_name = hevoke_username;
+                                    var artist_name = responseArtist.name;
                                     var artist_macro = "M";
                                     var artist_type = "singer";
                                     var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
                                     var country = countries[Math.floor(Math.random() * countries.length)];
-                                    var followers = responseArtist.followers;
+                                    var followers = responseArtist.followers.total;
                                     var user_level = 3;
 
                                     var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
@@ -241,8 +241,22 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                         ul.appendChild(li);
                                     }
                     
-
-
+                                var input = document.createElement("input");
+                                input.type = "text";
+                                input.name = "urls";
+                                input.value = responseArtist.images[0].url;
+                                input.setAttribute("value", responseArtist.images[0].url);
+                                form.appendChild(input);
+            
+                                var input = document.createElement("input");
+                                input.type = "text";
+                                input.name = "ids";
+                                input.value = user_id;
+                                input.setAttribute("value", user_id);
+                                
+                                form.appendChild(input);
+            
+                                document.getElementById("step-form").style.display="block";
 
 
                             }
@@ -250,26 +264,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
 
 
 
-                        
-/*
-                        var input = document.createElement("input");
-                        input.type = "text";
-                        input.name = "urls";
-                        input.value = response.items[i].images[0].url;
-                        input.setAttribute("value", response.items[i].images[0].url);
-                        form.appendChild(input);
 
-                        var input = document.createElement("input");
-                        input.type = "text";
-                        input.name = "ids";
-                        input.value = user_id;
-                        input.setAttribute("value", user_id);
-                        
-                        form.appendChild(input);
-
-*/
-
-                        document.getElementById("step-form").style.display="block";
                                             
                         }
                 }
