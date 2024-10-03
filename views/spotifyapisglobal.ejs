@@ -182,14 +182,14 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                         var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
 
 
-                        var user_id = artists[i].spotify_id;
-                        var user_name = artists[i].hevoke_username;
-                        var artist_name = artists[i].spotify_name;
+                        var user_id = artists(i).spotify_id;
+                        var user_name = artists(i).hevoke_username;
+                        var artist_name = artists(i).spotify_name;
                         var artist_macro = "M";
                         var artist_type = "singer";
                         var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
                         var country = countries[Math.floor(Math.random() * countries.length)];
-                        var followers = artists[i].followers;
+                        var followers = artists(i).followers;
                         var user_level = 3;
 
 
