@@ -70,7 +70,7 @@
 
 <script>
 
-function createCardArtist(name, spotify_url, spotify_img) {
+function createCardArtist(name, spotify_url, spotify_image, followers) {
     const card = document.createElement('div');
     card.classList.add('card-artist');
 
@@ -84,8 +84,12 @@ function createCardArtist(name, spotify_url, spotify_img) {
     const cardArtistImage = document.createElement('img');
     cardArtistImage.src = spotify_img;
 
+    const cardArtistDesc = document.createElement('p');
+    cardArtistDesc.textContent = followers + " followers";
+
     card.appendChild(cardArtistImage);
     card.appendChild(cardArtistName);
+    card.appendChild(cardArtistDesc);
     card.appendChild(cardArtistLink);
     return card;
 }
@@ -136,14 +140,9 @@ var artists = [];
                         var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
                         var country = countries[Math.floor(Math.random() * countries.length)];
                         var user_level = 3;
-                        var followers = 1;
+                       
 
-                        artists.push({
-                          name: artist_name,
-                          id: user_id,
-                          hevoke_username: user_name
-                        });
-
+                       
                         var endpointGetUser = 'https://api.spotify.com/v1/artists/' + user_id;
                         $.ajax({
                             type: 'GET',
@@ -155,16 +154,22 @@ var artists = [];
                                 'Authorization': 'Bearer ' + token
                             },
                             success: function(responseArtist) {
-                                console.log(responseArtist.followers.total);
-                                console.log(responseArtist.genres[0);
-                                console.log(responseArtist.images[0).url;
-        
+                                var followers = responseArtist.followers.total;
+                                var genre = responseArtist.genres[0);
+                                var spotify_image = responseArtist.images[0).url;
                             }
                         });
-                    
+
+
         
 
-                        cardArtistsContainer.appendChild(createCardArtist(artists[i].name, spotify_url, spotify_url));
+                        cardArtistsContainer.appendChild(createCardArtist(artists[i].name, spotify_url, spotify_image, followers));
+
+                        artists.push({
+                          name: artist_name,
+                          id: user_id,
+                          hevoke_username: user_name
+                        });
 
                         /*
                         
