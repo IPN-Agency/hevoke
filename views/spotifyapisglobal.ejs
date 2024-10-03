@@ -81,7 +81,8 @@ function createCardArtist(name, spotify_url, spotify_img) {
     cardArtistLink.href = spotify_url;
 
     const cardArtistImage = document.createElement('img');
-    cardArtistImage.url = spotify_img;
+    cardArtistImage.src = spotify_img;
+
 
     card.appendChild(cardArtistName);
     card.appendChild(cardArtistLink);
@@ -202,9 +203,10 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLikes (id_sender, id_receiver) VALUES ('${user_id}', '${liked_id}');`));
                         ul.appendChild(li);
                         
-                        var genres = response.items[i].genres;
+                        
 
                         /*
+                        var genres = response.items[i].genres;
                         var dbGenre = "";
                         for (var j = 0; j < genres.length; j++) {
                             if(genres[j].includes("rap")){dbGenre = "rap";}
