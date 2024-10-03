@@ -154,7 +154,7 @@ var artists = [];
                                 var genres = responseArtist.genres;
                                 var followers = responseArtist.followers.total;
                                 var hevoke_username =  responseArtist.name.replace(/\s+/g, '').toLowerCase();
-                                cardArtistsContainer.appendChild(createCardArtist(spotify_name, spotify_url, spotify_image, genre, followers));
+                                cardArtistsContainer.appendChild(createCardArtist(spotify_name, spotify_url, spotify_image, genres, followers));
                                 artists.push({ spotify_name: spotify_name, spotify_id: spotify_id, spotify_image: spotify_image, followers: followers, hevoke_username: hevoke_username, genres: genres });
                             }
                         });
