@@ -5614,6 +5614,7 @@ display: flex;
   padding: .4em .8em;
 	border-radius: 1em;
   font-family: Buttons;
+	display: block;
 	width: fit-content;
 }
 
@@ -5627,6 +5628,7 @@ display: flex;
 
 #card-artists-container .card-artist p{
  font-size: .8em;
+opacity: .6;
 }
 
 #card-artists-container .card-artist ul{
