@@ -5595,9 +5595,9 @@ background-color: var(--footer-bg-color);
 	display: flex;
   align-content: center;
   align-items: center;
-  gap: 1em;
 	margin-bottom: .5em;
 	text-align: left;
+	gap: .8em;
 }
 
 #card-artists-container .card-artist a{
@@ -5622,9 +5622,15 @@ background-color: var(--footer-bg-color);
  font-size: .8em;
 }
 #card-artists-container .card-artist ul li{
- background: rgba(255,255,255,.1);
-	border-radius: 1em;
-	padding: .2em .5em;
+ background: rgba(255, 255, 255, 0.11);
+  border-radius: 1em;
+  padding: .2em .5em;
+  display: inline-block;
+  width: max-content;
+  color: #b9b9b9;
+  text-transform: uppercase;
+  font-family: HeadingL;
+  font-size: .8em;
 }
 
 
