@@ -124,9 +124,10 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                     'Authorization': 'Bearer ' + token
                 },
                 success: function(response) {
-                    console.log(response.items);
-                    var ul = document.getElementById("top-artists");  
 
+                    console.log(response.items);
+
+                    var ul = document.getElementById("top-artists");  
                     var form = document.getElementById("form-upload-images-from-api");
 
                     var artists = [];
@@ -158,7 +159,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                 artists.push({ spotify_name: spotify_name, spotify_id: spotify_id, spotify_image: spotify_image, followers: followers, hevoke_username: hevoke_username, genres: genres });
                                 
                                 if(responseArtist.popularity < 30){ var user_level = 1; }
-                                if(responseArtist.popularity >= 30 && response.items[i].popularity < 60){ var user_level = 2; }
+                                if(responseArtist.popularity >= 30 && responseArtist.popularity < 60){ var user_level = 2; }
                                 if(responseArtist.popularity >= 60 ){ var user_level = 3; }
             
                                     /*
@@ -172,9 +173,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                     var radar_category = artist_types[Math.floor(Math.random() * artist_types.length)];
                                     */
             
-                                    var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
-                                    var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
-            
+                            
             
                                     var user_id = responseArtist.spotify_id;
                                     var user_name = responseArtist.hevoke_username;
@@ -185,7 +184,9 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                     var country = countries[Math.floor(Math.random() * countries.length)];
                                     var followers = responseArtist.followers;
                                     var user_level = 3;
-            
+
+                                    var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
+                                    var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
             
             
                                     var li = document.createElement("li");
@@ -234,7 +235,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                         if(genres[j].includes("dance") || genres[j].includes("electronica")){ dbGenre = "dance-electronica"; }          
                                     }
             
-                                    if(dbGenre.length>0){
+                                    if(dbGenre.length > 0){
                                         var li = document.createElement("li");
                                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserGenres (user_id, cod_subgenre) VALUES ('${user_id}', '${dbGenre}');`));
                                         ul.appendChild(li);
