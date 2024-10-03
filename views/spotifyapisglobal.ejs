@@ -133,12 +133,10 @@ var artists = [];
 
                     for (i = 0; i < response.items.length; i++) { 
                         
-                        /*var spotify_id = response.items[i].track.artists[0].id;*/
                         /*var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;*/
-
-                       var user_id = spotify_id;
+                        var spotify_id = response.items[i].track.artists[0].id;
                        
-                        var endpointGetUser = 'https://api.spotify.com/v1/artists/' + user_id;
+                        var endpointGetUser = 'https://api.spotify.com/v1/artists/' + spotify_id;
                         $.ajax({
                             type: 'GET',
                             url: endpointGetUser,
