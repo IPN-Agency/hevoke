@@ -49,7 +49,7 @@
  </section>
        
 
- <section class="layout-container-wide py-medium">
+ <section class="layout-container-wide py-medium text-center">
 
         <h6>From to save on disk images from urls</h6>
         <hr>
@@ -81,7 +81,7 @@ function createCardArtist(name, spotify_url, spotify_image, genres, followers) {
     cardArtistDesc.textContent = followers + " followers";
     cardContent.appendChild(cardArtistDesc);
 
-    var listGenres += '</ul>';
+    var listGenres = '<ul>';
     genres.forEach(function(genre) {
       listGenres += '<li>'+ genre + '</li>';
     }); 
