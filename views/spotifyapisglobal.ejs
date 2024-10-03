@@ -151,11 +151,11 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + token
+                                'Authorization': 'Bearer ' + token,
+                                'access-control-expose-headers': 'retry-after'
                             },
                             error: function (request, textStatus, errorThrown) {
-                                    request.addHeader("Access-Control-Allow-Headers", "retry-after");
-                                    request.addHeader("Access-Control-Expose-Headers", "retry-after");
+                                    
                                      console.log(request.getResponseHeader('Authorization'));
                                     console.log(request.getResponseHeader('retry-after'));
                                     console.log(request.getAllResponseHeaders());
