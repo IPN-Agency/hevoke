@@ -5586,3 +5586,15 @@ background-color: var(--footer-bg-color);
   background: rgba(255, 255, 255, 0.2)!important;
   border: 2px solid rgba(255, 255, 255, 0)!important;
 }
+
+.card-artists-container .card-artist{
+  padding: 1em;
+  background: rgb(52, 51, 64);
+  border-radius: 1em;
+}
+
+.card-artists-container .card-artist a{
+  font-size: .8em;
+  background: rgba(255,255,255,.2);
+  padding: .5em 1em;
+}
