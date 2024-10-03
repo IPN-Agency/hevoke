@@ -5591,22 +5591,21 @@ background-color: var(--footer-bg-color);
 display: flex;
   flex-wrap: wrap;
   gap: .5em;
-	justify-content: space-evenly;
+justify-content: space-evenly;
 }
 
 #card-artists-container .card-artist{
   padding: 1.5em;
   background: rgb(52, 51, 64);
   border-radius: 1em;
-	display: flex;
-	flex-direction: column;
+display: flex;
+flex-direction: column;
   align-content: center;
   align-items: center;
-	margin-bottom: .5em;
-	gap: .8em;
-  flex: 1;
-max-width: 48%;
-	min-width: 170px;
+gap: .8em;
+flex: 1;
+max-width: 45%;
+min-width: 170px;
 }
 
 #card-artists-container .card-artist a{
