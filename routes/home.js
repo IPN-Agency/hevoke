@@ -611,58 +611,14 @@ exports.reel = function(req, res){
 exports.spotifyapis = function(req, res){
     var logged = check_logged(req.session.userLoggedId);
     if(logged){ var userLogged = req.session.userLogged; }
-
-    var bio = "abc";
-
-    var database = new Database(db);
-
-    let someRows, otherRows;
-    database.queryPro( "SELECT user_id FROM UserArtist WHERE email='drake@email.it' LIMIT 1" )
-    .then( rows => {
-        someRows = rows;
-        return database.queryPro( "SELECT bio FROM UserProfile WHERE user_id='"+rows[0].user_id+"'" );
-    } )
-    .then( rows => {
-        bio = rows[0].bio;
-     } , err => {
-      return database.close().then( () => { throw err; } )
-     } )
-    .then( () => {
-        // do something with someRows and otherRows
-        res.render('spotifyapis',{logged, userLogged, bio});
-    })
-    .catch( err => {
-      // handle the error
-    });
+    res.render('spotifyapis.ejs',{logged, userLogged});
 };
 
 
 exports.spotifyapisglobal = function(req, res){
     var logged = check_logged(req.session.userLoggedId);
     if(logged){ var userLogged = req.session.userLogged; }
-
-    var bio = "abc";
-
-    var database = new Database(db);
-
-    let someRows, otherRows;
-    database.queryPro( "SELECT user_id FROM UserArtist WHERE email='drake@email.it' LIMIT 1" )
-    .then( rows => {
-        someRows = rows;
-        return database.queryPro( "SELECT bio FROM UserProfile WHERE user_id='"+rows[0].user_id+"'" );
-    } )
-    .then( rows => {
-        bio = rows[0].bio;
-     } , err => {
-      return database.close().then( () => { throw err; } )
-     } )
-    .then( () => {
-        // do something with someRows and otherRows
-        res.render('spotifyapisglobal',{logged, userLogged, bio});
-    })
-    .catch( err => {
-      // handle the error
-    });
+    res.render('spotifyapisglobal.ejs',{logged, userLogged});
 };
 
 
