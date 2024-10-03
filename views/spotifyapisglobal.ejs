@@ -57,6 +57,12 @@
 
 </section>
 
+<section class="layout-container-wide py-medium text-center">
+If your app exceeds the rate limit for your app then you'll begin to see 429 error responses from Spotify's Web API.
+When your app has been rate limited it will receive a 429 error response from Spotify. 
+https://developer.spotify.com/documentation/web-api/concepts/rate-limits
+</section>
+
 
 <script>
 
@@ -146,6 +152,9 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ' + token
+                            },
+                            error: function (request, textStatus, errorThrown) {
+                                    alert(request.getResponseHeader('retry-after'));
                             },
                             success: function(responseArtist) {
                                 var spotify_name = responseArtist.name;
