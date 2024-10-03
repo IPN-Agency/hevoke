@@ -5601,9 +5601,9 @@ background-color: var(--footer-bg-color);
 }
 
 #card-artists-container .card-artist a{
-  font-size: .8em;
+  font-size: .75em;
   background: rgba(255,255,255,.2);
-  padding: .5em 1em;
+  padding: .4em .8em;
 	border-radius: 1em;
   font-family: Buttons;
 }
