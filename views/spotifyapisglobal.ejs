@@ -156,96 +156,100 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                 var hevoke_username =  responseArtist.name.replace(/\s+/g, '').toLowerCase();
                                 cardArtistsContainer.appendChild(createCardArtist(spotify_name, spotify_url, spotify_image, genres, followers));
                                 artists.push({ spotify_name: spotify_name, spotify_id: spotify_id, spotify_image: spotify_image, followers: followers, hevoke_username: hevoke_username, genres: genres });
+                                
+                                if(responseArtist.popularity < 30){ var user_level = 1; }
+                                if(responseArtist.popularity >= 30 && response.items[i].popularity < 60){ var user_level = 2; }
+                                if(responseArtist.popularity >= 60 ){ var user_level = 3; }
+            
+                                    /*
+                                    var artist_types = ["singer", "rapper", "producer", "dancer", "video director"];
+                                    var artist_type = artist_types[Math.floor(Math.random() * artist_types.length)];
+            
+                                    if(artist_type=="singer" || artist_type=="rapper" || artist_type=="producer"){  artist_macro="M"; }
+                                    if(artist_type=="dancer"){ artist_macro="D"; }
+                                    if(artist_type=="video director"){ artist_macro="V";}
+            
+                                    var radar_category = artist_types[Math.floor(Math.random() * artist_types.length)];
+                                    */
+            
+                                    var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
+                                    var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
+            
+            
+                                    var user_id = responseArtist.spotify_id;
+                                    var user_name = responseArtist.hevoke_username;
+                                    var artist_name = responseArtist.spotify_name;
+                                    var artist_macro = "M";
+                                    var artist_type = "singer";
+                                    var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
+                                    var country = countries[Math.floor(Math.random() * countries.length)];
+                                    var followers = responseArtist.followers;
+                                    var user_level = 3;
+            
+            
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserArtist (user_id, user_name, artist_name, artist_macro, artist_type, country, email, password, active, user_level) VALUES ('${user_id}', '${user_name}', '${artist_name}', '${artist_macro}', '${artist_type}', '${country}', '${user_name}@email.it', '$2b$10$zBoLgQzRTERVfNc/zWVhFOQ6ni3xHbAmd80xDCytrq652ZsuS8HhG', '1', '${user_level}');`));
+                                    ul.appendChild(li);
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserProfile (user_id, bio) VALUES ('${user_id}', '${followers} followers su Spotify');`));
+                                    ul.appendChild(li);
+            
+                                    /*
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserRadar (user_id, category_id) VALUES ('${user_id}', '${radar_category}');`));
+                                    ul.appendChild(li); 
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserCategory (user_id, category_id) VALUES ('${user_id}', '${artist_type}');`));
+                                    ul.appendChild(li);
+                                    */
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'spotify', '${spotify_url}');`));
+                                    ul.appendChild(li);
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'youtube', 'https://youtube.com/${user_name}');`));
+                                    ul.appendChild(li);
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'connect', 'instagram', 'https://instagram.com/${user_name}');`));
+                                    ul.appendChild(li);
+            
+            
+                                    var li = document.createElement("li");
+                                    li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLikes (id_sender, id_receiver) VALUES ('${user_id}', '${liked_id}');`));
+                                    ul.appendChild(li);
+                                    
+                         
+                                    var genres = artists[i].genres;
+                                    var dbGenre = "";
+                                    for (var j = 0; j < genres.length; j++) {
+                                        if(genres[j].includes("rap")){ dbGenre = "rap"; }
+                                        if(genres[j].includes("rock")){ dbGenre = "rock"; }   
+                                        if(genres[j].includes("pop")){ dbGenre = "pop"; }   
+                                        if(genres[j].includes("metal")){ dbGenre = "metal"; }  
+                                        if(genres[j].includes("dance") || genres[j].includes("electronica")){ dbGenre = "dance-electronica"; }          
+                                    }
+            
+                                    if(dbGenre.length>0){
+                                        var li = document.createElement("li");
+                                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserGenres (user_id, cod_subgenre) VALUES ('${user_id}', '${dbGenre}');`));
+                                        ul.appendChild(li);
+                                    }
+                    
+
+
+
+
                             }
                         });
 
 
 
-                        /*
-         
-                        if(response.items[i].popularity < 30){ var user_level = 1; }
-                        if(response.items[i].popularity >= 30 && response.items[i].popularity < 60){ var user_level = 2; }
-                        if(response.items[i].popularity >= 60 ){ var user_level = 3; }
-
-
-                        var artist_types = ["singer", "rapper", "producer", "dancer", "video director"];
-                        var artist_type = artist_types[Math.floor(Math.random() * artist_types.length)];
-
-                        if(artist_type=="singer" || artist_type=="rapper" || artist_type=="producer"){  artist_macro="M"; }
-                        if(artist_type=="dancer"){ artist_macro="D"; }
-                        if(artist_type=="video director"){ artist_macro="V";}
-
-                        var radar_category = artist_types[Math.floor(Math.random() * artist_types.length)];
-                        */
-
-                        var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
-                        var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
-
-
-                        var user_id = artists(i).spotify_id;
-                        var user_name = artists(i).hevoke_username;
-                        var artist_name = artists(i).spotify_name;
-                        var artist_macro = "M";
-                        var artist_type = "singer";
-                        var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
-                        var country = countries[Math.floor(Math.random() * countries.length)];
-                        var followers = artists(i).followers;
-                        var user_level = 3;
-
-
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserArtist (user_id, user_name, artist_name, artist_macro, artist_type, country, email, password, active, user_level) VALUES ('${user_id}', '${user_name}', '${artist_name}', '${artist_macro}', '${artist_type}', '${country}', '${user_name}@email.it', '$2b$10$zBoLgQzRTERVfNc/zWVhFOQ6ni3xHbAmd80xDCytrq652ZsuS8HhG', '1', '${user_level}');`));
-                        ul.appendChild(li);
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserProfile (user_id, bio) VALUES ('${user_id}', '${followers} followers su Spotify');`));
-                        ul.appendChild(li);
-
-                        /*
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserRadar (user_id, category_id) VALUES ('${user_id}', '${radar_category}');`));
-                        ul.appendChild(li); 
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserCategory (user_id, category_id) VALUES ('${user_id}', '${artist_type}');`));
-                        ul.appendChild(li);
-                        */
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'spotify', '${spotify_url}');`));
-                        ul.appendChild(li);
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'youtube', 'https://youtube.com/${user_name}');`));
-                        ul.appendChild(li);
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'connect', 'instagram', 'https://instagram.com/${user_name}');`));
-                        ul.appendChild(li);
-
-
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLikes (id_sender, id_receiver) VALUES ('${user_id}', '${liked_id}');`));
-                        ul.appendChild(li);
                         
-             
-                        var genres = artists[i].genres;
-                        var dbGenre = "";
-                        for (var j = 0; j < genres.length; j++) {
-                            if(genres[j].includes("rap")){ dbGenre = "rap"; }
-                            if(genres[j].includes("rock")){ dbGenre = "rock"; }   
-                            if(genres[j].includes("pop")){ dbGenre = "pop"; }   
-                            if(genres[j].includes("metal")){ dbGenre = "metal"; }  
-                            if(genres[j].includes("dance") || genres[j].includes("electronica")){ dbGenre = "dance-electronica"; }          
-                        }
-
-                        if(dbGenre.length>0){
-                            var li = document.createElement("li");
-                            li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserGenres (user_id, cod_subgenre) VALUES ('${user_id}', '${dbGenre}');`));
-                            ul.appendChild(li);
-                        }
-        
 /*
                         var input = document.createElement("input");
                         input.type = "text";
