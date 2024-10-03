@@ -11,44 +11,44 @@
 
 <body class="access login">
 
-<section class="layout-container-wide py-medium">
+<section class="layout-container-wide py-medium text-center">
 
-        <h2>Create users with Spotify API</h2>
+        
         <hr>
 
         <div class="row">
 
             <div class="col">
-                    <h4>Authorize and get a token</h4>
+                    <h5>Authorize and get a token</h5>
                     <br>
 
                     <div class="d-flex">
                         <div class="col-auto">
-                            <h5></h5><br>
-                            <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.onrender.com%2Fspotifyapisglobal&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token</a>
+                            <a class="btn btn-medium btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.onrender.com%2Fspotifyapisglobal&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token</a>
                         </div>
                     </div>
             </div>
 
             <div class="col">
                 <div id="step-form" style="display: none">
-                <h4>Send form for images</h4><br>
-                <a class="btn btn-big btn-bg-outline" onclick="document.getElementById('sendform').click()">Send Form</a>
+                <a class="btn btn-medium btn-bg-outline" onclick="document.getElementById('sendform').click()">Send Form</a>
                  </div>
             </div>
 
 </section>
 
-<section class="layout-container-wide py-medium">
+<section class="layout-container-wide py-medium text-center">
 
-        <h4>Top 50 Global Artists</h4>
+        <h3>Artists from Top 50 Global Spotify</h3>
         <hr>
         <div id="card-artists-container"></div>
 
  </section>
 
 
-<section class="layout-container-wide py-medium">
+<section class="layout-container-wide py-medium text-center">
+
+        <h2>Create users with Spotify API</h2>
 
         <h4>Queries with top artists</h4>
         <hr>
