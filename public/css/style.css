@@ -5603,6 +5603,8 @@ background-color: var(--footer-bg-color);
   font-size: .8em;
   background: rgba(255,255,255,.2);
   padding: .5em 1em;
+	border-radius: 1em;
+  font-family: Buttons;
 }
 
 #card-artists-container .card-artist img{
