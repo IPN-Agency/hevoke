@@ -5594,14 +5594,15 @@ display: flex;
 }
 
 #card-artists-container .card-artist{
-  padding: 1em;
+  padding: 1.5em;
   background: rgb(52, 51, 64);
   border-radius: 1em;
 	display: flex;
+	flex-direction: column;
   align-content: center;
   align-items: center;
 	margin-bottom: .5em;
-	text-align: left;
+	
 	gap: .8em;
 	max-width: 50%;
   flex: 1;
