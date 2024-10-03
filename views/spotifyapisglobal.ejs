@@ -148,11 +148,13 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                             type: 'GET',
                             url: endpointGetUser,
                             contentType : 'application/json',
+                            crossDomain: true,
+                            dataType: 'jsonp',
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ' + token,
-                                'access-control-expose-headers': 'retry-after'
+                                'Access-Control-Expose-Headers': 'retry-after'
                             },
                             error: function (request, textStatus, errorThrown) {
                               
