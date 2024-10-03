@@ -93,10 +93,10 @@ function createCardArtist(name, spotify_url, spotify_image, genres, followers) {
     cardArtistLink.href = spotify_url;
     cardArtistLink.innerHTML = "Open on Spotify";
 
+    cardContent.appendChild(cardArtistLink);
    
     card.appendChild(cardArtistImage);
     card.appendChild(cardContent);
-    card.appendChild(cardArtistLink);
     return card;
 }
 
