@@ -5606,12 +5606,13 @@ background-color: var(--footer-bg-color);
   padding: .4em .8em;
 	border-radius: 1em;
   font-family: Buttons;
+	width: fit-content;
 }
 
 #card-artists-container .card-artist img{
-  width: 75px;
-	min-width: 75px;
-  height: 75px;
+  width: 80px;
+	min-width: 80px;
+  height: 80px;
 	border-radius: 50%;
 	width: fit-content;
 }
@@ -5632,7 +5633,7 @@ background-color: var(--footer-bg-color);
   color: #b9b9b9;
   text-transform: uppercase;
   font-family: HeadingL;
-  font-size: .8em;
+  font-size: .7em;
 }
 
 #card-artists-container .card-artist div{
