@@ -81,13 +81,11 @@ function createCardArtist(name, spotify_url, spotify_image, genres, followers) {
     cardArtistDesc.textContent = followers + " followers";
     cardContent.appendChild(cardArtistDesc);
 
-    var listGenres = '<ul>';
     genres.forEach(function(genre) {
-      listGenres += '<li>'+ genre + '</li>';
+      listGenres += '<li>' + genre + '</li>';
     }); 
-    listGenres += '</ul>';
-    var objListGenres = document.createTextNode(listGenres);
-    cardContent.appendChild(objListGenres);
+    const cardArtistListGenres = document.createElement('ul');
+    cardArtistListGenres.innerHTML = listGenres;
 
 
     const cardArtistLink = document.createElement('a');
