@@ -79,6 +79,7 @@ function createCardArtist(name, spotify_url, spotify_img) {
 
     const cardArtistLink = document.createElement('a');
     cardArtistLink.href = spotify_url;
+    cardArtistLink.innerHTML = "Spotify Profile";
 
     const cardArtistImage = document.createElement('img');
     cardArtistImage.src = spotify_img;
