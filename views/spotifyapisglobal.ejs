@@ -122,12 +122,6 @@ const cardArtistContainer = document.getElementById('card-artist-container');
                           hevoke_username: response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase()
                         });
 
-                        var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(<h6><h6>));
-                        li.appendChild(document.createTextNode(<h6>artists[i].name<h6>));
-                        ul.appendChild(li);
-
-                        
                         cardContainer.appendChild(createCard(artists[i].name, artists[i].id, artists[i].id));
 
                         var user_id = response.items[i].track.artists[0].id;
