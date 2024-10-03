@@ -5591,6 +5591,7 @@ background-color: var(--footer-bg-color);
 display: flex;
   flex-wrap: wrap;
   gap: .5em;
+	justify-content: space-evenly;
 }
 
 #card-artists-container .card-artist{
@@ -5604,7 +5605,7 @@ display: flex;
 	margin-bottom: .5em;
 	
 	gap: .8em;
-	max-width: 45%;
+	max-width: 48%;
   flex: 1;
 }
 
