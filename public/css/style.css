@@ -5591,6 +5591,10 @@ background-color: var(--footer-bg-color);
   padding: 1em;
   background: rgb(52, 51, 64);
   border-radius: 1em;
+	display: flex;
+  align-content: center;
+  align-items: center;
+  gap: 1em;
 }
 
 #card-artists-container .card-artist a{
@@ -5598,3 +5602,11 @@ background-color: var(--footer-bg-color);
   background: rgba(255,255,255,.2);
   padding: .5em 1em;
 }
+
+#card-artists-container .card-artist img{
+  width: 70px;
+  height: 70px;
+	border-radius: 50%;
+}
+
+
