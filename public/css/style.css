@@ -5603,10 +5603,10 @@ display: flex;
   align-content: center;
   align-items: center;
 	margin-bottom: .5em;
-	
 	gap: .8em;
-	max-width: 48%;
   flex: 1;
+max-width: 48%;
+	min-width: 170px;
 }
 
 #card-artists-container .card-artist a{
