@@ -5597,6 +5597,7 @@ background-color: var(--footer-bg-color);
   align-items: center;
   gap: 1em;
 	margin-bottom: .5em;
+	text-align: left;
 }
 
 #card-artists-container .card-artist a{
