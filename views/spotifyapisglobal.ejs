@@ -155,9 +155,8 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                 'access-control-expose-headers': 'retry-after'
                             },
                             error: function (request, textStatus, errorThrown) {
-                                    
-                                     console.log(request.getResponseHeader('Authorization'));
-                                    console.log(request.getResponseHeader('retry-after'));
+                              
+                                    console.log(request.getResponseHeader('Retry-After'));
                                     console.log(request.getAllResponseHeaders());
                             },
                             success: function(responseArtist) {
