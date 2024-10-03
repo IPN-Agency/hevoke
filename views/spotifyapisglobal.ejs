@@ -98,7 +98,7 @@ var token = getParameterByName('access_token');
                         artists.push({
                           name: response.items[i].track.artists[0].name,
                           id: response.items[i].track.artists[0].id,
-                          hevoke_username = esponse.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase();
+                          hevoke_username = response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase()
                         });
 
                         var li = document.createElement("li");
