@@ -144,6 +144,25 @@ var artists = [];
                           hevoke_username: user_name
                         });
 
+                        var endpointGetUser = 'https://api.spotify.com/v1/artists/' + user_id;
+                        $.ajax({
+                            type: 'GET',
+                            url: endpointGetUser,
+                            contentType : 'application/json',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            success: function(responseArtist) {
+                                console.log(responseArtist.followers.total);
+                                        
+        
+                            }
+                        });
+                    
+        
+
                         cardArtistsContainer.appendChild(createCardArtist(artists[i].name, spotify_url, spotify_url));
 
                         /*
