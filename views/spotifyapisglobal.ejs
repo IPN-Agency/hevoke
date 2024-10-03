@@ -24,7 +24,7 @@
 
                     <div class="d-flex">
                         <div class="col-auto">
-                            <h5>Redirect Local</h5><br>
+                            <h5></h5><br>
                             <a class="btn btn-big btn-bg-outline" href="https://accounts.spotify.com/authorize?client_id=b788def99db74d2db15f3d9d2f7ac297&redirect_uri=https:%2F%2Fhevoke.onrender.com%2Fspotifyapisglobal&scope=user-read-private%20user-top-read%20user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token&state=123">Get Token</a>
                         </div>
                     </div>
@@ -90,10 +90,20 @@ var token = getParameterByName('access_token');
                     var ul = document.getElementById("top-artists");  
 
                     var form = document.getElementById("form-upload-images-from-api")
+                    let artists[];
                     for (i = 0; i < response.items.length; i++) { 
                         
-                        var user_id = response.items[i].track.artists[0];
-                        var user_name = response.items[i].name.replace(/\s+/g, '').toLowerCase();
+                        artists.push({
+                          name: response.items[i].track.artists[0].name,
+                          id: response.items[i].track.artists[0].id,
+                          hevoke_username = esponse.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase();
+                        });
+
+
+                        var user_id = response.items[i].track.artists[0].id;
+                        var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;
+
+                        /*
                         var artist_name = response.items[i].track.artists[0];
                         var followers = response.items[i].followers.total;
                         var spotify_url = response.items[i].external_urls.spotify;
@@ -116,11 +126,13 @@ var token = getParameterByName('access_token');
                         if(artist_type=="video director"){
                             artist_macro="V";
                         }
-
+                   
                         var radar_category = artist_types[Math.floor(Math.random() * artist_types.length)];
+                        */
 
                         var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
                         var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
+                        
 
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserArtist (user_id, user_name, artist_name, artist_macro, artist_type, country, email, password, active, user_level) VALUES ('${user_id}', '${user_name}', '${artist_name}', '${artist_macro}', '${artist_type}', '${country}', '${user_name}@email.it', '$2b$10$zBoLgQzRTERVfNc/zWVhFOQ6ni3xHbAmd80xDCytrq652ZsuS8HhG', '1', '${user_level}');`));
@@ -130,13 +142,15 @@ var token = getParameterByName('access_token');
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserProfile (user_id, bio) VALUES ('${user_id}', '${followers} followers su Spotify');`));
                         ul.appendChild(li);
 
+                        /*
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserRadar (user_id, category_id) VALUES ('${user_id}', '${radar_category}');`));
-                        ul.appendChild(li);
+                        ul.appendChild(li); 
 
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserCategory (user_id, category_id) VALUES ('${user_id}', '${artist_type}');`));
                         ul.appendChild(li);
+                        */
 
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'listen', 'spotify', '${spotify_url}');`));
@@ -150,12 +164,14 @@ var token = getParameterByName('access_token');
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLinks (user_id, link_type, link_name, url) VALUES ('${user_id}', 'connect', 'instagram', 'https://instagram.com/${user_name}');`));
                         ul.appendChild(li);
 
+
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLikes (id_sender, id_receiver) VALUES ('${user_id}', '${liked_id}');`));
                         ul.appendChild(li);
                         
                         var genres = response.items[i].genres;
 
+                        /*
                         var dbGenre = "";
                         for (var j = 0; j < genres.length; j++) {
                             if(genres[j].includes("rap")){dbGenre = "rap";}
@@ -170,7 +186,9 @@ var token = getParameterByName('access_token');
                             li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserGenres (user_id, cod_subgenre) VALUES ('${user_id}', '${dbGenre}');`));
                             ul.appendChild(li);
                         }
-                        
+                        */
+
+/*
                         var input = document.createElement("input");
                         input.type = "text";
                         input.name = "urls";
@@ -185,7 +203,9 @@ var token = getParameterByName('access_token');
                         input.setAttribute("value", user_id);
                         
                         form.appendChild(input);
-                        
+
+*/
+
                         document.getElementById("step-form").style.display="block";
                                             
                         }
@@ -195,6 +215,8 @@ var token = getParameterByName('access_token');
     }
 
     load('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks');
+
+console.log(artists);
  
 });
 
