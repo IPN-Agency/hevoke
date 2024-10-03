@@ -225,7 +225,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                     ul.appendChild(li);
                                     
                          
-                                    var genres = artists[i].genres;
+                                    var genres = responseArtist.genres;
                                     var dbGenre = "";
                                     for (var j = 0; j < genres.length; j++) {
                                         if(genres[j].includes("rap")){ dbGenre = "rap"; }
