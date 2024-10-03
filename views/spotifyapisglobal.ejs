@@ -90,7 +90,7 @@ var token = getParameterByName('access_token');
                     var ul = document.getElementById("top-artists");  
 
                     var form = document.getElementById("form-upload-images-from-api")
-                    let artists[];
+                    var artists[];
                     for (i = 0; i < response.items.length; i++) { 
                         
                         artists.push({
@@ -98,6 +98,11 @@ var token = getParameterByName('access_token');
                           id: response.items[i].track.artists[0].id,
                           hevoke_username = esponse.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase();
                         });
+
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode(<h6>artists[i].name<h6>));
+                        li.appendChild(document.createTextNode(<h6>artists[i].name<h6>));
+                        ul.appendChild(li);
 
 
                         var user_id = response.items[i].track.artists[0].id;
