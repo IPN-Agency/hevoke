@@ -134,6 +134,10 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
 
                         var user_id = response.items[i].track.artists[0].id;
                         var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;
+                        var artist_macro = "M";
+                        var artist_type = "singer";
+                        var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
+                        var country = countries[Math.floor(Math.random() * countries.length)];
 
                         /*
                         var artist_name = response.items[i].track.artists[0];
@@ -143,22 +147,14 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                         if(response.items[i].popularity >= 30 && response.items[i].popularity < 60){ var user_level = 2; }
                         if(response.items[i].popularity >= 60 ){ var user_level = 3; }
 
-                        var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
-                        var country = countries[Math.floor(Math.random() * countries.length)];
 
                         var artist_types = ["singer", "rapper", "producer", "dancer", "video director"];
                         var artist_type = artist_types[Math.floor(Math.random() * artist_types.length)];
 
-                        if(artist_type=="singer" || artist_type=="rapper" || artist_type=="producer"){
-                            artist_macro="M";
-                        }
-                        if(artist_type=="dancer"){
-                            artist_macro="D";
-                        }
-                        if(artist_type=="video director"){
-                            artist_macro="V";
-                        }
-                   
+                        if(artist_type=="singer" || artist_type=="rapper" || artist_type=="producer"){  artist_macro="M"; }
+                        if(artist_type=="dancer"){ artist_macro="D"; }
+                        if(artist_type=="video director"){ artist_macro="V";}
+
                         var radar_category = artist_types[Math.floor(Math.random() * artist_types.length)];
                         */
 
