@@ -39,10 +39,18 @@
 
 </section>
 
+<section class="layout-container-wide py-medium">
+
+        <h4>Top 50 Global Artists</h4>
+        <hr>
+        <div id="card-artists-container"></div>
+
+ </section>
+
 
 <section class="layout-container-wide py-medium">
 
-        <h4>Queries with your top artists</h4>
+        <h4>Queries with top artists</h4>
         <hr>
         <ul id="top-artists"></ul>
 
@@ -92,7 +100,7 @@ var token = getParameterByName('access_token');
 
  $(document).ready(function() {
 
-const cardArtistContainer = document.getElementById('card-artist-container');
+const cardArtistsContainer = document.getElementById('card-artists-container');
 
     function load(url){
             $.ajax({
@@ -112,7 +120,7 @@ const cardArtistContainer = document.getElementById('card-artist-container');
 
                     var form = document.getElementById("form-upload-images-from-api")
 
-                    let artists = [];
+                    var artists = [];
 
                     for (i = 0; i < response.items.length; i++) { 
                         
@@ -122,7 +130,7 @@ const cardArtistContainer = document.getElementById('card-artist-container');
                           hevoke_username: response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase()
                         });
 
-                        cardContainer.appendChild(createCard(artists[i].name, artists[i].id, artists[i].id));
+                        cardArtistsContainer.appendChild(createCard(artists[i].name, artists[i].id, artists[i].id));
 
                         var user_id = response.items[i].track.artists[0].id;
                         var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;
