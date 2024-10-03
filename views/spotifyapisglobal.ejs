@@ -61,7 +61,26 @@
 
 
 <script>
-    
+
+function createCardArtist(name, spotify_url, spotify_img) {
+    const card = document.createElement('div');
+    card.classList.add('card-artist');
+
+    const cardArtistName = document.createElement('h2');
+    cardArtistName.textContent = name;
+
+    const cardArtistLink = document.createElement('a');
+    cardArtistLink.href = spotify_url;
+
+    const cardArtistImage = document.createElement('img');
+    cardArtistImage.url = spotify_img;
+
+    card.appendChild(cardArtistName);
+    card.appendChild(cardArtistLink);
+    card.appendChild(cardArtistImage);
+    return card;
+}
+
 var url = decodeURIComponent(window.location.href);
 
 function getParameterByName(name) {
@@ -72,6 +91,8 @@ function getParameterByName(name) {
 var token = getParameterByName('access_token'); 
 
  $(document).ready(function() {
+
+const cardArtistContainer = document.getElementById('card-artist-container');
 
     function load(url){
             $.ajax({
@@ -98,14 +119,16 @@ var token = getParameterByName('access_token');
                         artists.push({
                           name: response.items[i].track.artists[0].name,
                           id: response.items[i].track.artists[0].id,
-                          hevoke_username = response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase()
+                          hevoke_username: response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase()
                         });
 
                         var li = document.createElement("li");
-                        li.appendChild(document.createTextNode(<h6>artists[i].name<h6>));
+                        li.appendChild(document.createTextNode(<h6><h6>));
                         li.appendChild(document.createTextNode(<h6>artists[i].name<h6>));
                         ul.appendChild(li);
 
+                        
+                        cardContainer.appendChild(createCard(artists[i].name, artists[i].id, artists[i].id));
 
                         var user_id = response.items[i].track.artists[0].id;
                         var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;
