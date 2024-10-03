@@ -82,7 +82,7 @@ function createCardArtist(name, spotify_url, spotify_image, followers) {
     cardArtistLink.innerHTML = "Spotify Profile";
 
     const cardArtistImage = document.createElement('img');
-    cardArtistImage.src = spotify_img;
+    cardArtistImage.src = spotify_image;
 
     const cardArtistDesc = document.createElement('p');
     cardArtistDesc.textContent = followers + " followers";
@@ -130,18 +130,10 @@ var artists = [];
 
                     for (i = 0; i < response.items.length; i++) { 
                         
-                       
-                        var artist_name = response.items[i].track.artists[0].name;
-                        var user_id = response.items[i].track.artists[0].id;
-                        var user_name = response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase();
-                        var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;
-                        var artist_macro = "M";
-                        var artist_type = "singer";
-                        var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
-                        var country = countries[Math.floor(Math.random() * countries.length)];
-                        var user_level = 3;
-                       
+                        /*var spotify_id = response.items[i].track.artists[0].id;*/
+                        /*var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;*/
 
+                       var user_id = spotify_id;
                        
                         var endpointGetUser = 'https://api.spotify.com/v1/artists/' + user_id;
                         $.ajax({
@@ -154,27 +146,22 @@ var artists = [];
                                 'Authorization': 'Bearer ' + token
                             },
                             success: function(responseArtist) {
-                                var followers = responseArtist.followers.total;
-                                var genre = responseArtist.genres[0);
+                                var spotify_name = responseArtist.name;
+                                var spotify_id = responseArtist.id;
+                                var spotify_url = responseArtist.external_urls.spotify;
                                 var spotify_image = responseArtist.images[0).url;
+                                var genres = responseArtist.genres;
+                                var followers = responseArtist.followers.total;
+                                var hevoke_username =  responseArtist.name.replace(/\s+/g, '').toLowerCase();
+                                cardArtistsContainer.appendChild(createCardArtist(spotify_name, spotify_url, spotify_image, genre, followers));
+                                artists.push({ spotify_name: spotify_name, spotify_id: spotify_id, spotify_image: spotify_image, followers: followers, hevoke_username: hevoke_username, genres: genres });
                             }
                         });
 
 
-        
-
-                        cardArtistsContainer.appendChild(createCardArtist(artists[i].name, spotify_url, spotify_image, followers));
-
-                        artists.push({
-                          name: artist_name,
-                          id: user_id,
-                          hevoke_username: user_name
-                        });
 
                         /*
-                        
-                        var followers = response.items[i].followers.total;
-                        var spotify_url = response.items[i].external_urls.spotify;
+         
                         if(response.items[i].popularity < 30){ var user_level = 1; }
                         if(response.items[i].popularity >= 30 && response.items[i].popularity < 60){ var user_level = 2; }
                         if(response.items[i].popularity >= 60 ){ var user_level = 3; }
@@ -192,7 +179,19 @@ var artists = [];
 
                         var most_liked_ids = ["1vyhD5VmyZ7KMfW5gqLgo5", "3AA28KZvwAUcZuOKwyblJQ", "5K4W6rqBFWDnAN6FQUkS6x", "6XyY86QOPPrYVGvF9ch6wz", "1vyhD5VmyZ7KMfW5gqLgo5"]
                         var liked_id = most_liked_ids[Math.floor(Math.random() * most_liked_ids.length)];
-                        
+
+
+                        var user_id = artists[i].spotify_id;
+                        var user_name = artists[i].hevoke_username;
+                        var artist_name = artists[i].spotify_name;
+                        var artist_macro = "M";
+                        var artist_type = "singer";
+                        var countries = ["IT", "US", "ES", "GB", "FR", "DE"];
+                        var country = countries[Math.floor(Math.random() * countries.length)];
+                        var followers = artists[i].followers;
+                        var user_level = 3;
+
+
 
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserArtist (user_id, user_name, artist_name, artist_macro, artist_type, country, email, password, active, user_level) VALUES ('${user_id}', '${user_name}', '${artist_name}', '${artist_macro}', '${artist_type}', '${country}', '${user_name}@email.it', '$2b$10$zBoLgQzRTERVfNc/zWVhFOQ6ni3xHbAmd80xDCytrq652ZsuS8HhG', '1', '${user_level}');`));
@@ -229,16 +228,14 @@ var artists = [];
                         li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserLikes (id_sender, id_receiver) VALUES ('${user_id}', '${liked_id}');`));
                         ul.appendChild(li);
                         
-                        
-
-                        /*
-                        var genres = response.items[i].genres;
+             
+                        var genres = artists[i].genres;
                         var dbGenre = "";
                         for (var j = 0; j < genres.length; j++) {
-                            if(genres[j].includes("rap")){dbGenre = "rap";}
-                            if(genres[j].includes("rock")){ dbGenre = "rock";}   
+                            if(genres[j].includes("rap")){ dbGenre = "rap"; }
+                            if(genres[j].includes("rock")){ dbGenre = "rock"; }   
                             if(genres[j].includes("pop")){ dbGenre = "pop"; }   
-                            if(genres[j].includes("metal")){ dbGenre = "metal";}  
+                            if(genres[j].includes("metal")){ dbGenre = "metal"; }  
                             if(genres[j].includes("dance") || genres[j].includes("electronica")){ dbGenre = "dance-electronica"; }          
                         }
 
@@ -247,8 +244,7 @@ var artists = [];
                             li.appendChild(document.createTextNode(`INSERT IGNORE INTO UserGenres (user_id, cod_subgenre) VALUES ('${user_id}', '${dbGenre}');`));
                             ul.appendChild(li);
                         }
-                        */
-
+        
 /*
                         var input = document.createElement("input");
                         input.type = "text";
