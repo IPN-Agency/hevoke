@@ -154,8 +154,8 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                                 'Authorization': 'Bearer ' + token
                             },
                             error: function (request, textStatus, errorThrown) {
-                                    request.AddHeader("Access-Control-Allow-Headers", "retry-after");
-                                    request.AddHeader("Access-Control-Expose-Headers", "retry-after");
+                                    request.addHeader("Access-Control-Allow-Headers", "retry-after");
+                                    request.addHeader("Access-Control-Expose-Headers", "retry-after");
                                      console.log(request.getResponseHeader('Authorization'));
                                     console.log(request.getResponseHeader('retry-after'));
                                     console.log(request.getAllResponseHeaders());
