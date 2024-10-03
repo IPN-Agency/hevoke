@@ -103,6 +103,7 @@ var token = getParameterByName('access_token');
  $(document).ready(function() {
 
 const cardArtistsContainer = document.getElementById('card-artists-container');
+var artists = [];
 
     function load(url){
             $.ajax({
@@ -122,7 +123,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
 
                     var form = document.getElementById("form-upload-images-from-api")
 
-                    var artists = [];
+                    
 
                     for (i = 0; i < response.items.length; i++) { 
                         
