@@ -70,7 +70,7 @@
 
 <script>
 
-function createCardArtist(name, spotify_url, spotify_image, followers) {
+function createCardArtist(name, spotify_url, spotify_image, genres, followers) {
     const card = document.createElement('div');
     card.classList.add('card-artist');
 
@@ -86,6 +86,9 @@ function createCardArtist(name, spotify_url, spotify_image, followers) {
 
     const cardArtistDesc = document.createElement('p');
     cardArtistDesc.textContent = followers + " followers";
+
+    const cardArtistDesc2 = document.createElement('p');
+    cardArtistDesc2.textContent = genres;
 
     card.appendChild(cardArtistImage);
     card.appendChild(cardArtistName);
