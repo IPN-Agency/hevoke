@@ -5613,4 +5613,18 @@ background-color: var(--footer-bg-color);
 	border-radius: 50%;
 }
 
+#card-artists-container .card-artist p{
+ font-size: .8em;
+}
+
+#card-artists-container .card-artist ul{
+ font-size: .8em;
+}
+#card-artists-container .card-artist ul li{
+ background: rgba(255,255,255,.1);
+	border-radius: 1em;
+	padding: .2em .5em;
+}
+
+
 
