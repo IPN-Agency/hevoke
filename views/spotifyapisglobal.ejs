@@ -11,9 +11,9 @@
 
 <body class="access login">
 
-<section class="layout-container-wide py-medium text-center">
+<section class="layout-container-wide py-large text-center">
  
-        <h2>Artists from Top 50 Global Spotify</h2>
+        <h1>Artists from Top 50 Global Spotify</h1>
         
         <hr>
 
@@ -42,7 +42,7 @@
 
 <section class="layout-container-wide py-medium text-center">
 
-        <h5>Queries for population with top artists</h5>
+        <h6>Queries for population with top artists</h6>
         <hr>
         <ul id="top-artists"></ul>
 
@@ -51,7 +51,7 @@
 
  <section class="layout-container-wide py-medium">
 
-        <h5>From to save on disk images from urls</h5>
+        <h6>From to save on disk images from urls</h6>
         <hr>
         <form method="POST" action="/upload-image-url">
         <div id="form-upload-images-from-api"></div>
@@ -81,7 +81,7 @@ function createCardArtist(name, spotify_url, spotify_image, genres, followers) {
     cardArtistDesc.textContent = followers + " followers";
     cardContent.appendChild(cardArtistDesc);
 
-    listGenres += '</ul>';
+    var listGenres += '</ul>';
     genres.forEach(function(genre) {
       listGenres += '<li>'+ genre + '</li>';
     }); 
