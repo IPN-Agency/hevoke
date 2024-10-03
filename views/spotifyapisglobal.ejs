@@ -130,7 +130,7 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                           hevoke_username: response.items[i].track.artists[0].name.replace(/\s+/g, '').toLowerCase()
                         });
 
-                        cardArtistsContainer.appendChild(createCard(artists[i].name, artists[i].id, artists[i].id));
+                        cardArtistsContainer.appendChild(createCardArtist(artists[i].name, artists[i].id, artists[i].id));
 
                         var user_id = response.items[i].track.artists[0].id;
                         var spotify_url = "https://open.spotify.com/artist/" + response.items[i].track.artists[0].id;
