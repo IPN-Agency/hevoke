@@ -74,7 +74,7 @@ function createCardArtist(name, spotify_url, spotify_img) {
     const card = document.createElement('div');
     card.classList.add('card-artist');
 
-    const cardArtistName = document.createElement('h2');
+    const cardArtistName = document.createElement('h6');
     cardArtistName.textContent = name;
 
     const cardArtistLink = document.createElement('a');
@@ -135,12 +135,12 @@ const cardArtistsContainer = document.getElementById('card-artists-container');
                         var country = countries[Math.floor(Math.random() * countries.length)];
 
                         artists.push({
-                          name: arist_name,
+                          name: artist_name,
                           id: user_id,
                           hevoke_username: user_name
                         });
 
-                        cardArtistsContainer.appendChild(createCardArtist(artists[i].name, artists[i].id, artists[i].id));
+                        cardArtistsContainer.appendChild(createCardArtist(artists[i].name, spotify_url, spotify_url));
 
                         /*
                         
